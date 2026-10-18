@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
-  --hero-a:#1A0F33; --hero-b:#3D1F6E; --hero-c:#6B2D7A;
-  --coral:#FF7A59; --gold:#FFC857; --mint:#6EE7C8;
-  --bg:#120B22; --card:#1C1333; --card2:#241A40; --ink:#F3EEFF; --soft:#B7A9D6; --rule:#33264F;
+  --hero-a:#15181D; --hero-b:#232A33; --hero-c:#3A3226;
+  --coral:#FF7A3D; --gold:#F5B82E; --mint:#4FD1C5;
+  --bg:#0F1114; --card:#181B20; --card2:#1F2329; --ink:#F2F0EB; --soft:#A7A39A; --rule:#2C3038;
   --sans:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
   color-scheme:dark;
@@ -27,7 +27,7 @@ a{color:inherit}
 .hero .lines path{fill:none;stroke:var(--gold);stroke-width:1.2;stroke-opacity:.35;stroke-dasharray:6 10;animation:flow 30s linear infinite}
 .hero .lines path:nth-child(even){stroke:var(--coral);animation-duration:42s;animation-direction:reverse}
 @keyframes flow{to{stroke-dashoffset:-800}}
-.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,89,.35),transparent 65%);z-index:-1;pointer-events:none;transform:translate(-50%,-50%);left:var(--mx,70%);top:var(--my,30%);transition:left .4s ease-out,top .4s ease-out}
+.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,61,.35),transparent 65%);z-index:-1;pointer-events:none;transform:translate(-50%,-50%);left:var(--mx,70%);top:var(--my,30%);transition:left .4s ease-out,top .4s ease-out}
 .eyebrow{margin:0 0 14px;font:500 13px/1.6 var(--mono);letter-spacing:.28em;color:var(--soft);direction:ltr;text-align:right}
 h1{margin:0;font:700 clamp(40px,11vw,76px)/1.1 var(--mono);direction:ltr;text-align:right;letter-spacing:-.01em}
 h1 .c{background:linear-gradient(90deg,var(--gold),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -37,8 +37,8 @@ h1 .c{background:linear-gradient(90deg,var(--gold),var(--coral));-webkit-backgro
 .sub{margin:10px 0 0;color:var(--soft);font-weight:300;font-size:18px;max-width:560px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;font-weight:600;text-decoration:none;font-size:16px;transition:transform .2s,box-shadow .2s,background .2s}
-.btn.main{background:var(--coral);color:#1A0F33;box-shadow:0 8px 24px rgba(255,122,89,.35)}
-.btn.main:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,122,89,.5)}
+.btn.main{background:var(--coral);color:#15181D;box-shadow:0 8px 24px rgba(255,122,61,.35)}
+.btn.main:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,122,61,.5)}
 .btn.ghost{border:1.5px solid rgba(255,255,255,.3)}
 .btn.ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
 .float{position:absolute;font:600 15px var(--mono);color:var(--gold);opacity:.55;direction:ltr;z-index:-1;animation:bob 6s ease-in-out infinite}
@@ -79,7 +79,7 @@ h2::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--
 .tip b{color:var(--gold)}
 
 /* ---------- footer ---------- */
-footer{margin-top:64px;border-top:1px solid var(--rule);background:linear-gradient(180deg,var(--bg),#0C0718);padding-block:36px 44px;text-align:center}
+footer{margin-top:64px;border-top:1px solid var(--rule);background:linear-gradient(180deg,var(--bg),#0A0B0D);padding-block:36px 44px;text-align:center}
 footer .by{margin:0;font-size:18px}
 footer .by b{background:linear-gradient(90deg,var(--gold),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
 .tg{display:inline-flex;align-items:center;gap:12px;margin-top:16px;padding:10px 20px 10px 14px;border-radius:999px;background:var(--card2);border:1px solid var(--rule);text-decoration:none;transition:transform .2s,border-color .2s}
