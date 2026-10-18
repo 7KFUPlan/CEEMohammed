@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GPS الكنتور — CEEMohammed</title>
+<style>[hidden]{display:none!important}:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0}img{max-width:100%}</style>
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --hero-a:#0A3A34; --hero-b:#15695A; --tan:#E8B860; --tan-ink:#1A1206; --on-hero:#F2F7F5; --on-hero-soft:#B6D2C9;
+  --bg:#0B1413; --card:#111E1C; --ink:#E7F0ED; --soft:#97ADA7; --rule:#223836;
+  --accent:#8FE3C6; --on-accent:#0B1413;
+  --contour:#F0A35E; --water:#5DB8F0; --land:#7CD49A; --mark:#E8B860; --bad:#F08A7C; --good:#7CD49A;
+  --paper:#FFFFFF; --paper-ink:#1E1E1E; --paper-dot:#5C5C5C; --paper-rule:#D9D2CC;
+  --font:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.9}
+p{margin:0} b{font-weight:700}
+
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--hero-a),var(--hero-b));color:var(--on-hero)}
+.hero::before,.hero::after{content:"";position:absolute;border:1.5px solid var(--on-hero);opacity:.16;border-radius:50%;pointer-events:none}
+.hero::before{width:620px;height:620px;inset-inline-start:-140px;top:-360px}
+.hero::after{width:520px;height:520px;inset-inline-end:-260px;top:90px}
+.hero-in{position:relative;max-width:640px;margin-inline:auto;padding-inline:20px;padding-block:44px 40px;display:flex;flex-direction:column;gap:26px}
+.brand{display:flex;gap:18px;align-items:flex-start}
+.badge{flex:none;width:84px;height:84px;border-radius:24px;background:var(--tan);color:var(--tan-ink);display:grid;place-items:center;font-weight:700;font-size:21px;box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.brand div{min-width:0}
+h1{margin:0;font-weight:700;font-size:clamp(30px,8vw,42px);line-height:1.35;text-wrap:balance}
+.sub{color:var(--on-hero-soft);font-size:18px;line-height:1.8;font-weight:300}
+button,input,output,label,table,figcaption,footer{font-family:var(--font)}
+.formula{direction:ltr;text-align:center;background:var(--bg);border:1px solid var(--rule);border-inline-start:4px solid var(--tan);border-radius:14px;padding:14px 10px;font-size:18px;font-weight:500;overflow-x:auto}
+.formula .fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.5}
+.formula .fr span:first-child{border-bottom:1.5px solid var(--ink);padding-inline:6px}
+.pills{display:flex;flex-wrap:wrap;gap:12px}
+.pill{display:inline-flex;align-items:center;gap:12px;padding:12px 24px;border-radius:999px;border:1.5px solid rgba(255,255,255,.38);background:rgba(255,255,255,.12);color:var(--on-hero);text-decoration:none;font-weight:500;font-size:17px}
+.pill::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--tan)}
+.pill:focus-visible{outline:3px solid var(--tan);outline-offset:3px}
+
+main{max-width:640px;margin-inline:auto;padding-inline:16px;padding-block:28px 24px;display:flex;flex-direction:column;gap:20px}
+section{scroll-margin-top:76px;background:var(--card);border:1px solid var(--rule);border-radius:24px;padding:22px 18px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
+h2{margin:0;font-weight:700;font-size:23px;line-height:1.5;display:flex;align-items:center;gap:10px;text-wrap:balance}
+h2::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:var(--tan)}
+h3{margin:6px 0 0;font-weight:700;font-size:18px;color:var(--contour)}
+.num{font-weight:700;color:var(--contour)}
+.w{color:var(--water);font-weight:700} .g{color:var(--land);font-weight:700}
+figure{margin:0;background:var(--bg);border:1px solid var(--rule);border-radius:18px;padding:12px}
+figure svg{display:block;width:100%;max-width:440px;margin-inline:auto;height:auto}
+figcaption{font-size:14.5px;color:var(--soft);text-align:center;padding-top:6px}
+.ctrl{display:flex;align-items:center;gap:12px;padding:4px 6px 10px;font-size:15px}
+.ctrl input{flex:1;min-width:0;accent-color:var(--water)}
+.ctrl output{font-weight:700;font-size:20px;color:var(--water);min-width:3ch;text-align:center;direction:ltr}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:4px 2px 12px;justify-content:center}
+button{font:500 16px var(--font);color:var(--ink);background:var(--card);border:1.5px solid var(--rule);border-radius:999px;padding:8px 16px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--hero-b);border-color:var(--hero-b);color:var(--on-hero)}
+button.ok{background:var(--good);border-color:var(--good);color:var(--bg)}
+button.no{border-color:var(--bad);color:var(--bad)}
+button:focus-visible,input:focus-visible,.pick:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+.msg{min-height:1.9em;text-align:center;font-weight:500;padding-top:8px}
+.msg.good{color:var(--good)} .msg.bad{color:var(--bad)}
+ol.rules{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+ol.rules li{border-inline-start:4px solid var(--tan);padding-inline-start:14px}
+footer{text-align:center;color:var(--soft);font-size:15px;padding-inline:16px;padding-block:8px 40px}
+footer b{color:var(--contour)}
+footer{display:flex;flex-direction:column;align-items:center;gap:12px}
+.tg{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 10px;padding:10px 20px;border-radius:999px;background:linear-gradient(135deg,var(--hero-a),var(--hero-b));color:var(--on-hero);text-decoration:none;font-weight:500;font-size:16px}
+.tg svg{flex:none;color:var(--tan)} .tg .tgh{color:var(--on-hero-soft);font-weight:300}
+.tg:focus-visible{outline:3px solid var(--mark);outline-offset:3px}
+
+
+svg text{font-family:var(--font)}
+.dot{fill:var(--soft)} .dot.land{fill:var(--land)} .dot.sea{fill:var(--water)}
+.lbl{fill:var(--soft);font-size:12px} .nm{fill:var(--ink);font-size:13px;font-weight:700}
+.frame{fill:none;stroke:var(--rule);stroke-width:1.5}
+.ln{fill:none;stroke:var(--contour);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ln.dim{opacity:.25} .ln.big{stroke-width:4.5} .ln.sea{stroke:var(--water);stroke-width:4.5}
+.ring{fill:none;stroke:var(--mark);stroke-width:4}
+figure.paper{background:var(--paper);border-color:var(--paper-rule)}
+figure.paper svg{max-width:560px}
+.paper .dot{fill:var(--paper-dot)} .paper .lbl{fill:var(--paper-ink);font-size:10px} .paper .nm{fill:var(--paper-ink);font-style:italic}
+.paper .frame{stroke:var(--paper-ink);stroke-width:1} .paper .ln{stroke:var(--hero-b);stroke-width:1.8}
+.paper .ph{fill:var(--paper-ink)} .paper .tagbg{fill:var(--paper)} .paper .tag{fill:var(--hero-b);font-size:9px;font-weight:700}
+.paper figcaption{color:var(--paper-dot)}
+table.sol{width:100%;border-collapse:collapse;font-size:15.5px;line-height:1.7}
+table.sol th,table.sol td{text-align:start;vertical-align:top;padding:8px 6px;border-bottom:1px solid var(--rule)}
+table.sol th{color:var(--contour);font-weight:700;white-space:nowrap;direction:ltr;text-align:end}
+.gl{stroke:var(--rule);stroke-width:1.2}
+.pn{fill:var(--ink)} .pn.land{fill:var(--land)} .pn.sea{fill:var(--water)} .pv{fill:var(--ink);font-size:12.5px;font-weight:700} .rc{fill:var(--soft);font-size:10px}
+.ptag{fill:var(--contour);font-size:9px;font-weight:700} .ptagbg{fill:var(--bg)}
+.ridge{fill:none;stroke:var(--water);stroke-width:5;stroke-dasharray:3 7;stroke-linecap:round;opacity:.85}
+.rpeak{fill:none;stroke:var(--good);stroke-width:3} .rsad{fill:none;stroke:var(--mark);stroke-width:3}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;font-size:14px;color:var(--soft);padding-top:6px}
+.key i{display:inline-block;width:12px;height:12px;border-radius:50%;border:3px solid;vertical-align:-1px;margin-inline-end:6px}
+ul.ans{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px;font-size:16px}
+.qen{direction:ltr;text-align:left;font-size:15px;color:var(--soft);line-height:1.6}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:8px 2px}
+.fld{display:flex;flex-direction:column;gap:4px;min-width:0;font-size:14.5px}
+.fld input{font:500 17px var(--font);direction:ltr;text-align:center;width:100%;box-sizing:border-box;padding:8px 10px;border-radius:12px;border:1.5px solid var(--rule);background:var(--bg);color:var(--ink)}
+.fld input.good{border-color:var(--good)} .fld input.bad{border-color:var(--bad)}
+.fld small{min-height:1.5em;font-size:13px} .fld small.good{color:var(--good)} .fld small.bad{color:var(--bad)}
+.steps{margin:0;padding:12px 14px;background:var(--bg);border:1px solid var(--rule);border-inline-start:4px solid var(--tan);border-radius:14px;font-size:15.5px;display:flex;flex-direction:column;gap:6px}
+.steps .m{direction:ltr;text-align:left;font-weight:500;unicode-bidi:isolate}
+table.dat{border-collapse:collapse;margin-inline:auto;font-size:15px;direction:ltr}
+table.dat th,table.dat td{border:1px solid var(--rule);padding:4px 14px;text-align:center}
+table.dat th{color:var(--contour)}
+#tajmiat a{color:var(--contour);font-weight:500}
+.rodbar{fill:var(--ink)} .rodbody{fill:var(--bg);stroke:var(--ink);stroke-width:1.5} .rodnum{fill:var(--ink);font-size:15px;font-weight:700}
+.ptr{stroke:var(--contour);stroke-width:1.5} .ptrl{fill:var(--contour);font-size:14px;font-weight:700}
+.lp{fill:none;stroke:var(--contour);stroke-width:2} .lpd{fill:var(--ink)} .lpt{fill:var(--ink);font-size:13px;font-weight:700} .lps{fill:var(--soft);font-size:12px}
+.tabs{background:var(--bg);border-bottom:1.5px solid var(--rule);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.tabs-in{max-width:640px;margin-inline:auto;padding-inline:8px;display:flex;gap:4px;overflow-x:auto}
+button.tab{flex:none;background:transparent;border:0;border-bottom:4px solid transparent;border-radius:0;padding:16px 18px 12px;font:500 18px var(--font);color:var(--soft)}
+button.tab[aria-selected="true"]{color:var(--contour);font-weight:700;border-bottom-color:var(--contour)}
+.panel{display:flex;flex-direction:column;gap:20px}
+.pick{cursor:pointer} .pick .hit{fill:transparent}
+.pick .qd{fill:var(--soft)} .pick.on .qd{fill:var(--mark)} .pick.on .qr{stroke:var(--mark)}
+.pick .qr{fill:none;stroke:transparent;stroke-width:4}
+.pick.wrong .qd{fill:var(--bad)}
+.qlbl{fill:var(--ink);font-size:15px;font-weight:500}
+
+/* ---- dark notebook skin ---- */
+body{background:var(--bg);color:var(--ink)}
+.hero{background:linear-gradient(160deg,var(--hero-a),var(--hero-b))}
+.hero::before,.hero::after{display:none}
+.hero-in{gap:14px;padding-block:36px 30px}
+.eyebrow{margin:0;font:500 13px/1.6 var(--mono);letter-spacing:.28em;color:var(--on-hero-soft);text-transform:uppercase;text-align:right}
+h1{font-size:clamp(34px,9vw,46px);line-height:1.3}
+.sub{font-weight:400;font-size:17px}
+.credit{align-self:flex-start;margin:4px 0 0;padding:8px 18px;border-radius:999px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:var(--on-hero);font-size:16px}
+.credit b{font-weight:700}
+.tg{display:inline-flex;align-items:center;gap:14px;align-self:flex-start;background:none;border-radius:0;flex-wrap:nowrap;color:var(--on-hero);text-decoration:none;font-weight:700;font-size:17px;padding:4px 0}
+.tgi{flex:none;width:52px;height:52px;border-radius:50%;background:#2AA3E0;color:#fff;display:grid;place-items:center}
+.tgt{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.tg .tgh{color:var(--on-hero-soft);font:500 15px var(--mono)}
+.tg:focus-visible{outline:3px solid var(--tan);outline-offset:4px;border-radius:999px}
+.pills{gap:8px;padding-top:6px}
+.pill{padding:8px 16px;font-size:15px;background:rgba(0,0,0,.18);border-color:rgba(255,255,255,.28)}
+.pill::before{width:8px;height:8px;background:var(--accent)}
+section{background:var(--card);border:1px solid var(--rule);border-radius:18px}
+h2::before{background:var(--accent);border-radius:3px;width:10px;height:10px}
+h3{color:var(--accent)}
+.num,.c{color:var(--contour)}
+figure{background:var(--bg);border-color:var(--rule)}
+button{background:transparent;color:var(--ink);border:1.5px solid var(--rule);border-radius:999px;font-weight:500}
+button:hover{border-color:var(--soft)}
+button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+button[id$="new"]{border-color:var(--tan);color:var(--tan)}
+button.ok{background:var(--good);border-color:var(--good);color:var(--on-accent)}
+.tabs{background:var(--bg);border-bottom:1px solid var(--rule)}
+.tabs-in{gap:10px;padding-block:12px}
+button.tab{border:1.5px solid var(--rule);border-radius:999px;padding:9px 22px;font-size:17px;color:var(--soft)}
+button.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:700}
+.fld input{background:var(--bg);border-color:var(--rule);font-family:var(--mono)}
+.ctrl output,table.sol th,table.dat td,.steps .m,.formula{font-family:var(--mono)}
+.formula{background:var(--bg);border-color:var(--rule);border-inline-start-color:var(--tan)}
+.steps{background:var(--bg);border-color:var(--rule);border-inline-start-color:var(--tan)}
+ol.rules li{border-inline-start-color:var(--accent)}
+footer a{color:var(--accent);font-family:var(--mono)}
+.paper svg text{font-family:var(--font)}
+</style>
+
+<div dir="rtl" lang="ar">
+<header class="hero">
+  <div class="hero-in">
+    <p class="eyebrow" dir="ltr">CEE 272 · SURVEYING &amp; GPS · CONTOURING</p>
+    <h1>خطوط الكنتور</h1>
+    <p class="sub">شرح خطوة بخطوة، حل ورقة التمرين، مسائل الدليل، وتجميعات الميد. اكتب جوابك واضغط «تحقّق».</p>
+    <p class="credit">صُنع بواسطة <b>محمد الشواف</b></p>
+    <a class="tg" href="https://t.me/EngMohamedC" target="_blank" rel="noopener">
+      <span class="tgi"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M21.5 3.2 2.9 10.4c-.9.35-.88 1.6.03 1.9l4.6 1.5 1.8 5.6c.2.65 1.03.83 1.5.33l2.6-2.7 4.5 3.3c.6.44 1.45.1 1.6-.62L22.9 4.3c.15-.75-.6-1.4-1.4-1.1ZM9.6 14.3l8-6.6-6.3 7.6-.5 3.2-1.2-4.2Z" fill="currentColor"></path></svg></span>
+      <span class="tgt">قناتي في تليقرام <span class="tgh" dir="ltr">@EngMohamedC</span></span>
+    </a>
+    <nav class="pills" aria-label="أقسام الصفحة">
+      <a class="pill" href="#lesson">ابدأ الشرح</a>
+      <a class="pill" href="#solution">الحل الكامل</a>
+      <a class="pill" href="#quiz">جرّب التمرين</a>
+      <a class="pill" href="#practice">مسائل الدليل</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="القوائم">
+  <div class="tabs-in" role="tablist">
+    <button type="button" class="tab" role="tab" id="tabbtn-contour" aria-controls="panel-contour" aria-selected="true">الكنتور</button>
+    <button type="button" class="tab" role="tab" id="tabbtn-tajmiat" aria-controls="panel-tajmiat" aria-selected="false">التجميعات</button>
+  </div>
+</nav>
+<main>
+<div class="panel" id="panel-contour" role="tabpanel" aria-labelledby="tabbtn-contour">
+<section id="lesson">
+  <h2>ما معنى الأرقام؟</h2>
+  <p>تخيّل أنك تنظر إلى جبل من فوق، مثل الطائر. كل نقطة مكان على الجبل، والرقم تحتها يقول <b>كم هو عالٍ</b>.</p>
+  <p>الرقم الكبير مكان عالٍ، والرقم الصغير مكان منخفض. أعلى نقطة في الورقة هي X (463)، وأخفض نقطة هي C (50).</p>
+</section>
+
+<section>
+  <h2>لعبة الماء</h2>
+  <p>تخيّل أن الماء يرتفع شيئًا فشيئًا. النقاط المنخفضة تغرق <span class="w">(زرقاء)</span>، والعالية تبقى جافة <span class="g">(خضراء)</span>.</p>
+  <p><b>حافة الماء هي خط الكنتور.</b> حرّك الشريط وشاهد الحافة تتحرك.</p>
+  <figure>
+    <div class="ctrl">
+      <label for="water">ارتفاع الماء</label>
+      <input type="range" id="water" min="100" max="450" step="50" value="300">
+      <output id="waterOut" for="water">300</output>
+    </div>
+    <svg id="mapWater" viewBox="0 0 380 384" direction="ltr" role="img" aria-label="خريطة النقاط مع حافة الماء"></svg>
+    <figcaption>الخط الأزرق هو حافة الماء، وهو خط الكنتور عند هذا الارتفاع</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>نرسم خط 300 معًا</h2>
+  <p><span class="num">الخطوة 1.</span> ابحث عن كل نقطة مكتوب تحتها <b>300</b> وحوّطها. ستجد 10 نقاط.</p>
+  <figure>
+    <svg id="mapS1" viewBox="0 0 380 384" direction="ltr" role="img" aria-label="النقاط التي قيمتها 300 محاطة بدوائر"></svg>
+    <figcaption>دائرة حول كل 300</figcaption>
+  </figure>
+  <p><span class="num">الخطوة 2.</span> وصّل بين الدوائر القريبة من بعض، مثل لعبة توصيل النقاط. سيظهر لك خط واحد طويل يلفّ حول الجبل: ينزل من أعلى الورقة مائلًا لليسار، ثم يرجع من الأسفل مائلًا لليمين.</p>
+  <figure>
+    <svg id="mapS2" viewBox="0 0 380 384" direction="ltr" role="img" aria-label="خط 300 مرسوم عبر النقاط"></svg>
+    <figcaption>الخط العريض هو خط 300</figcaption>
+  </figure>
+  <p><span class="num">الخطوة 3.</span> أحيانًا لا تجد 300 في طريقك. انظر إلى الصف الرابع من اليسار: فيه <b>250</b> ثم <b>350</b>. الـ 300 تقع في <b>النصف بينهما</b>، فمرّر الخط من النصف.</p>
+  <figure>
+    <svg viewBox="0 0 380 130" direction="ltr" role="img" aria-label="300 تقع في منتصف المسافة بين 250 و350">
+      <line x1="70" y1="60" x2="310" y2="60" stroke="var(--rule)" stroke-width="3" stroke-dasharray="6 6"></line>
+      <circle class="dot" cx="70" cy="60" r="8"></circle><text class="nm" x="70" y="92" text-anchor="middle">250</text>
+      <circle class="dot" cx="310" cy="60" r="8"></circle><text class="nm" x="310" y="92" text-anchor="middle">350</text>
+      <line class="ln big" x1="190" y1="22" x2="190" y2="98"></line>
+      <text x="190" y="120" text-anchor="middle" style="fill:var(--contour);font-size:14px;font-weight:700">300 هنا في النصف</text>
+    </svg>
+    <figcaption>إذا كان الرقم أقرب لأحدهما، قرّب الخط منه</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>كرّر مع باقي الأرقام</h2>
+  <p>افعل نفس الشيء مع 450، ثم 400، ثم 350، حتى 50. اضغط على أي رقم لترى خطّه.</p>
+  <figure>
+    <div class="chips" id="chips" role="group" aria-label="اختر خط الكنتور"></div>
+    <svg id="mapAll" viewBox="0 0 380 384" direction="ltr" role="img" aria-label="كل خطوط الكنتور على الخريطة"></svg>
+    <figcaption id="allCap">كل الخطوط معًا. ارسمها بيدك منحنية وناعمة.</figcaption>
+  </figure>
+</section>
+
+<section id="formula">
+  <h2>القانون: متى نحتاجه؟</h2>
+  <p>إذا كان الخط يمرّ على نقطة بنفس رقمه، أو في النصف بين رقمين، <b>لا تحتاج القانون</b>. تحتاجه فقط مع الأرقام غير المرتّبة مثل 463 و378 و211 و116.</p>
+  <div class="formula">x = <span class="fr"><span>C − low</span><span>high − low</span></span> × d</div>
+  <p><b>C</b> رقم الخط، <b>low</b> الرقم الأصغر، <b>high</b> الرقم الأكبر، <b>d</b> المسافة بين النقطتين، و<b>x</b> بُعد الخط عن النقطة الأصغر.</p>
+  <p>هذه كل الأماكن التي تحتاج فيها القانون في الورقة:</p>
+  <table class="sol">
+    <tbody>
+      <tr><th>450</th><td>بين 400 و463: ‎(450−400) ÷ (463−400) = 0.79‎ من المسافة، أي قريب جدًا من X.</td></tr>
+      <tr><th>400</th><td>بين 300 و463: ‎(400−300) ÷ (463−300) = 0.61‎ من المسافة، أقرب إلى X قليلًا.</td></tr>
+      <tr><th>350</th><td>بين 300 و463: ‎50 ÷ 163 = 0.31‎ أقرب إلى 300. وبين 300 و378: ‎50 ÷ 78 = 0.64‎ أقرب إلى 378.</td></tr>
+      <tr><th>250</th><td>بين 211 و300: ‎(250−211) ÷ (300−211) = 0.44‎ قبل النصف بقليل.</td></tr>
+      <tr><th>100</th><td>بين 50 و116: ‎(100−50) ÷ (116−50) = 0.76‎ أقرب إلى 116.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="solution">
+  <h2>الحل الكامل للورقة</h2>
+  <p>هذه نفس ورقة التمرين، وعليها الخطوط التسعة كلها مرسومة. انقلها على ورقتك كما هي.</p>
+  <figure class="paper">
+    <svg id="mapPaper" viewBox="0 0 380 446" direction="ltr" role="img" aria-label="ورقة التمرين محلولة: كل خطوط الكنتور من 450 إلى 50"></svg>
+    <figcaption>الرقم المكتوب على كل خط هو ارتفاعه بالقدم</figcaption>
+  </figure>
+  <table class="sol">
+    <tbody>
+      <tr><th>450</th><td>دائرة صغيرة مقفلة حول القمة X (463)، لأنها النقطة الوحيدة الأعلى من 450.</td></tr>
+      <tr><th>400</th><td>حلقة مقفلة تمرّ بالنقاط الخمس التي قيمتها 400 (ومنها A)، وتلتف حول X من اليمين والأسفل قريبة منها.</td></tr>
+      <tr><th>350</th><td>حلقة مقفلة أكبر تمرّ بالنقاط الخمس 350، وتمرّ في النصف بين كل 400 و300 متجاورتين.</td></tr>
+      <tr><th>300</th><td>خط واحد طويل يمرّ بكل نقاط 300 العشر. يبدأ من 300 في الصف الأول، ينزل مائلًا لليسار حتى 300 في أول الصف الخامس، ينزل على الحافة إلى 300 التي تحتها، يمشي على الصف السادس، ثم يصعد مائلًا لليمين حتى 300 في آخر الصف الثاني.</td></tr>
+      <tr><th>250</th><td>خطّان. الأول من نقطتي 250 في الصف الأول ينزل مائلًا إلى 250 في أول الصف الرابع. الثاني من 250 في الزاوية السفلى اليسرى يصعد مائلًا حتى 250 في آخر الصف الثالث.</td></tr>
+      <tr><th>200</th><td>خطّان. الأول من D إلى 200 في أول الصف الثاني، ثم ينزل على الحافة إلى 200 في أول الصف الثالث. الثاني من 200 في الصف الأخير يصعد مائلًا حتى 200 في آخر الصف الرابع.</td></tr>
+      <tr><th>150</th><td>خط مائل من 150 في الصف الأخير إلى 150 في آخر الصف الخامس. ونقطة 150 في الزاوية العليا اليسرى يمرّ بها الخط وحدها.</td></tr>
+      <tr><th>100</th><td>خط قصير قرب الزاوية السفلى اليمنى: من 100 في آخر الصف السادس إلى ما بين 116 و50، أقرب إلى 116.</td></tr>
+      <tr><th>50</th><td>يمرّ بالنقطة C فقط في الزاوية.</td></tr>
+    </tbody>
+  </table>
+  <p>القمة عند X. أشدّ انحدار يمين X مباشرة (من 463 إلى 300)، ولذلك الخطوط هناك متقاربة.</p>
+</section>
+
+<section>
+  <h2>ثلاث قواعد لا تنسها</h2>
+  <ol class="rules">
+    <li>الخطوط <b>لا تتقاطع</b> أبدًا، مثل حلقات البصلة.</li>
+    <li>كل خط إمّا <b>يُقفل دائرة</b> أو <b>يصل إلى حافة الورقة</b>. لا يتوقف في المنتصف.</li>
+    <li>الأرقام الأكبر دائمًا <b>داخل</b> الخط، والأصغر <b>خارجه</b>.</li>
+  </ol>
+</section>
+
+<section id="quiz">
+  <h2>جرّب بنفسك</h2>
+  <p>عشرة أسئلة: خمس شبكات تحدّد فيها الخط بنفسك، ثم خمسة أسئلة اختيار.</p>
+
+  <div id="taps" style="display:flex;flex-direction:column;gap:14px"></div>
+  <div id="mcq" style="display:flex;flex-direction:column;gap:14px"></div>
+  <p class="msg" id="score" role="status" aria-live="polite">أجبت صح على 0 من 10</p>
+</section>
+<section id="terms">
+  <h2>القمة والسرج وخط الحافة</h2>
+  <p>مسائل الدليل تطلب بعد رسم الخطوط ثلاثة أشياء. هذه معانيها ببساطة:</p>
+  <table class="sol">
+    <tbody>
+      <tr><th>Peak</th><td><b>القمة:</b> نقطة أعلى من كل النقاط التي حولها (فوق وتحت ويمين ويسار وبالقُطر). تكون في وسط أصغر حلقة مقفلة.</td></tr>
+      <tr><th>Saddle</th><td><b>السرج:</b> أخفض مكان على الأرض العالية بين قمّتين. الأرض ترتفع منه نحو القمّتين وتنزل في الجهتين الأخريين.</td></tr>
+      <tr><th>Ridge line</th><td><b>خط الحافة:</b> خط يمشي على أعلى الأرض من قمة، ينزل إلى السرج، ثم يصعد إلى القمة الثانية.</td></tr>
+    </tbody>
+  </table>
+  <p><b>كيف أعرف ارتفاع السرج؟</b> ابحث عن أعلى خط كنتور يحيط بالقمّتين معًا. الخط الذي بعده يفصلهما إلى حلقتين. السرج بين هذين الرقمين. إذا كان السرج على نقطة فخذ رقمها، وإذا كان داخل مربع فخذ متوسط الأركان الأربعة.</p>
+</section>
+
+<section id="practice">
+  <h2>مسائل الدليل CEE 272</h2>
+  <p>هاتان مسألتان من دليل التدريب. حاول ترسمها على ورقتك أولًا، ثم اضغط «أظهر الحل». النقاط تُسمّى بالصف والعمود: R3C4 يعني الصف 3 والعمود 4.</p>
+  <div id="prBox" style="display:flex;flex-direction:column;gap:14px"></div>
+</section>
+</div>
+<div class="panel" id="panel-tajmiat" role="tabpanel" aria-labelledby="tabbtn-tajmiat" hidden>
+<section id="tajmiat">
+  <h2>التجميعات</h2>
+  <p>مسائل الحساب من تجميع ميدترم GPS بتاريخ 8/10/2024. اكتب إجابتك بالأرقام ثم اضغط «تحقّق». زر «أرقام جديدة» يعطيك نفس الفكرة بأرقام مختلفة، وزر «ارجع لسؤال التجميع» يرجّعك لأرقام الاختبار الأصلية.</p>
+  <div id="tjBox" style="display:flex;flex-direction:column;gap:14px"></div>
+  <h3>الكنتور</h3>
+  <p>جاء في التجميع سؤال كنتور بنفس فكرة ورقة التمرين، لكن بخريطة وأرقام مختلفة، والخطوط المطلوبة 30 و40 و50 و60. تدرّب عليه من <a href="#solution">الحل الكامل للورقة</a> ومن <a href="#practice">مسائل الدليل</a>.</p>
+</section>
+</div>
+</main>
+
+<footer>
+  <p>صُنع بواسطة <b>محمد الشواف</b> · <a href="https://t.me/EngMohamedC" target="_blank" rel="noopener" dir="ltr">@EngMohamedC</a></p>
+</footer>
+</div>
+
+<script>
+(function(){
+var NS="http://www.w3.org/2000/svg";
+function el(n,a,t){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;return e}
+
+/* ---------- lesson map ---------- */
+var G=[[150,200,250,250,300,326,322],[200,250,300,350,378,350,300],[200,300,350,400,400,350,250],[250,350,400,463,300,250,200],[300,400,400,300,250,200,150],[300,300,300,250,200,150,100],[250,200,211,200,150,116,50]];
+var NAMES={"0,1":"D","0,5":"Y","3,3":"X","4,2":"A","6,6":"C"};
+var LEVELS=[450,400,350,300,250,200,150,100,50];
+function X(c){return 40+c*50} function Y(r){return 36+r*50}
+function ip(x1,y1,v1,x2,y2,v2,l){var t=(l-v1)/(v2-v1);return [x1+(x2-x1)*t,y1+(y2-y1)*t]}
+function contour(l){
+  var s=[];
+  for(var r=0;r<6;r++)for(var c=0;c<6;c++){
+    var a=G[r][c],b=G[r][c+1],d=G[r+1][c+1],e=G[r+1][c];
+    var ia=a>=l,ib=b>=l,id=d>=l,ie=e>=l;
+    var T=ia!==ib?ip(X(c),Y(r),a,X(c+1),Y(r),b,l):null;
+    var R=ib!==id?ip(X(c+1),Y(r),b,X(c+1),Y(r+1),d,l):null;
+    var B=ie!==id?ip(X(c),Y(r+1),e,X(c+1),Y(r+1),d,l):null;
+    var L=ia!==ie?ip(X(c),Y(r),a,X(c),Y(r+1),e,l):null;
+    var p=[T,R,B,L].filter(Boolean),segs=[];
+    if(p.length===2)segs.push(p);
+    else if(p.length===4){
+      if(ia!==((a+b+d+e)/4>=l)){segs.push([T,L]);segs.push([R,B]);}else{segs.push([T,R]);segs.push([B,L]);}
+    }
+    segs.forEach(function(g){s.push(g)});
+  }
+  return s;
+}
+function key(p){return p[0].toFixed(1)+","+p[1].toFixed(1)}
+function lines(l){
+  if(l===50)return [{pts:[[316,370],[X(6),Y(6)],[366,Y(6)-16]],closed:false}];
+  if(l===450){var c=[];for(var t=0;t<8;t++)c.push([X(3)-3+10*Math.cos(t*Math.PI/4),Y(3)-3+10*Math.sin(t*Math.PI/4)]);return [{pts:c,closed:true}];}
+  var raw=contour(l),r,c;
+  for(r=0;r<7;r+=6)for(c=0;c<6;c++)if(G[r][c]===l&&G[r][c+1]===l)raw.push([[X(c),Y(r)],[X(c+1),Y(r)]]);
+  for(c=0;c<7;c+=6)for(r=0;r<6;r++)if(G[r][c]===l&&G[r+1][c]===l)raw.push([[X(c),Y(r)],[X(c),Y(r+1)]]);
+  var seen={},segs=raw.filter(function(g){
+    var a=key(g[0]),b=key(g[1]);if(a===b)return false;
+    var k=a<b?a+"|"+b:b+"|"+a;if(seen[k])return false;seen[k]=1;return true;
+  });
+  var at={};segs.forEach(function(g,i){[0,1].forEach(function(e){(at[key(g[e])]=at[key(g[e])]||[]).push(i)})});
+  var used=[],out=[];
+  function walk(start){
+    var pts=[start],cur=start;
+    for(;;){
+      var cand=(at[key(cur)]||[]).filter(function(i){return !used[i]});
+      if(!cand.length)break;
+      var i=cand[0];used[i]=1;
+      cur=key(segs[i][0])===key(cur)?segs[i][1]:segs[i][0];pts.push(cur);
+    }
+    var closed=pts.length>3&&key(pts[0])===key(pts[pts.length-1]);
+    if(closed)pts.pop();
+    if(pts.length>1)out.push({pts:pts,closed:closed});
+  }
+  Object.keys(at).forEach(function(k){if(at[k].length===1&&!used[at[k][0]]){var g=segs[at[k][0]];walk(key(g[0])===k?g[0]:g[1])}});
+  segs.forEach(function(g,i){if(!used[i])walk(g[0])});
+  return out;
+}
+function smooth(L){
+  var p=L.pts,n=p.length,d="M"+p[0][0].toFixed(1)+" "+p[0][1].toFixed(1);
+  function at(i){return L.closed?p[(i+n)%n]:p[Math.max(0,Math.min(n-1,i))]}
+  var last=L.closed?n:n-1;
+  for(var i=0;i<last;i++){
+    var p0=at(i-1),p1=at(i),p2=at(i+1),p3=at(i+2);
+    d+="C"+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+" "+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+" "+(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+" "+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+" "+p2[0].toFixed(1)+" "+p2[1].toFixed(1);
+  }
+  return d+(L.closed?"Z":"");
+}
+var TAGFIX={450:[163,200],50:[300,366]};
+function tagSpot(L){
+  var p=L.pts,c=[],best=null,bs=-1;
+  for(var i=0;i<p.length;i++){c.push(p[i]);var q=p[i+1]||(L.closed?p[0]:null);if(q)c.push([(p[i][0]+q[0])/2,(p[i][1]+q[1])/2]);}
+  c.forEach(function(pt){
+    var m=1e9;
+    for(var r=0;r<7;r++)for(var k=0;k<7;k++){
+      m=Math.min(m,Math.hypot(pt[0]-X(k),pt[1]-Y(r)),Math.hypot(pt[0]-X(k),pt[1]-Y(r)-16));
+    }
+    if(m>bs){bs=m;best=pt}
+  });
+  return best;
+}
+function draw(id,o){
+  var svg=document.getElementById(id);svg.textContent="";
+  var g=el("g",{transform:"translate(0,"+(o.oy||0)+")"});
+  if(o.paper){
+    svg.appendChild(el("text",{x:190,y:18,"text-anchor":"middle","class":"ph",style:"font-size:13px;font-weight:700"},"Contour Lines Practice #2"));
+    svg.appendChild(el("text",{x:14,y:34,"class":"ph",style:"font-size:8px"},"Draw in contour lines at the following elevations"));
+    svg.appendChild(el("text",{x:14,y:45,"class":"ph",style:"font-size:8px"},"(all numbers are given in feet above sea level):"));
+    svg.appendChild(el("text",{x:30,y:56,"class":"ph",style:"font-size:8px"},"450, 400, 350, 300, 250, 200, 150, 100, 50"));
+  }
+  svg.appendChild(g);
+  g.appendChild(el("rect",{x:12,y:10,width:356,height:364,rx:o.paper?0:10,"class":"frame"}));
+  var tags=[];
+  (o.lines||[]).forEach(function(L){
+    lines(L.v).forEach(function(pl,i){
+      g.appendChild(el("path",{d:smooth(pl),"class":"ln "+(L.cls||"")}));
+      if(o.labels){var s=TAGFIX[L.v]?(i===0?TAGFIX[L.v]:null):tagSpot(pl);if(s)tags.push([s,L.v]);}
+    });
+  });
+  for(var r=0;r<7;r++)for(var c=0;c<7;c++){
+    var v=G[r][c];
+    if(o.ring&&o.ring(v))g.appendChild(el("circle",{cx:X(c),cy:Y(r),r:11,"class":"ring"}));
+    g.appendChild(el("circle",{cx:X(c),cy:Y(r),r:o.paper?3.5:4.5,"class":"dot "+(o.dot?o.dot(v):"")}));
+    g.appendChild(el("text",{x:X(c),y:Y(r)+19,"text-anchor":"middle","class":"lbl"},v));
+    var n=NAMES[r+","+c];
+    if(n)g.appendChild(n==="Y"?el("text",{x:X(c)+13,y:Y(r)+4,"text-anchor":"middle","class":"nm"},n):el("text",{x:X(c)-13,y:Y(r)-8,"text-anchor":"middle","class":"nm"},n));
+  }
+  tags.forEach(function(t){
+    g.appendChild(el("rect",{x:t[0][0]-10,y:t[0][1]-6,width:20,height:12,rx:3,"class":"tagbg"}));
+    g.appendChild(el("text",{x:t[0][0],y:t[0][1]+3.2,"text-anchor":"middle","class":"tag"},t[1]));
+  });
+}
+var water=document.getElementById("water"),wOut=document.getElementById("waterOut");
+function drawWater(){
+  var l=Math.round(+water.value);wOut.textContent=l;
+  draw("mapWater",{lines:[{v:l,cls:"sea"}],dot:function(v){return v>=l?"land":"sea"}});
+}
+water.addEventListener("input",drawWater);drawWater();
+draw("mapS1",{ring:function(v){return v===300}});
+draw("mapS2",{lines:[{v:300,cls:"big"}],ring:function(v){return v===300}});
+
+var chips=document.getElementById("chips"),cap=document.getElementById("allCap"),sel=0;
+function drawAll(){
+  draw("mapAll",{
+    lines:LEVELS.map(function(v){return {v:v,cls:sel===0?"":(v===sel?"big":"dim")}}),
+    ring:function(v){return sel!==0&&v===sel}
+  });
+  cap.textContent=sel===0?"كل الخطوط معًا. ارسمها بيدك منحنية وناعمة."
+    :sel===50?"خط 50 يمرّ عند النقطة C فقط، في الزاوية."
+    :sel===450?"خط 450 دائرة صغيرة حول القمة X."
+    :"خط "+sel+" بالخط العريض. الدوائر حول النقاط التي قيمتها "+sel+" بالضبط.";
+  Array.prototype.forEach.call(chips.children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.v===sel))});
+}
+[0].concat(LEVELS).forEach(function(v){
+  var b=document.createElement("button");b.type="button";b.id="chip-"+v;b.dataset.v=v;b.textContent=v===0?"الكل":v;
+  b.addEventListener("click",function(){sel=v;drawAll()});chips.appendChild(b);
+});
+drawAll();
+draw("mapPaper",{paper:true,labels:true,oy:62,lines:LEVELS.map(function(v){return {v:v}})});
+
+/* ---------- tap puzzles ---------- */
+function setMsg(node,text,kind){node.textContent=text;node.className="msg"+(kind?" "+kind:"")}
+var TAPS=[
+ {t:200,intro:"تلّة صغيرة قمّتها في الوسط (300).",
+  g:[[100,100,100,100,100],[100,200,200,200,100],[100,200,300,200,100],[100,200,200,200,100],[100,100,100,100,100]],
+  path:[[1,1],[1,2],[1,3],[2,3],[3,3],[3,2],[3,1],[2,1]],closed:true,end:"أحسنت! خط 200 حلقة حول القمة."},
+ {t:150,intro:"منحدر ينزل من الزاوية العليا اليسرى.",
+  g:[[300,250,200,150,100],[250,200,150,100,100],[200,150,100,100,50],[150,100,100,50,50],[100,100,50,50,50]],
+  path:[[0,3],[1,2],[2,1],[3,0]],closed:false,end:"أحسنت! خط 150 مائل ويصل إلى حافتي الشبكة."},
+ {t:100,intro:"تلّة أكبر. الخط هذه المرة حلقة واسعة.",
+  g:[[50,100,100,100,50],[100,200,200,200,100],[100,200,300,200,100],[100,200,200,200,100],[50,100,100,100,50]],
+  path:[[0,1],[0,2],[0,3],[1,4],[2,4],[3,4],[4,3],[4,2],[4,1],[3,0],[2,0],[1,0]],closed:true,end:"أحسنت! خط 100 حلقة كبيرة حول التلّة كلها."},
+ {t:300,intro:"أرقام غير مرتّبة. انتبه: 280 و340 قريبة من 300 لكنها ليست 300.",
+  g:[[150,210,300,340,390],[120,180,260,300,350],[90,140,200,270,300],[60,110,160,220,280],[40,80,130,190,240]],
+  path:[[0,2],[1,3],[2,4]],closed:false,end:"أحسنت! خط 300 يمرّ بهذه النقاط الثلاث فقط."},
+ {t:250,intro:"وادٍ في الوسط: الأرقام تكبر كلما ابتعدت عن المنتصف.",
+  g:[[350,300,250,300,350],[300,250,180,250,300],[250,180,120,180,250],[300,250,180,250,300],[350,300,250,300,350]],
+  path:[[0,2],[1,3],[2,4],[3,3],[4,2],[3,1],[2,0],[1,1]],closed:true,end:"أحسنت! خط 250 حلقة حول الوادي، والأرقام الأصغر هي التي داخله."}
+];
+function QX(c){return 50+c*70} function QY(r){return 40+r*70}
+var tapsBox=document.getElementById("taps");
+TAPS.forEach(function(P,i){
+  var total=0;P.g.forEach(function(row){row.forEach(function(v){if(v===P.t)total++})});
+  var h=document.createElement("h3");h.textContent="السؤال "+(i+1);tapsBox.appendChild(h);
+  var p=document.createElement("p");p.textContent=P.intro+" نريد رسم خط "+P.t+". اضغط على كل النقاط التي يمرّ بها الخط.";tapsBox.appendChild(p);
+  var fig=document.createElement("figure");
+  var svg=el("svg",{viewBox:"0 0 380 372",direction:"ltr","aria-label":"شبكة نقاط السؤال "+(i+1)});
+  var msg=document.createElement("p");msg.setAttribute("role","status");msg.setAttribute("aria-live","polite");
+  var box=document.createElement("div");box.className="chips";
+  var rb=document.createElement("button");rb.type="button";rb.id="tap"+i+"reset";rb.textContent="أعد المحاولة";box.appendChild(rb);
+  fig.appendChild(svg);fig.appendChild(msg);fig.appendChild(box);tapsBox.appendChild(fig);
+  var found,lineEl;
+  function build(){
+    svg.textContent="";found=0;
+    svg.appendChild(el("rect",{x:12,y:8,width:356,height:356,rx:10,"class":"frame"}));
+    lineEl=el("path",{d:smooth({pts:P.path.map(function(q){return [QX(q[1]),QY(q[0])]}),closed:P.closed}),"class":"ln big",visibility:"hidden"});
+    svg.appendChild(lineEl);
+    for(var r=0;r<5;r++)for(var c=0;c<5;c++)(function(r,c){
+      var v=P.g[r][c];
+      var g=el("g",{"class":"pick",tabindex:"0",role:"button","aria-label":"نقطة ارتفاعها "+v,"aria-pressed":"false"});
+      g.appendChild(el("circle",{cx:QX(c),cy:QY(r),r:30,"class":"hit"}));
+      g.appendChild(el("circle",{cx:QX(c),cy:QY(r),r:14,"class":"qr"}));
+      g.appendChild(el("circle",{cx:QX(c),cy:QY(r),r:6,"class":"qd"}));
+      g.appendChild(el("text",{x:QX(c),y:QY(r)+30,"text-anchor":"middle","class":"qlbl"},v));
+      function pick(){
+        if(found===total||g.classList.contains("on"))return;
+        if(v===P.t){
+          g.classList.add("on");g.setAttribute("aria-pressed","true");found++;
+          if(found===total){lineEl.setAttribute("visibility","visible");setMsg(msg,P.end,"good");done["t"+i]=1;showScore();}
+          else setMsg(msg,"صحيح! وجدت "+found+" من "+total,"good");
+        }else{
+          g.classList.add("wrong");setTimeout(function(){g.classList.remove("wrong")},700);
+          setMsg(msg,"هذه "+v+" وليست "+P.t+". جرّب نقطة أخرى.","bad");
+        }
+      }
+      g.addEventListener("click",pick);
+      g.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}});
+      svg.appendChild(g);
+    })(r,c);
+    setMsg(msg,"وجدت 0 من "+total,"");
+  }
+  rb.addEventListener("click",function(){build();delete done["t"+i];showScore()});
+  build();
+});
+
+/* ---------- quiz 2: between two numbers ---------- */
+var MC=[
+ {q:"نقطتان متجاورتان: 100 و 200. من أين يمرّ خط 150 بينهما؟",lo:100,hi:200,c:150,
+  o:["قريب من 100","في النصف","قريب من 200"],a:1,
+  ok:"أحسنت! 150 في النصف تمامًا بين 100 و200.",no:"150 تبعد 50 عن 100 وتبعد 50 عن 200. أين تكون؟"},
+ {q:"أرقام غير مرتّبة: نقطتان 120 و 220. من أين يمرّ خط 200؟",lo:120,hi:220,c:200,
+  o:["قريب من 120","في النصف","قريب من 220"],a:2,
+  ok:"صحيح! 200 تبعد 20 فقط عن 220، فالخط قريب منها.",no:"احسب الفرق: 200 تبعد 80 عن 120 وتبعد 20 عن 220. من الأقرب؟"},
+ {q:"نقطتان 180 و 260. من أين يمرّ خط 200؟",lo:180,hi:260,c:200,
+  o:["قريب من 180","في النصف","قريب من 260"],a:0,
+  ok:"صحيح! 200 تبعد 20 عن 180 وتبعد 60 عن 260، فالخط قريب من 180.",no:"200 تبعد 20 عن 180 وتبعد 60 عن 260. من الأقرب؟"},
+ {q:"بالقانون: نقطتان 140 و 340 والمسافة بينهما 10 سم. كم يبعد خط 200 عن النقطة 140؟",lo:140,hi:340,c:200,
+  o:["3 سم","5 سم","7 سم"],a:0,
+  ok:"أحسنت! ‎(200−140) ÷ (340−140) = 60 ÷ 200 = 0.3‎ ثم ‎0.3 × 10 = 3‎ سم.",no:"طبّق القانون: ‎(200−140) ÷ (340−140) × 10‎. احسبها وجرّب مرة ثانية."},
+ {q:"رسمت حلقة مقفلة لخط 200. أي رقم يكون داخل الحلقة؟",
+  o:["100","150","250"],a:2,
+  ok:"صحيح! داخل الخط دائمًا الأرقام الأكبر منه.",no:"تذكّر القاعدة: الأرقام الأكبر داخل الخط، والأصغر خارجه."}
+];
+var TOTALQ=TAPS.length+MC.length;var mcq=document.getElementById("mcq"),scoreEl=document.getElementById("score"),done={};
+function showScore(){
+  var n=Object.keys(done).length;
+  setMsg(scoreEl,n===TOTALQ?"ممتاز! أجبت صح على كل الأسئلة.":"أجبت صح على "+n+" من "+TOTALQ,n===TOTALQ?"good":"");
+}
+
+MC.forEach(function(Q,i){
+  var n=i+TAPS.length+1,h=document.createElement("h3");h.textContent="السؤال "+n;mcq.appendChild(h);
+  var p=document.createElement("p");p.textContent=Q.q;mcq.appendChild(p);
+  var fig=document.createElement("figure"),ln,tx;
+  if(Q.lo!=null){
+    var s=el("svg",{viewBox:"0 0 380 120",direction:"ltr",role:"img","aria-label":"نقطتان "+Q.lo+" و"+Q.hi});
+    var x=70+240*(Q.c-Q.lo)/(Q.hi-Q.lo);
+    s.appendChild(el("line",{x1:70,y1:52,x2:310,y2:52,stroke:"var(--rule)","stroke-width":3,"stroke-dasharray":"6 6"}));
+    s.appendChild(el("circle",{cx:70,cy:52,r:8,"class":"dot"}));s.appendChild(el("text",{x:70,y:86,"text-anchor":"middle","class":"nm"},Q.lo));
+    s.appendChild(el("circle",{cx:310,cy:52,r:8,"class":"dot"}));s.appendChild(el("text",{x:310,y:86,"text-anchor":"middle","class":"nm"},Q.hi));
+    ln=el("line",{x1:x,y1:16,x2:x,y2:88,"class":"ln big",visibility:"hidden"});
+    tx=el("text",{x:x,y:110,"text-anchor":"middle",style:"fill:var(--contour);font-size:14px;font-weight:700",visibility:"hidden"},Q.c);
+    s.appendChild(ln);s.appendChild(tx);fig.appendChild(s);
+  }
+  var box=document.createElement("div");box.className="chips";box.setAttribute("role","group");box.setAttribute("aria-label","اختر الإجابة");
+  var msg=document.createElement("p");msg.className="msg";msg.setAttribute("role","status");msg.setAttribute("aria-live","polite");
+  Q.o.forEach(function(t,j){
+    var b=document.createElement("button");b.type="button";b.id="q"+n+"o"+j;b.textContent=t;
+    b.addEventListener("click",function(){
+      if(j===Q.a){
+        b.className="ok";if(ln){ln.setAttribute("visibility","visible");tx.setAttribute("visibility","visible");}
+        setMsg(msg,Q.ok,"good");done["q"+n]=1;showScore();
+      }else{b.className="no";setMsg(msg,Q.no,"bad");}
+    });
+    box.appendChild(b);
+  });
+  fig.appendChild(box);fig.appendChild(msg);mcq.appendChild(fig);
+});
+
+/* ---------- guide practice questions ---------- */
+var PR=[
+ {n:1,sp:25,lv:[40,50,60,70],
+  g:[[33,38,41,36,39,39,31],[38,52,58,47,55,51,36],[42,74,63,52,61,68,44],[37,53,57,46,54,49,35],[31,39,42,38,41,43,32]],
+  peaks:[[2,1],[2,5]],saddle:[2,3],ridge:[[2,1],[2,2],[2,3],[2,4],[2,5]],
+  ans:["القمّتان: R3C2 = 74 م و R3C6 = 68 م.",
+       "السرج: R3C4 = 52 م. خط 50 يحيط بالقمّتين معًا، وخط 60 يفصلهما، فالسرج بين 50 و60.",
+       "خط الحافة على الصف 3: R3C2 ← R3C3 (63) ← R3C4 (السرج) ← R3C5 (61) ← R3C6.",
+       "مثال بالقانون: خط 40 بين R1C2 = 38 و R2C2 = 52: ‎(40−38) ÷ (52−38) × 25 = 3.6‎ م من النقطة 38."]},
+ {n:2,sp:25,lv:[40,50,60,70,80],
+  g:[[41,44,47,43,38],[44,66,82,63,41],[42,55,68,54,39],[38,47,58,46,35],[39,51,62,51,36],[41,61,74,58,37],[37,46,49,44,34]],
+  peaks:[[1,2],[5,2]],saddle:[3,2],ridge:[[1,2],[2,2],[3,2],[4,2],[5,2]],
+  ans:["القمّتان: R2C3 = 82 م و R6C3 = 74 م.",
+       "السرج: R4C3 = 58 م. خط 50 يحيط بالقمّتين معًا، وخط 60 يفصلهما.",
+       "خط الحافة على العمود 3: R2C3 ← R3C3 (68) ← R4C3 (السرج) ← R5C3 (62) ← R6C3.",
+       "مثال بالقانون: خط 80 بين R2C2 = 66 و R2C3 = 82: ‎(80−66) ÷ (82−66) × 25 = 21.9‎ م من النقطة 66."]}
+];
+function gLines(g,l,PX,PY){
+  var R=g.length,C=g[0].length,segs=[],seen={};
+  function add(p,q){var a=key(p),b=key(q);if(a===b)return;var k=a<b?a+"|"+b:b+"|"+a;if(seen[k])return;seen[k]=1;segs.push([p,q])}
+  for(var r=0;r<R-1;r++)for(var c=0;c<C-1;c++){
+    var a=g[r][c],b=g[r][c+1],d=g[r+1][c+1],e=g[r+1][c];
+    var ia=a>=l,ib=b>=l,id=d>=l,ie=e>=l;
+    var T=ia!==ib?ip(PX(c),PY(r),a,PX(c+1),PY(r),b,l):null;
+    var Rt=ib!==id?ip(PX(c+1),PY(r),b,PX(c+1),PY(r+1),d,l):null;
+    var B=ie!==id?ip(PX(c),PY(r+1),e,PX(c+1),PY(r+1),d,l):null;
+    var L=ia!==ie?ip(PX(c),PY(r),a,PX(c),PY(r+1),e,l):null;
+    var p=[T,Rt,B,L].filter(Boolean);
+    if(p.length===2)add(p[0],p[1]);
+    else if(p.length===4){if(ia!==((a+b+d+e)/4>=l)){add(T,L);add(Rt,B)}else{add(T,Rt);add(B,L)}}
+  }
+  var at={};segs.forEach(function(s,i){[0,1].forEach(function(e){(at[key(s[e])]=at[key(s[e])]||[]).push(i)})});
+  var used=[],out=[];
+  function walk(start){
+    var pts=[start],cur=start;
+    for(;;){
+      var cand=(at[key(cur)]||[]).filter(function(i){return !used[i]});
+      if(!cand.length)break;
+      var i=cand[0];used[i]=1;cur=key(segs[i][0])===key(cur)?segs[i][1]:segs[i][0];pts.push(cur);
+    }
+    var closed=pts.length>3&&key(pts[0])===key(pts[pts.length-1]);
+    if(closed)pts.pop();
+    if(pts.length>1)out.push({pts:pts,closed:closed});
+  }
+  Object.keys(at).forEach(function(k){if(at[k].length===1&&!used[at[k][0]]){var s=segs[at[k][0]];walk(key(s[0])===k?s[0]:s[1])}});
+  segs.forEach(function(s,i){if(!used[i])walk(s[0])});
+  return out;
+}
+var prBox=document.getElementById("prBox");
+PR.forEach(function(P){
+  var R=P.g.length,C=P.g[0].length,SP=46,W=380,L0=(W-(C-1)*SP)/2+10,T0=44;
+  function PX(c){return L0+c*SP} function PY(r){return T0+r*SP}
+  var H=T0+(R-1)*SP+22;
+  var h=document.createElement("h3");h.textContent="Practice Q"+P.n;prBox.appendChild(h);
+  var fig=document.createElement("figure");
+  var svg=el("svg",{viewBox:"0 0 "+W+" "+H,direction:"ltr",role:"img","aria-label":"شبكة ارتفاعات المسألة "+P.n});
+  var r,c;
+  for(r=0;r<R;r++){svg.appendChild(el("line",{x1:PX(0),y1:PY(r),x2:PX(C-1),y2:PY(r),"class":"gl"}));svg.appendChild(el("text",{x:PX(0)-22,y:PY(r)+4,"text-anchor":"middle","class":"rc"},"R"+(r+1)));}
+  for(c=0;c<C;c++){svg.appendChild(el("line",{x1:PX(c),y1:PY(0),x2:PX(c),y2:PY(R-1),"class":"gl"}));svg.appendChild(el("text",{x:PX(c),y:14,"text-anchor":"middle","class":"rc"},"C"+(c+1)));}
+    var sol=el("g",{visibility:"hidden"});svg.appendChild(sol);
+  var tags=[];
+  P.lv.forEach(function(l){
+    gLines(P.g,l,PX,PY).forEach(function(pl){
+      sol.appendChild(el("path",{d:smooth(pl),"class":"ln"}));
+      var p=pl.pts,cand=[],best=null,bs=-1;
+      for(var i=0;i<p.length;i++){cand.push(p[i]);var q=p[i+1]||(pl.closed?p[0]:null);if(q)cand.push([(p[i][0]+q[0])/2,(p[i][1]+q[1])/2]);}
+      cand.forEach(function(pt){
+        var m=1e9;
+        for(var r=0;r<R;r++)for(var c=0;c<C;c++)m=Math.min(m,Math.hypot(pt[0]-PX(c),pt[1]-PY(r)),Math.hypot(pt[0]-PX(c),pt[1]-PY(r)+11));
+        tags.forEach(function(t){m=Math.min(m,Math.hypot(pt[0]-t[0][0],pt[1]-t[0][1])*0.8)});
+        P.peaks.concat([P.saddle]).forEach(function(q){m=Math.min(m,Math.hypot(pt[0]-PX(q[1]),pt[1]-PY(q[0])+5)-14)});
+        if(m>bs){bs=m;best=pt}
+      });
+      if(best&&bs>10)tags.push([best,l]);
+    });
+  });
+  sol.appendChild(el("path",{d:"M"+P.ridge.map(function(q){return PX(q[1])+" "+PY(q[0])}).join("L"),"class":"ridge"}));
+  tags.forEach(function(t){
+    sol.appendChild(el("rect",{x:t[0][0]-8,y:t[0][1]-6,width:16,height:12,rx:3,"class":"ptagbg"}));
+    sol.appendChild(el("text",{x:t[0][0],y:t[0][1]+3.2,"text-anchor":"middle","class":"ptag"},t[1]));
+  });
+  P.peaks.forEach(function(q){sol.appendChild(el("circle",{cx:PX(q[1]),cy:PY(q[0])-5,r:15,"class":"rpeak"}))});
+  sol.appendChild(el("circle",{cx:PX(P.saddle[1]),cy:PY(P.saddle[0])-(P.saddle[0]%1?0:5),r:P.saddle[0]%1?10:15,"class":"rsad"}));
+  for(r=0;r<R;r++)for(c=0;c<C;c++){
+    svg.appendChild(el("circle",{cx:PX(c),cy:PY(r),r:2.6,"class":"pn"}));
+    svg.appendChild(el("text",{x:PX(c),y:PY(r)-7,"text-anchor":"middle","class":"pv"},P.g[r][c]));
+  }
+  fig.appendChild(svg);
+  var cap=document.createElement("figcaption");cap.textContent="المسافة بين النقاط "+P.sp+" م في الاتجاهين. الارتفاعات بالمتر.";fig.appendChild(cap);
+  var keyEl=document.createElement("div");keyEl.className="key";keyEl.hidden=true;
+  keyEl.innerHTML='<span><i style="color:var(--good)"></i>قمة</span><span><i style="color:var(--mark)"></i>سرج</span><span><i style="color:var(--water);border-style:dotted"></i>خط الحافة</span>';
+  fig.appendChild(keyEl);
+  prBox.appendChild(fig);
+  var qa=document.createElement("p");qa.innerHTML="<b>أ)</b> ارسم خطوط الكنتور للارتفاعات "+P.lv.join("، ")+" م.";prBox.appendChild(qa);
+  var qb=document.createElement("p");qb.innerHTML="<b>ب)</b> حدّد من خريطتك: القمّتين وموقعهما، نقطة السرج وارتفاعها التقريبي، وخط الحافة الذي يصل القمّتين.";prBox.appendChild(qb);
+  var box=document.createElement("div");box.className="chips";box.style.justifyContent="flex-start";
+  var b=document.createElement("button");b.type="button";b.id="pr"+P.n+"show";b.textContent="أظهر الحل";b.setAttribute("aria-pressed","false");box.appendChild(b);prBox.appendChild(box);
+  var ul=document.createElement("ul");ul.className="ans";ul.hidden=true;
+  P.ans.forEach(function(t){var li=document.createElement("li");li.textContent=t;ul.appendChild(li)});
+  prBox.appendChild(ul);
+  b.addEventListener("click",function(){
+    var on=b.getAttribute("aria-pressed")!=="true";
+    b.setAttribute("aria-pressed",String(on));b.textContent=on?"أخفِ الحل":"أظهر الحل";
+    sol.setAttribute("visibility",on?"visible":"hidden");ul.hidden=!on;keyEl.hidden=!on;
+  });
+});
+
+/* ---------- past-exam collection ---------- */
+function num(s){
+  s=String(s).trim().replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d)}).replace(/[٫,،]/g,".").replace(/[−–]/g,"-");
+  return s===""||isNaN(+s)?null:+s;
+}
+function ri(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function f2(x){return (Math.round(x*100)/100).toFixed(2)}
+var tjBox=document.getElementById("tjBox");
+function tjQuestion(id,title,make){
+  var h=document.createElement("h3");h.textContent=title;tjBox.appendChild(h);
+  var body=document.createElement("div");body.style.cssText="display:flex;flex-direction:column;gap:12px";tjBox.appendChild(body);
+  function render(fresh){
+    var Q=make(fresh);body.textContent="";
+    var p=document.createElement("p");p.innerHTML=Q.text;body.appendChild(p);
+    if(Q.fig){var fig=document.createElement("figure");fig.appendChild(Q.fig);if(Q.cap){var c=document.createElement("figcaption");c.textContent=Q.cap;fig.appendChild(c)}body.appendChild(fig);}
+    if(Q.extra)body.appendChild(Q.extra);
+    var form=document.createElement("form");form.noValidate=true;
+    var grid=document.createElement("div");grid.className="fields";form.appendChild(grid);
+    var rows=Q.fields.map(function(F,i){
+      var w=document.createElement("div");w.className="fld";
+      var l=document.createElement("label");l.htmlFor=id+"f"+i;l.textContent=F.label;
+      var inp=document.createElement("input");inp.type="text";inp.inputMode="decimal";inp.id=id+"f"+i;inp.autocomplete="off";inp.placeholder=F.ph||"";
+      var sm=document.createElement("small");sm.setAttribute("role","status");
+      inp.addEventListener("input",function(){inp.className="";sm.textContent="";sm.className=""});
+      w.appendChild(l);w.appendChild(inp);w.appendChild(sm);grid.appendChild(w);
+      return {F:F,inp:inp,sm:sm};
+    });
+    var bar=document.createElement("div");bar.className="chips";bar.style.justifyContent="flex-start";
+    function btn(t,bid,type){var b=document.createElement("button");b.type=type||"button";b.id=id+bid;b.textContent=t;bar.appendChild(b);return b}
+    var bc=btn("تحقّق","check","submit"),bs=btn("أظهر الحل","show"),bn=btn("أرقام جديدة","new");
+    if(fresh){var bo=btn("ارجع لسؤال التجميع","orig");bo.addEventListener("click",function(){render(false)});}
+    bc.setAttribute("aria-pressed","true");
+    form.appendChild(bar);body.appendChild(form);
+    var st=document.createElement("div");st.className="steps";st.hidden=true;
+    Q.steps.forEach(function(t){var d=document.createElement("div");if(t.charAt(0)==="$"){d.className="m";d.textContent=t.slice(1)}else d.textContent=t;st.appendChild(d)});
+    body.appendChild(st);
+    form.addEventListener("submit",function(e){
+      e.preventDefault();
+      rows.forEach(function(r){
+        var v=num(r.inp.value);
+        if(r.inp.value.trim()===""){r.inp.className="bad";r.sm.className="bad";r.sm.textContent="اكتب إجابتك أولًا";return}
+        if(v===null){r.inp.className="bad";r.sm.className="bad";r.sm.textContent="اكتب رقمًا فقط";return}
+        var ok=Math.abs(v-r.F.ans)<=r.F.tol+1e-9||(r.F.abs&&Math.abs(Math.abs(v)-Math.abs(r.F.ans))<=r.F.tol+1e-9);
+        r.inp.className=ok?"good":"bad";r.sm.className=ok?"good":"bad";r.sm.textContent=ok?"صحيح":"غير صحيح، حاول مرة ثانية";
+      });
+    });
+    bs.addEventListener("click",function(){st.hidden=!st.hidden;bs.textContent=st.hidden?"أظهر الحل":"أخفِ الحل"});
+    bn.addEventListener("click",function(){render(true)});
+  }
+  render(false);
+}
+
+/* Q1: level loop adjustment */
+tjQuestion("lp","السؤال 1: تصحيح حلقة التسوية (Level loop)",function(fresh){
+  var d=[3,4,3,5],raw=[195.0,205.6,209.8,204.7,195.5],tru=195.0;
+  if(fresh){
+    d=[ri(2,6),ri(2,6),ri(2,6),ri(2,6)];tru=ri(120,320);
+    var mis0=(ri(2,6)/10)*(Math.random()<0.5?-1:1);
+    raw=[tru,tru+ri(40,120)/10,0,0,Math.round((tru+mis0)*10)/10];raw[2]=Math.round((raw[1]+ri(20,60)/10)*10)/10;raw[3]=Math.round((raw[2]-ri(30,70)/10)*10)/10;
+  }
+  var tot=d[0]+d[1]+d[2]+d[3],mis=Math.round((raw[4]-tru)*10)/10,cum=[d[0],d[0]+d[1],d[0]+d[1]+d[2],tot];
+  var cor=cum.map(function(c){return -mis*c/tot}),adj=cor.map(function(c,i){return raw[i+1]+c});
+  var svg=el("svg",{viewBox:"0 0 380 170",direction:"ltr",role:"img","aria-label":"مخطط الحلقة: أربع نقاط BM والمسافات بينها"});
+  var P=[[40,85],[190,145],[340,85],[190,25]],nm=["BM1","BM2","BM3","BM4"];
+  for(var i=0;i<4;i++){
+    var a=P[i],b=P[(i+1)%4];
+    svg.appendChild(el("line",{x1:a[0],y1:a[1],x2:b[0],y2:b[1],"class":"lp"}));
+    var mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+    svg.appendChild(el("text",{x:mx+(i===0||i===3?-22:22),y:my+(i<2?16:-8),"text-anchor":"middle","class":"lps"},d[i]+" mi"));
+  }
+  P.forEach(function(p,i){
+    svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:5,"class":"lpd"}));
+    svg.appendChild(el("text",{x:p[0]+(i===0?-4:i===2?4:0),y:p[1]+(i===1?20:i===3?-10:-12),"text-anchor":i===0?"start":i===2?"end":"middle","class":"lpt"},nm[i]));
+  });
+  var tb=document.createElement("table");tb.className="dat";
+  tb.innerHTML="<thead><tr><th>Station</th><th>Raw Elevation [ft]</th></tr></thead><tbody>"+["BM1","BM2","BM3","BM4","BM1"].map(function(n,i){return "<tr><td>"+n+"</td><td>"+raw[i].toFixed(1)+"</td></tr>"}).join("")+"</tbody>";
+  return {
+    text:"حلقة تسوية تبدأ من BM1 وترجع إليه، والمسار: BM1 ← BM2 ← BM3 ← BM4 ← BM1. الارتفاع الحقيقي لـ BM1 هو <b dir=\"ltr\">"+tru.toFixed(2)+" ft</b>. صحّح ارتفاع كل محطة.",
+    fig:svg,cap:"المسافات بالميل، والمسار باتجاه BM1 ثم BM2 ثم BM3 ثم BM4",extra:tb,
+    fields:[
+      {label:"خطأ الإقفال (ft)",ans:mis,tol:0.005,abs:true},
+      {label:"BM2 بعد التصحيح (ft)",ans:adj[0],tol:0.05},
+      {label:"BM3 بعد التصحيح (ft)",ans:adj[1],tol:0.05},
+      {label:"BM4 بعد التصحيح (ft)",ans:adj[2],tol:0.05}],
+    steps:[
+      "1) خطأ الإقفال = آخر قراءة لـ BM1 ناقص الارتفاع الحقيقي:",
+      "$Error = "+raw[4].toFixed(1)+" − "+tru.toFixed(1)+" = "+(mis>0?"+":"")+mis.toFixed(1)+" ft",
+      "2) مجموع المسافات:",
+      "$Total = "+d.join(" + ")+" = "+tot+" mi",
+      "3) تصحيح كل محطة = −الخطأ × (المسافة التراكمية ÷ المجموع):",
+      "$BM2: "+f2(-mis)+" × "+cum[0]+"/"+tot+" = "+f2(cor[0])+"  →  "+raw[1].toFixed(1)+" "+(cor[0]<0?"−":"+")+" "+f2(Math.abs(cor[0]))+" = "+f2(adj[0])+" ft",
+      "$BM3: "+f2(-mis)+" × "+cum[1]+"/"+tot+" = "+f2(cor[1])+"  →  "+raw[2].toFixed(1)+" "+(cor[1]<0?"−":"+")+" "+f2(Math.abs(cor[1]))+" = "+f2(adj[1])+" ft",
+      "$BM4: "+f2(-mis)+" × "+cum[2]+"/"+tot+" = "+f2(cor[2])+"  →  "+raw[3].toFixed(1)+" "+(cor[2]<0?"−":"+")+" "+f2(Math.abs(cor[2]))+" = "+f2(adj[2])+" ft",
+      "$BM1: "+f2(-mis)+" × "+tot+"/"+tot+" = "+f2(cor[3])+"  →  "+f2(raw[4]+cor[3])+" ft",
+      "التحقق: BM1 يرجع إلى ارتفاعه الحقيقي."]
+  };
+});
+
+/* Q2: tape temperature correction */
+tjQuestion("tp","السؤال 2: تصحيح الشريط للحرارة (Steel tape)",function(fresh){
+  var L=350,T=47,Ts=22;
+  if(fresh){L=ri(10,60)*10;Ts=ri(18,25);T=Ts+(Math.random()<0.3?-ri(5,15):ri(8,30));}
+  var Ct=L*1.15e-5*(T-Ts);
+  var fm=document.createElement("div");fm.className="formula";fm.textContent="Ct = L × α × (T − Ts)   ,   α = 1.15 × 10⁻⁵ per °C";
+  return {
+    text:"احسب تصحيح الحرارة لشريط فولاذي قيست به مسافة <b dir=\"ltr\">"+L+" ft</b> عندما كانت حرارة الجو <b dir=\"ltr\">"+T+" °C</b> والحرارة القياسية للشريط <b dir=\"ltr\">"+Ts+" °C</b>.",
+    extra:fm,
+    fields:[{label:"التصحيح Ct (ft)",ans:Ct,tol:0.006},{label:"المسافة بعد التصحيح (ft)",ans:L+Ct,tol:0.011}],
+    steps:[
+      "1) عوّض في القانون:",
+      "$Ct = "+L+" × 1.15×10⁻⁵ × ("+T+" − "+Ts+")",
+      "$Ct = "+L+" × 1.15×10⁻⁵ × "+(T-Ts)+" = "+Ct.toFixed(4)+" ≈ "+(Ct>0?"+":"")+f2(Ct)+" ft",
+      "2) المسافة المصحّحة = المسافة + التصحيح:",
+      "$"+L+" "+(Ct<0?"−":"+")+" "+f2(Math.abs(Ct))+" = "+f2(L+Ct)+" ft",
+      Ct>0?"الحرارة أعلى من القياسية، فالشريط تمدّد والتصحيح موجب.":"الحرارة أقل من القياسية، فالشريط انكمش والتصحيح سالب."]
+  };
+});
+
+/* Q3: rod readings */
+tjQuestion("rd","السؤال 3: قراءة القامة (Rod readings)",function(fresh){
+  var v=[1.085,1.005,0.97,0.94,0.90],tol=0.011;
+  if(fresh){
+    var set={};while(Object.keys(set).length<5)set[ri(78,113)]=1;
+    v=Object.keys(set).map(Number).sort(function(a,b){return b-a}).map(function(h){return h/100});tol=0.005;
+  }
+  var lo=0.75,svg=el("svg",{viewBox:"0 0 300 400",direction:"ltr",role:"img","aria-label":"قامة مدرّجة بالقدم وعليها خمسة مؤشرات"});
+  function y(x){return 380-(x-lo)*900}
+  svg.appendChild(el("rect",{x:70,y:12,width:110,height:376,"class":"rodbody"}));
+  for(var h=76;h<=114;h+=2){
+    var t=h%10===0;
+    svg.appendChild(el("rect",{x:t?84:104,y:y((h+1)/100),width:t?82:42,height:9,"class":"rodbar"}));
+    if(t)svg.appendChild(el("text",{x:62,y:y(h/100)+5,"text-anchor":"end","class":"rodnum"},(h/100).toFixed(1)));
+  }
+  ["I","II","III","IV","V"].forEach(function(n,i){
+    svg.appendChild(el("line",{x1:150,y1:y(v[i]),x2:232,y2:y(v[i]),"class":"ptr"}));
+    svg.appendChild(el("text",{x:238,y:y(v[i])+5,"class":"ptrl"},n));
+  });
+  var ans=v.map(function(x){return fresh?x.toFixed(2):(Math.abs(x*100-Math.round(x*100))>0.3?f2(x-0.005)+" / "+f2(x+0.005):x.toFixed(2))});
+  return {
+    text:"اقرأ القامة عند كل مؤشر لأقرب <b dir=\"ltr\">0.01 ft</b>."+(fresh?"":" مواضع المؤشرات هنا منقولة من صورة التجميع."),
+    fig:svg,cap:"كل شريط أسود 0.01 قدم وكل فراغ أبيض 0.01 قدم. الرقم مكتوب عند بداية كل عُشر.",
+    fields:["I","II","III","IV","V"].map(function(n,i){return {label:"القراءة "+n+" (ft)",ans:v[i],tol:tol}}),
+    steps:["ابدأ من أقرب رقم مكتوب تحت المؤشر، ثم عُدّ الأشرطة: كل حافة شريط تزيد 0.01.",
+      "$I = "+ans[0],"$II = "+ans[1],"$III = "+ans[2],"$IV = "+ans[3],"$V = "+ans[4]]
+      .concat(fresh?[]:["المؤشران I و II في الصورة يقعان في منتصف الشريط، فتُقبل أي من القراءتين."])
+  };
+});
+
+/* ---------- tabs ---------- */
+var TABS=["contour","tajmiat"];
+function showTab(name){
+  TABS.forEach(function(t){
+    var on=t===name;
+    document.getElementById("panel-"+t).hidden=!on;
+    document.getElementById("tabbtn-"+t).setAttribute("aria-selected",String(on));
+  });
+  try{localStorage.setItem("contourTab",name)}catch(e){}
+}
+function tabOf(node){for(var i=0;i<TABS.length;i++)if(document.getElementById("panel-"+TABS[i]).contains(node))return TABS[i];return null}
+TABS.forEach(function(t){document.getElementById("tabbtn-"+t).addEventListener("click",function(){showTab(t)})});
+document.addEventListener("click",function(e){
+  var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
+  var target=document.getElementById(a.getAttribute("href").slice(1));if(!target)return;
+  e.preventDefault();var t=tabOf(target);if(t)showTab(t);
+  target.scrollIntoView({behavior:"smooth",block:"start"});
+});
+(function(){
+  var h=(location.hash||"").slice(1),target=h&&document.getElementById(h),t=target&&tabOf(target),saved=null;
+  try{saved=localStorage.getItem("contourTab")}catch(e){}
+  if(t)showTab(t);else if(saved&&TABS.indexOf(saved)>=0)showTab(saved);
+})();
+})();
+</script>
+
+</body></html>
