@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CEEMohammed</title>
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="description" content="CEEMohammed — تدريب مواد الهندسة المدنية: ستاتيك و GPS الكنتور.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -62,6 +63,7 @@ iframe{display:block;width:100%;height:100%;border:0}
 
 <script>
 (function(){
+  var V="5";
   var PAGES={home:{src:"home.html",name:"الرئيسية"},statics:{src:"statics.html",name:"ستاتيك"},contour:{src:"contour.html",name:"GPS الكنتور"}};
   var btn=document.getElementById("menuBtn"),menu=document.getElementById("menu"),scrim=document.getElementById("scrim"),
       view=document.getElementById("view"),cur=document.getElementById("current"),links=menu.querySelectorAll("a");
@@ -70,7 +72,8 @@ iframe{display:block;width:100%;height:100%;border:0}
     var key=location.hash.slice(1);
     if(!PAGES[key])key="home";
     var p=PAGES[key];
-    if(view.getAttribute("src")!==p.src)view.setAttribute("src",p.src);
+    var src=p.src+"?v="+V;
+    if(view.getAttribute("src")!==src)view.setAttribute("src",src);
     cur.textContent=p.name;
     document.title=key==="home"?"CEEMohammed":p.name+" — CEEMohammed";
     links.forEach(function(a){if(a.dataset.page===key)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
