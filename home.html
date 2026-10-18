@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CEEMohammed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --hero-a:#1A0F33; --hero-b:#3D1F6E; --hero-c:#6B2D7A;
+  --coral:#FF7A59; --gold:#FFC857; --mint:#6EE7C8;
+  --bg:#120B22; --card:#1C1333; --card2:#241A40; --ink:#F3EEFF; --soft:#B7A9D6; --rule:#33264F;
+  --sans:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.8;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:960px;margin-inline:auto;padding-inline:20px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(140deg,var(--hero-a),var(--hero-b) 55%,var(--hero-c));padding-block:64px 72px;isolation:isolate}
+.hero .lines{position:absolute;inset:0;width:100%;height:100%;z-index:-1;opacity:.5}
+.hero .lines path{fill:none;stroke:var(--gold);stroke-width:1.2;stroke-opacity:.35;stroke-dasharray:6 10;animation:flow 30s linear infinite}
+.hero .lines path:nth-child(even){stroke:var(--coral);animation-duration:42s;animation-direction:reverse}
+@keyframes flow{to{stroke-dashoffset:-800}}
+.glow{position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,89,.35),transparent 65%);z-index:-1;pointer-events:none;transform:translate(-50%,-50%);left:var(--mx,70%);top:var(--my,30%);transition:left .4s ease-out,top .4s ease-out}
+.eyebrow{margin:0 0 14px;font:500 13px/1.6 var(--mono);letter-spacing:.28em;color:var(--soft);direction:ltr;text-align:right}
+h1{margin:0;font:700 clamp(40px,11vw,76px)/1.1 var(--mono);direction:ltr;text-align:right;letter-spacing:-.01em}
+h1 .c{background:linear-gradient(90deg,var(--gold),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+.typed{margin:18px 0 0;font-size:clamp(19px,4.6vw,24px);font-weight:500;min-height:1.8em}
+.typed .cur{display:inline-block;width:2px;height:1.1em;background:var(--coral);vertical-align:-.15em;margin-inline-start:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.sub{margin:10px 0 0;color:var(--soft);font-weight:300;font-size:18px;max-width:560px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;font-weight:600;text-decoration:none;font-size:16px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn.main{background:var(--coral);color:#1A0F33;box-shadow:0 8px 24px rgba(255,122,89,.35)}
+.btn.main:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,122,89,.5)}
+.btn.ghost{border:1.5px solid rgba(255,255,255,.3)}
+.btn.ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.float{position:absolute;font:600 15px var(--mono);color:var(--gold);opacity:.55;direction:ltr;z-index:-1;animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-14px) rotate(4deg)}}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:-34px;position:relative}
+.stat{background:var(--card2);border:1px solid var(--rule);border-radius:18px;padding:16px 12px;text-align:center;box-shadow:0 14px 30px rgba(0,0,0,.3)}
+.stat b{display:block;font:600 clamp(26px,7vw,36px)/1.2 var(--mono);color:var(--gold)}
+.stat span{font-size:14px;color:var(--soft)}
+
+/* ---------- subjects ---------- */
+h2{margin:56px 0 18px;font-size:26px;font-weight:700;display:flex;align-items:center;gap:12px}
+h2::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--coral);transform:rotate(45deg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.subj{position:relative;display:block;text-decoration:none;background:var(--card);border:1px solid var(--rule);border-radius:22px;padding:24px;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;transform-style:preserve-3d}
+.subj:hover{border-color:var(--accent);box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.subj::after{content:"";position:absolute;inset:auto -40px -60px auto;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,var(--accent),transparent 70%);opacity:.18;transition:opacity .3s,transform .4s}
+.subj:hover::after{opacity:.35;transform:scale(1.25)}
+.subj.s1{--accent:var(--coral)}
+.subj.s2{--accent:var(--mint)}
+.icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 16%,transparent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);margin-bottom:16px}
+.icon svg{width:38px;height:38px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.subj .code{font:500 13px var(--mono);color:var(--soft);letter-spacing:.12em;direction:ltr;text-align:right}
+.subj h3{margin:4px 0 6px;font-size:24px}
+.subj p{margin:0;color:var(--soft);font-size:16px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tags span{font-size:13px;padding:3px 12px;border-radius:999px;border:1px solid var(--rule);color:var(--ink)}
+.go{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-weight:600;color:var(--accent)}
+.go svg{width:18px;height:18px;transition:transform .25s}
+.subj:hover .go svg{transform:translateX(-6px)}
+.icon .spin{transform-origin:20px 20px;animation:turn 9s linear infinite}
+@keyframes turn{to{transform:rotate(360deg)}}
+
+/* ---------- tips ---------- */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.tip{background:var(--card);border:1px solid var(--rule);border-inline-start:4px solid var(--gold);border-radius:16px;padding:16px 18px;font-size:16px}
+.tip b{color:var(--gold)}
+
+/* ---------- footer ---------- */
+footer{margin-top:64px;border-top:1px solid var(--rule);background:linear-gradient(180deg,var(--bg),#0C0718);padding-block:36px 44px;text-align:center}
+footer .by{margin:0;font-size:18px}
+footer .by b{background:linear-gradient(90deg,var(--gold),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tg{display:inline-flex;align-items:center;gap:12px;margin-top:16px;padding:10px 20px 10px 14px;border-radius:999px;background:var(--card2);border:1px solid var(--rule);text-decoration:none;transition:transform .2s,border-color .2s}
+.tg:hover{transform:translateY(-3px);border-color:#29A9EB}
+.tg svg{width:38px;height:38px;flex:none;animation:pulse 2.4s ease-in-out infinite;border-radius:50%}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(41,169,235,.5)}60%{box-shadow:0 0 0 12px rgba(41,169,235,0)}}
+.tg small{display:block;font:500 14px var(--mono);color:var(--soft);direction:ltr}
+.tg b{display:block;font-size:16px}
+footer .yr{margin-top:18px;font:400 13px var(--mono);color:var(--soft);direction:ltr}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+@media (max-width:720px){.float{display:none}}
+@media (max-width:520px){.hero{padding-block:48px 64px}.stat{padding:12px 6px}.stat span{font-size:12px}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="hero">
+  <svg class="lines" viewBox="0 0 800 400" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M-20 320C120 260 220 340 360 290S600 200 820 250"/>
+    <path d="M-20 270C140 210 240 290 380 240S620 150 820 200"/>
+    <path d="M-20 220C150 160 260 240 400 190S640 100 820 150"/>
+    <path d="M-20 170C160 110 280 190 420 140S660 50 820 100"/>
+    <path d="M-20 120C170 60 300 140 440 90S680 0 820 50"/>
+    <path d="M-20 370C110 310 200 390 340 340S580 250 820 300"/>
+  </svg>
+  <div class="glow" id="glow"></div>
+  <span class="float" style="top:18%;left:8%">ΣF = 0</span>
+  <span class="float" style="top:62%;left:16%;animation-delay:-2s">M = F·d</span>
+  <span class="float" style="top:30%;left:38%;animation-delay:-4s;color:var(--mint)">h = 25 m</span>
+  <div class="wrap">
+    <p class="eyebrow rv">CIVIL &amp; ENVIRONMENTAL ENGINEERING</p>
+    <h1 class="rv"><span class="c">CEE</span>Mohammed</h1>
+    <p class="typed rv"><span id="typed"></span><span class="cur"></span></p>
+    <p class="sub rv">تدريب على مواد الهندسة المدنية: حل الأسئلة بنفسك، اكتب جوابك، وتأكد منه على طول.</p>
+    <div class="cta rv">
+      <a class="btn main" href="./#statics" target="_top" data-go="statics">ابدأ بالستاتيك</a>
+      <a class="btn ghost" href="#subjects">شوف المواد</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat rv"><b data-n="2">0</b><span>مواد</span></div>
+    <div class="stat rv"><b data-n="25">0</b><span>سؤال ستاتيك</span></div>
+    <div class="stat rv"><b data-n="100" data-s="%">0</b><span>مجاني</span></div>
+  </div>
+
+  <h2 id="subjects" class="rv">اختر المادة</h2>
+  <div class="grid">
+    <a class="subj s1 rv" href="./#statics" target="_top" data-go="statics">
+      <div class="icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 32h28"/><path d="M20 32V12"/><path d="M20 12l-9 9M20 12l9 9"/><circle cx="20" cy="12" r="3"/></svg></div>
+      <div class="code">ENGINEERING MECHANICS</div>
+      <h3>ستاتيك</h3>
+      <p>نفس أسئلة الكتاب بأرقام جديدة كل مرة، مع حاسبة ومسودة.</p>
+      <div class="tags"><span>متجهات القوى</span><span>اتزان الجسيم</span><span>المحصلات</span></div>
+      <span class="go">افتح المادة <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+    </a>
+    <a class="subj s2 rv" href="./#contour" target="_top" data-go="contour">
+      <div class="icon"><svg viewBox="0 0 40 40" aria-hidden="true"><g class="spin"><ellipse cx="20" cy="20" rx="15" ry="11"/><ellipse cx="20" cy="20" rx="9" ry="6.5"/><ellipse cx="20" cy="20" rx="3.5" ry="2.5"/></g></svg></div>
+      <div class="code">CEE 272 · SURVEYING &amp; GPS</div>
+      <h3>GPS الكنتور</h3>
+      <p>شرح خطوط الكنتور خطوة بخطوة، مسائل الدليل، وتجميعات الميد.</p>
+      <div class="tags"><span>خطوط الكنتور</span><span>مسائل الدليل</span><span>تجميعات</span></div>
+      <span class="go">افتح المادة <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+    </a>
+  </div>
+
+  <h2 class="rv">كيف تذاكر هنا؟</h2>
+  <div class="tips">
+    <div class="tip rv"><b>١.</b> اختر المادة من القائمة ☰ فوق.</div>
+    <div class="tip rv"><b>٢.</b> حل السؤال بالورقة، واكتب جوابك.</div>
+    <div class="tip rv"><b>٣.</b> اضغط «تحقق» وشوف الحل لو غلطت.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="by rv">صُنع بواسطة <b>محمد الشواف</b></p>
+    <a class="tg rv" href="https://t.me/EngMohamedC" target="_blank" rel="noopener">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="#29A9EB"/><path d="M14.5 31.2l30.6-11.8c1.4-.5 2.7.3 2.2 2.5l-5.2 24.5c-.4 1.7-1.4 2.2-2.9 1.4l-8-5.9-3.9 3.7c-.4.4-.8.8-1.6.8l.6-8.1 14.8-13.4c.6-.6-.1-.9-1-.3L21.8 38.7l-7.9-2.5c-1.7-.5-1.7-1.7.6-2.6z" fill="#fff"/></svg>
+      <span><b>قناتي في تليقرام</b><small>@EngMohamedC</small></span>
+    </a>
+    <div class="yr">© <span id="yr"></span> CEEMohammed</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var still=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById("yr").textContent=new Date().getFullYear();
+
+  // open a subject inside the main page without reloading it
+  document.querySelectorAll("[data-go]").forEach(function(a){
+    a.addEventListener("click",function(e){
+      try{if(window.top!==window){e.preventDefault();window.top.location.hash=a.dataset.go}}catch(err){}
+    });
+  });
+
+  // typing line
+  var lines=["ذاكر ستاتيك بأرقام جديدة كل مرة","افهم خطوط الكنتور خطوة بخطوة","حل، تحقق، وتعلّم من غلطك"],
+      el=document.getElementById("typed"),li=0,ci=0,del=false;
+  if(still){el.textContent=lines[0]}else{(function tick(){
+    var t=lines[li];
+    if(!del){ci++;if(ci>t.length){del=true;return setTimeout(tick,1800)}}
+    else{ci--;if(ci===0){del=false;li=(li+1)%lines.length}}
+    el.textContent=t.slice(0,ci);
+    setTimeout(tick,del?35:70);
+  })()}
+
+  // count up
+  function count(b){
+    var n=+b.dataset.n,s=b.dataset.s||"",t0=null;
+    if(still){b.textContent=n+s;return}
+    requestAnimationFrame(function step(t){
+      if(!t0)t0=t;var p=Math.min((t-t0)/1200,1);
+      b.textContent=Math.round(n*(1-Math.pow(1-p,3)))+s;
+      if(p<1)requestAnimationFrame(step);
+    });
+  }
+
+  // reveal on scroll
+  var items=document.querySelectorAll(".rv");
+  if(!("IntersectionObserver" in window)||still){
+    items.forEach(function(x){x.classList.add("in")});
+    document.querySelectorAll("[data-n]").forEach(count);
+  }else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var t=e.target;t.classList.add("in");
+      t.addEventListener("transitionend",function done(ev){
+        if(ev.propertyName!=="opacity")return;
+        t.removeEventListener("transitionend",done);t.classList.remove("rv","in");t.style.transitionDelay="";
+      });
+      var b=t.querySelector("[data-n]");if(b)count(b);
+      io.unobserve(t);
+    })},{threshold:.15});
+    items.forEach(function(x,i){x.style.transitionDelay=(i%4)*80+"ms";io.observe(x)});
+  }
+
+  if(still)return;
+  // glow follows the pointer in the hero
+  var hero=document.getElementById("hero"),glow=document.getElementById("glow");
+  hero.addEventListener("pointermove",function(e){
+    var r=hero.getBoundingClientRect();
+    glow.style.setProperty("--mx",(e.clientX-r.left)+"px");
+    glow.style.setProperty("--my",(e.clientY-r.top)+"px");
+  });
+
+  // tilt cards
+  document.querySelectorAll(".subj").forEach(function(c){
+    c.addEventListener("pointermove",function(e){
+      if(e.pointerType!=="mouse")return;
+      var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      c.style.transform="perspective(800px) rotateY("+(x*8)+"deg) rotateX("+(-y*8)+"deg) translateY(-4px)";
+    });
+    c.addEventListener("pointerleave",function(){c.style.transform=""});
+  });
+})();
+</script>
+</body>
+</html>
