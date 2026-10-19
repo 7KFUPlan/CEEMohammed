@@ -469,6 +469,7 @@ body.tools-open .tools{transform:none}
 .notes{flex:1;min-height:200px;width:100%;resize:none;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);
   font:inherit;font-size:15px;line-height:1.7;padding:10px 12px}
 .notes:focus-visible{outline:2px solid var(--blue2)}
+.opennb{display:block;text-align:center;padding:10px;border-radius:10px;background:var(--tint);color:var(--blue);font-weight:700;text-decoration:none}
 </style>
 <button class="fab" id="fab" aria-controls="tools" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 12h1.5M12 12h1.5M16 12h0M8 16h1.5M12 16h1.5M16 16v0"/></svg>الحاسبة والمسودة</button>
 <aside class="tools" id="tools" aria-label="الأدوات">
@@ -508,6 +509,7 @@ body.tools-open .tools{transform:none}
   </section>
   <section class="pane" id="p-notes" hidden>
     <textarea class="notes" id="notes" placeholder="اكتب ملاحظاتك هنا… تنحفظ تلقائياً على جهازك."></textarea>
+    <a class="opennb" href="./#notes" target="_top" id="openNb">افتح النوت الكامل (قلم، هايلايتر، صفحات) ←</a>
   </section>
 </aside>
 <script>
@@ -600,6 +602,7 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',redraw);
 /* ---------- notes ---------- */
 const notes=document.getElementById('notes');notes.value=ls.get('drill-notes')||'';
 notes.addEventListener('input',()=>ls.set('drill-notes',notes.value));
+document.getElementById('openNb').addEventListener('click',e=>{try{if(window.top!==window){e.preventDefault();window.top.location.hash='notes'}}catch(err){}});
 if(matchMedia('(min-width:1180px)').matches)openT(true);
 })();
 </script>

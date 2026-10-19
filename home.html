@@ -70,6 +70,8 @@ h2::before{content:"";width:12px;height:12px;background:var(--red)}
 .subj:hover::after{opacity:.22;transform:scale(1.25)}
 .subj.s1{--accent:var(--red)}
 .subj.s2{--accent:var(--blue)}
+.subj.s3{--accent:var(--gold);margin-top:18px}
+.subj.s3 .icon svg{stroke:#9A6B0E}
 .icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 16%,transparent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);margin-bottom:16px}
 .icon svg{width:38px;height:38px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .subj .code{font:500 13px var(--mono);color:var(--soft);letter-spacing:.12em;direction:ltr;text-align:right}
@@ -166,6 +168,14 @@ footer .yr{margin-top:18px;font:400 13px var(--mono);color:#8E897F;direction:ltr
       <span class="go">افتح المادة <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
     </a>
   </div>
+
+  <a class="subj s3 rv tool" href="./#notes" target="_top" data-go="notes">
+      <div class="icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 32l2-7L27 8a3 3 0 0 1 4 0l1 1a3 3 0 0 1 0 4L15 30z"/><path d="M24 11l5 5"/></svg></div>
+      <div class="code">NOTEBOOK</div>
+      <h3>النوت</h3>
+      <p>دفتر كامل: قلم، هايلايتر، ممحاة، أشكال وأسهم، نص وصور. يدعم قلم الآيباد، وينحفظ على جهازك.</p>
+      <span class="go">افتح النوت <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+    </a>
 
   <h2 class="rv">كيف تذاكر هنا؟</h2>
   <div class="tips">
