@@ -122,7 +122,7 @@ footer .cr{font-weight:700;color:var(--ink);direction:ltr}
 
 <div class="wrap"><div class="rules">
   <div class="rule"><b>الأرقام تتغير بالرسمة نفسها</b> والزوايا ثابتة مثل الكتاب. زر «السؤال الأصلي» يرجعك لأرقام الكتاب.</div>
-  <div class="rule"><b>الزاوية θ</b> تنقاس من محور ‎+x‎ عكس عقارب الساعة (0° – 360°).</div>
+  <div class="rule"><b>الزاوية θ</b> تنقاس من نفس المحور اللي في الكتاب، ومكتوب المحور جنب الخانة (مثلًا ‎from −x‎).</div>
   <div class="rule"><b>العزم في 2D:</b> عكس عقارب الساعة ↺ موجب، ومع عقارب الساعة ↻ سالب.</div>
   <div class="rule"><b>يقبل الجواب</b> إذا كان قريب بحدود ‎2%‎ (أو ‎0.5°‎ للزوايا). انتبه للإشارة.</div>
 </div></div>
@@ -173,7 +173,7 @@ const P=[
  g:p=>[`F₁ = ${p.F1} N at ${p.t}° from +y (toward −x)`,`F₂ = ${p.F2} N, slope 12 (→) : 5 (↓) : 13`],
  s:p=>[A('F1x','N',-p.F1*sn(p.t)),A('F1y','N',p.F1*cs(p.t)),A('F2x','N',p.F2*12/13),A('F2y','N',-p.F2*5/13)]},
 {id:'2.6',ch:2,ar:'المحصلة بطريقة المركبات',en:'Resultant by components',
- gen:()=>({F1:rnd(400,800,25),a:30,F2:rnd(250,500,25),b:45}),
+ gen:()=>{let p;do{p={F1:rnd(400,800,25),a:30,F2:rnd(250,500,25),b:45}}while(p.F1*cs(p.a)-p.F2*sn(p.b)<20);return p},
  q:p=>`The link is subjected to two forces F<sub>1</sub> and F<sub>2</sub>. Determine the magnitude and direction of the resultant force.`,
  g:p=>[`F₁ = ${p.F1} N at ${p.a}° above +x`,`F₂ = ${p.F2} N at ${p.b}° from +y (toward −x)`],
  s:p=>{const x=p.F1*cs(p.a)-p.F2*sn(p.b),y=p.F1*sn(p.a)+p.F2*cs(p.b);return [A('F_R','N',Math.hypot(x,y)),A('θ (from +x, CCW)','°',ang360(x,y),ANG)]}},
@@ -181,7 +181,7 @@ const P=[
  gen:()=>({F1:rnd(300,500,25),F2:rnd(150,350,25),b:45,F3:5*rnd(30,50)}),
  q:p=>`The end of the boom O is subjected to three concurrent and coplanar forces. Determine the magnitude and direction of the resultant force.`,
  g:p=>[`F₁ = ${p.F1} N along −x`,`F₂ = ${p.F2} N at ${p.b}° from +y (toward +x)`,`F₃ = ${p.F3} N, slope 4 (←) : 3 (↑) : 5`],
- s:p=>{const x=-p.F1+p.F2*sn(p.b)-p.F3*0.8,y=p.F2*cs(p.b)+p.F3*0.6;return [A('F_R','N',Math.hypot(x,y)),A('θ (from +x, CCW)','°',ang360(x,y),ANG)]}},
+ s:p=>{const x=-p.F1+p.F2*sn(p.b)-p.F3*0.8,y=p.F2*cs(p.b)+p.F3*0.6;return [A('F_R','N',Math.hypot(x,y)),A('θ (from −x, up)','°',Math.atan2(y,-x)/D,ANG)]}},
 {id:'2.8',ch:2,ar:'متجه كارتيزي من زوايا الاتجاه',en:'Cartesian vector from β, γ',
  gen:()=>({F:rnd(150,400,10),b:60,g:45}),
  q:p=>`Express the force F shown as a Cartesian vector (α is acute, F<sub>x</sub> > 0).`,
