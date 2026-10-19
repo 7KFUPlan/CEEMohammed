@@ -34,6 +34,18 @@ button{font:inherit;color:inherit}
 .nb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nb svg{flex:none;width:18px;height:18px;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .grow{flex:1;min-width:4px}
+.qb{flex:none;display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:1px solid #3A3F46;border-radius:10px;background:transparent;cursor:pointer;font-weight:600;font-size:14px;color:var(--gold)}
+.qb svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.qb:hover{background:var(--bar2)}
+.qpop{width:min(360px,calc(100vw - 24px))}
+.qpop .note{margin:2px 10px 8px;font-size:12.5px;color:#6B7280;line-height:1.6}
+.qpop .chh{position:sticky;top:-8px;background:var(--pop);margin:0;padding:10px 10px 6px;font-size:12.5px;font-weight:700;color:var(--blue);z-index:1}
+.qpop .row{gap:12px;padding:9px 10px}
+.qpop .row .ex{flex:none;font:600 12.5px var(--mono);color:#fff;background:var(--blue);border-radius:6px;padding:2px 7px;direction:ltr}
+.qpop .row .nm{display:flex;flex-direction:column;min-width:0}
+.qpop .row .nm b{font-size:14.5px;font-weight:600}
+.qpop .row .nm small{font-size:12px;color:#6B7280;direction:ltr;text-align:right}
+.qpop .load{padding:24px 10px;text-align:center;color:#6B7280;font-size:14px}
 
 /* ---------- tool options ---------- */
 .opts{flex:none;display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--bar2);border-top:1px solid #2A2F35;overflow-x:auto;scrollbar-width:none;min-height:46px}
@@ -58,7 +70,7 @@ button{font:inherit;color:inherit}
 body.pen-only .page{touch-action:pan-x pan-y}
 .page canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .page .live{cursor:crosshair}
-.pno{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font:500 12px var(--mono);color:rgba(255,255,255,.75);pointer-events:none}
+.pno{position:absolute;bottom:-20px;left:0;right:0;text-align:center;direction:ltr;font:500 12px var(--mono);color:rgba(255,255,255,.75);pointer-events:none}
 .tedit{position:absolute;margin:0;padding:0;border:1.5px dashed var(--blue);border-radius:3px;background:rgba(255,255,255,.85);resize:none;overflow:hidden;outline:none;font-family:var(--sans);line-height:1.4;color:#111;-webkit-user-select:text;user-select:text;z-index:5}
 .selbar{position:absolute;z-index:6;display:flex;gap:2px;padding:4px;border-radius:10px;background:var(--bar);box-shadow:0 6px 18px rgba(0,0,0,.3);transform:translate(-50%,-100%);white-space:nowrap}
 .selbar button{border:0;background:transparent;border-radius:7px;padding:6px 10px;font-size:13px;font-weight:600;cursor:pointer;color:var(--icon)}
@@ -102,7 +114,7 @@ body.pen-only .page{touch-action:pan-x pan-y}
   #print{display:block}
   #print img{display:block;width:100%;page-break-after:always;break-after:page}
 }
-@media (max-width:600px){.tbar{flex-wrap:wrap;justify-content:center;overflow:visible;gap:2px;padding:4px 6px}.ib{width:38px;height:38px}.tbar .sep,.grow{display:none}.nb{max-width:130px;height:38px;padding:0 10px}}
+@media (max-width:600px){.tbar{flex-wrap:wrap;justify-content:center;overflow:visible;gap:2px;padding:4px 6px}.ib{width:38px;height:38px}.tbar .sep,.grow{display:none}.nb{max-width:130px;height:38px;padding:0 10px}.qb{height:38px;padding:0 10px}}
 @media (prefers-reduced-motion:reduce){.toast,.tog,.tog::after{transition:none}}
 </style>
 </head>
@@ -119,11 +131,13 @@ body.pen-only .page{touch-action:pan-x pan-y}
   <button class="ib" data-tool="text" title="نص"><svg viewBox="0 0 24 24"><path d="M5 6V4.5h14V6"/><path d="M12 4.5v15"/><path d="M9 19.5h6"/></svg></button>
   <button class="ib" id="imgBtn" title="صورة"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="9.5" r="1.8"/><path d="M21 16l-5-5-9 9"/></svg></button>
   <input type="file" id="imgIn" accept="image/*" hidden>
+  <button class="qb" id="qBtn" title="حط سؤال في النوت"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M10 12.2a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6.9v.5M12 18h0"/></svg><span>حط سؤال</span></button>
   <span class="sep"></span>
   <button class="ib" id="undoBtn" title="تراجع"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
   <button class="ib" id="redoBtn" title="إعادة"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
   <span class="grow"></span>
   <button class="ib" id="addPageBtn" title="صفحة جديدة"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9 14h6"/></svg></button>
+  <button class="ib" id="fullBtn" title="افتح بملء الشاشة" hidden><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   <button class="ib" id="moreBtn" title="المزيد"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/></svg></button>
 </header>
 <div class="opts" id="opts"></div>
@@ -133,6 +147,7 @@ body.pen-only .page{touch-action:pan-x pan-y}
 <div class="scrim" id="scrim" hidden></div>
 <div class="pop" id="nbPop" hidden></div>
 <div class="pop" id="morePop" hidden></div>
+<div class="pop qpop" id="qPop" hidden></div>
 <div class="toast" id="toast" role="status"></div>
 <div id="print"></div>
 
@@ -511,7 +526,7 @@ function openPop(pop,anchor){
   const r=anchor.getBoundingClientRect(),w=pop.offsetWidth;
   pop.style.top=r.bottom+6+"px";pop.style.left=Math.max(12,Math.min(innerWidth-w-12,r.left+r.width/2-w/2))+"px";
 }
-function closePops(){$("scrim").hidden=true;$("nbPop").hidden=true;$("morePop").hidden=true}
+function closePops(){$("scrim").hidden=true;$("nbPop").hidden=true;$("morePop").hidden=true;$("qPop").hidden=true}
 $("scrim").onclick=closePops;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closePops()});
 
@@ -578,6 +593,62 @@ function exportPdf(){
   setTimeout(()=>{window.print();setTimeout(()=>box.textContent="",1000)},300);
 }
 
+/* ---------- questions from the statics page ---------- */
+const EMB=window.parent!==window&&/embed=1/.test(location.search);
+if(EMB){$("fullBtn").hidden=false;$("fullBtn").onclick=()=>{flush();try{window.top.location.hash="notes"}catch(e){}}}
+let srcP=null;
+function qSource(){
+  if(srcP)return srcP;
+  srcP=new Promise((res,rej)=>{
+    try{if(EMB&&window.parent.__qsrc)return res({src:window.parent.__qsrc,live:true})}catch(e){}
+    const f=document.createElement("iframe");f.src="statics.html?v=8";f.setAttribute("aria-hidden","true");f.tabIndex=-1;
+    f.style.cssText="position:fixed;left:-3000px;top:0;width:1000px;height:800px;border:0;visibility:hidden";
+    document.body.append(f);const t0=Date.now();
+    (function wait(){let q=null;try{q=f.contentWindow.__qsrc}catch(e){}if(q)return res({src:q,live:false});if(Date.now()-t0>15000){srcP=null;return rej()}setTimeout(wait,150)})();
+  });
+  return srcP;
+}
+async function openQ(){
+  commitText();const p=$("qPop");p.innerHTML='<div class="load">يحمّل الأسئلة…</div>';openPop(p,$("qBtn"));
+  let S;try{S=await qSource()}catch(e){p.innerHTML='<div class="load">ما قدرت أحمّل الأسئلة. تأكد من النت وجرب مرة ثانية.</div>';return}
+  const L=S.src.list(),CHN={2:"الفصل 2 · متجهات القوى",3:"الفصل 3 · اتزان الجسيم",4:"الفصل 4 · محصلات أنظمة القوى"};let ch=0,h="";
+  h+=`<h3>حط سؤال ستاتيك في صفحة جديدة</h3><p class="note">${S.live?"بنفس الأرقام اللي في السؤال قدامك بالموقع.":"بأرقام جديدة. لو تبي نفس أرقام سؤالك، افتح النوت من داخل صفحة الستاتيك."}</p>`;
+  L.forEach(q=>{if(q.ch!==ch){ch=q.ch;h+=`<h4 class="chh">${CHN[ch]||"الفصل "+ch}</h4>`}
+    h+=`<button class="row" data-q="${q.id}"><span class="ex">${q.id}</span><span class="nm"><b></b><small></small></span></button>`});
+  p.innerHTML=h;
+  p.querySelectorAll("[data-q]").forEach(b=>{const q=L.find(x=>x.id===b.dataset.q);b.querySelector("b").textContent=q.ar;b.querySelector("small").textContent=q.en.replace(/_/g,"")});
+  p.onclick=async e=>{const b=e.target.closest("[data-q]");if(!b)return;closePops();try{addQuestion(await S.src.get(b.dataset.q))}catch(err){toast("صار خطأ، جرب مرة ثانية")}};
+}
+$("qBtn").onclick=openQ;
+
+function measure(text,fs,w){const c=document.createElement("canvas").getContext("2d");c.font=`500 ${fs}px "IBM Plex Sans Arabic",system-ui,sans-serif`;return wrap(c,text,w).length*fs*1.4}
+async function addQuestion(q){
+  if(!q)return;commitText();clearSel();
+  const items=[],M=30;let y=28;
+  const title=`${q.ar} — Ex ${q.id}`;items.push({t:"t",x:M,y,w:REF-2*M,fs:22,c:"#0A4677",s:title});y+=22*1.4+14;
+  let colX=M,colW=REF-2*M,figB=y;
+  if(q.fig){
+    const id=uid();doc.imgs[id]=q.fig;let w=340,h=w*q.ratio;if(h>330){h=330;w=h/q.ratio}
+    items.push({t:"i",id,x:REF-M-w,y,w:rd(w),h:rd(h)});figB=y+h;colW=REF-2*M-w-24;
+  }
+  const qs=15;items.push({t:"t",x:colX,y,w:colW,fs:qs,c:"#1A1A1A",s:q.q});y+=measure(q.q,qs,colW)+12;
+  items.push({t:"t",x:colX,y,w:colW,fs:13,c:"#A8201A",s:"Given:"});y+=13*1.4+2;
+  q.given.forEach(g=>{const s="• "+g;items.push({t:"t",x:colX,y,w:colW,fs:qs,c:"#1E5BB8",s});y+=measure(s,qs,colW)+4});
+  if(q.orig)items.push({t:"t",x:colX,y:y+4,w:colW,fs:12,c:"#6B7280",s:"(أرقام الكتاب)"}),y+=24;
+  y=Math.max(y,figB)+22;
+  items.push({t:"s",c:"#C9CED6",w:1.2,ps:[[M,rd(y),REF-M,rd(y)]]});
+  items.push({t:"t",x:REF-M-200,y:y+10,w:200,fs:16,c:"#A8201A",s:"الحل ✍️"});
+  items.forEach(it=>{if(it.t!=="s"){it.x=rd(it.x);it.y=rd(it.y)}});
+  snap();
+  let pi=curPage();
+  if(doc.pages[pi].items.length){doc.pages.splice(pi+1,0,{items});pi++}else doc.pages[pi].items=items;
+  buildPages();scheduleSave();
+  requestAnimationFrame(()=>{views[pi].el.scrollIntoView({block:"start"});$("desk").scrollTop-=12});
+  if(prefs.tool==="lasso"||prefs.tool==="text")setTool("pen");
+  toast(`حطيت سؤال ${q.id} في الصفحة ${pi+1}. حل تحت ✍️`);
+}
+window.cee=null;
+
 /* ---------- keyboard ---------- */
 document.addEventListener("keydown",e=>{
   if(ted)return;
@@ -605,6 +676,10 @@ async function openNb(id){
   let last=null;try{last=localStorage.getItem("cee-notes-last")}catch(e){}
   await openNb(index.some(x=>x.id===last)?last:index[0].id);
   applyPenOnly();setTool(prefs.tool);
+  try{const old=localStorage.getItem("drill-notes");if(old&&old.trim()&&!localStorage.getItem("cee-notes-migrated")){
+    doc.pages.push({items:[{t:"t",x:30,y:30,w:740,fs:16,c:"#1A1A1A",s:old.trim()}]});buildPages();scheduleSave();toast("نقلت ملاحظاتك القديمة لآخر صفحة")}
+    localStorage.setItem("cee-notes-migrated","1")}catch(e){}
+  window.cee={addQuestion};
 })();
 })();
 </script>

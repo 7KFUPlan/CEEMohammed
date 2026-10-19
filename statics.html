@@ -80,6 +80,7 @@ main .wrap{padding-block:18px 40px;display:flex;flex-direction:column;gap:18px}
 .lab sub{font-size:.7em;vertical-align:-.25em}
 .mode{font-size:12px;font-weight:700;color:var(--blue);background:var(--tint);border-radius:999px;padding:2px 10px}
 .btn.ghost{background:transparent}
+.btn.nbb{background:var(--tint);border-color:var(--blue2);color:var(--blue)}
 .btn:disabled{opacity:.45;cursor:default}
 .work{padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .q{direction:ltr;text-align:left;font-size:14.5px;line-height:1.55}
@@ -383,13 +384,14 @@ function fresh(pr,c,orig){
   <div class="work"><div class="q">${pr.q(p)}</div>
    <div class="given">${pr.g(p).map(x=>`<span>${x.replace(/(\d+(?:\.\d+)?)/g,'<b>$1</b>')}</span>`).join('')}</div>
    <div class="ans">${sol.map((a,i)=>`<div class="f" id="f-${fid}-${i}"><label for="in-${fid}-${i}">${lbl(a.k)}</label><div class="in"><input id="in-${fid}-${i}" inputmode="decimal" autocomplete="off" spellcheck="false"><span class="u">${a.u}</span></div><div class="sol"></div></div>`).join('')}</div>
-   <div class="acts"><button class="btn pri" data-act="check">تحقق</button><button class="btn" data-act="show">الجواب</button><button class="btn amb" data-act="new">أرقام جديدة</button><button class="btn ghost" data-act="orig"${orig?' disabled':''}>↩ السؤال الأصلي</button></div>
+   <div class="acts"><button class="btn pri" data-act="check">تحقق</button><button class="btn" data-act="show">الجواب</button><button class="btn amb" data-act="new">أرقام جديدة</button><button class="btn ghost" data-act="orig"${orig?' disabled':''}>↩ السؤال الأصلي</button><button class="btn nbb" data-act="nb">✍️ حل في النوت</button></div>
    <div class="key" hidden></div>
   </div></div>`;
   c.querySelector('[data-act="check"]').onclick=()=>check(pr,c);
   c.querySelector('[data-act="show"]').onclick=()=>show(pr,c);
   c.querySelector('[data-act="new"]').onclick=()=>{fresh(pr,c);score()};
   c.querySelector('[data-act="orig"]').onclick=()=>{fresh(pr,c,true);score()};
+  c.querySelector('[data-act="nb"]').onclick=()=>window.__toNotebook&&window.__toNotebook(pr.id);
   c.querySelectorAll('input').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')check(pr,c)}));
   paintLabels(pr,c);
 }
@@ -425,10 +427,10 @@ build();
 .fab:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
 body.tools-open .fab{display:none}
 .tools{position:fixed;z-index:40;background:var(--sheet);border:1px solid var(--line);display:flex;flex-direction:column;direction:rtl;
-  left:0;top:0;bottom:0;width:380px;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);
-  box-shadow:4px 0 24px rgba(10,30,60,.12);transform:translateX(-105%);transition:transform .22s ease}
+  left:0;top:0;bottom:0;width:var(--tw,380px);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);
+  box-shadow:4px 0 24px rgba(10,30,60,.12);transform:translateX(-105%);transition:transform .22s ease,width .22s ease}
 body.tools-open .tools{transform:none}
-@media (min-width:1180px){body.tools-open{padding-left:380px}}
+@media (min-width:1180px){body.tools-open{padding-left:var(--tw,380px)}}
 @media (max-width:700px){.tools{width:auto;right:0;top:auto;height:74vh;border-radius:16px 16px 0 0;transform:translateY(105%);padding-right:env(safe-area-inset-right,0px)}
   body.tools-open .tools{transform:none}}
 @media (prefers-reduced-motion:reduce){.tools{transition:none}}
@@ -456,27 +458,15 @@ body.tools-open .tools{transform:none}
 .hist button b{color:var(--ink)}
 .hist button:hover{background:var(--tint)}
 .chint{font-size:12px;color:var(--muted)}
-/* sketch */
-.sbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.sbar button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:5px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
-.sbar button[aria-pressed="true"]{outline:2px solid var(--blue2);outline-offset:1px;background:var(--tint)}
-.sbar .sw{width:22px;height:22px;padding:0;border-radius:50%}
-.sbar .sep{width:1px;height:22px;background:var(--line)}
-.pad{flex:1;min-height:200px;position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;
-  background-color:var(--sheet);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
-.pad canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
-/* notes */
-.notes{flex:1;min-height:200px;width:100%;resize:none;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);
-  font:inherit;font-size:15px;line-height:1.7;padding:10px 12px}
-.notes:focus-visible{outline:2px solid var(--blue2)}
-.opennb{display:block;text-align:center;padding:10px;border-radius:10px;background:var(--tint);color:var(--blue);font-weight:700;text-decoration:none}
+/* notebook */
+.nbpane{padding:0}
+.nbpane iframe{flex:1;width:100%;border:0;display:block;background:#56769A}
 </style>
-<button class="fab" id="fab" aria-controls="tools" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 12h1.5M12 12h1.5M16 12h0M8 16h1.5M12 16h1.5M16 16v0"/></svg>الحاسبة والمسودة</button>
+<button class="fab" id="fab" aria-controls="tools" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 12h1.5M12 12h1.5M16 12h0M8 16h1.5M12 16h1.5M16 16v0"/></svg>الحاسبة والنوت</button>
 <aside class="tools" id="tools" aria-label="الأدوات">
   <div class="th"><div class="tt" role="tablist">
     <button class="tb" role="tab" id="tab-calc" aria-selected="true" data-pane="p-calc">الحاسبة</button>
-    <button class="tb" role="tab" id="tab-pad" aria-selected="false" data-pane="p-pad">المسودة</button>
-    <button class="tb" role="tab" id="tab-notes" aria-selected="false" data-pane="p-notes">ملاحظات</button></div>
+    <button class="tb" role="tab" id="tab-nb" aria-selected="false" data-pane="p-nb">النوت</button></div>
     <button class="x" id="tools-close" aria-label="إغلاق">✕</button></div>
   <section class="pane" id="p-calc">
     <div class="cdisp"><input id="cin" inputmode="none" autocomplete="off" spellcheck="false" aria-label="المعادلة" placeholder="200cos(30)"><div class="cres" id="cres">0</div></div>
@@ -492,33 +482,17 @@ body.tools-open .tools{transform:none}
     <div class="chint">الزوايا بالدرجات (DEG). اضغط على أي نتيجة تحت عشان تستخدمها.</div>
     <div class="hist" id="hist" aria-label="النتائج السابقة"></div>
   </section>
-  <section class="pane" id="p-pad" hidden>
-    <div class="sbar">
-      <button id="pen" aria-pressed="true" title="قلم"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20l4-1L19 8l-3-3L5 16z"/></svg>قلم</button>
-      <button id="eraser" aria-pressed="false" title="ممحاة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 20h11M4 15l8-9 7 7-6 7H9z"/></svg>ممحاة</button>
-      <span class="sep"></span>
-      <button class="sw" data-c="ink" aria-pressed="true" aria-label="أسود" style="background:var(--ink)"></button>
-      <button class="sw" data-c="blue" aria-pressed="false" aria-label="أزرق" style="background:var(--blue2)"></button>
-      <button class="sw" data-c="red" aria-pressed="false" aria-label="أحمر" style="background:var(--bad)"></button>
-      <span class="sep"></span>
-      <button id="thin" aria-pressed="true">رفيع</button><button id="thick" aria-pressed="false">عريض</button>
-      <span class="sep"></span>
-      <button id="undo" title="تراجع">↶ ارجاع</button><button id="redo" title="إعادة">↷</button><button id="wipe">مسح الكل</button>
-    </div>
-    <div class="pad" id="pad"><canvas id="cv" aria-label="مسودة للكتابة"></canvas></div>
-  </section>
-  <section class="pane" id="p-notes" hidden>
-    <textarea class="notes" id="notes" placeholder="اكتب ملاحظاتك هنا… تنحفظ تلقائياً على جهازك."></textarea>
-    <a class="opennb" href="./#notes" target="_top" id="openNb">افتح النوت الكامل (قلم، هايلايتر، صفحات) ←</a>
+  <section class="pane nbpane" id="p-nb" hidden>
+    <iframe id="nbf" title="النوت"></iframe>
   </section>
 </aside>
 <script>
 (function(){
 const body=document.body,tools=document.getElementById('tools'),fab=document.getElementById('fab');
 const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-function openT(o){body.classList.toggle('tools-open',o);fab.setAttribute('aria-expanded',o?'true':'false');if(o)setTimeout(fit,240)}
+function openT(o){body.classList.toggle('tools-open',o);fab.setAttribute('aria-expanded',o?'true':'false')}
 fab.onclick=()=>openT(true);document.getElementById('tools-close').onclick=()=>openT(false);
-document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tb').forEach(x=>{const on=x===b;x.setAttribute('aria-selected',on?'true':'false');document.getElementById(x.dataset.pane).hidden=!on});if(b.id==='tab-pad')fit()});
+document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tb').forEach(x=>{const on=x===b;x.setAttribute('aria-selected',on?'true':'false');document.getElementById(x.dataset.pane).hidden=!on});nbMode(b.id==='tab-nb')});
 
 /* ---------- calculator ---------- */
 let deg=true,ans=0;
@@ -566,43 +540,43 @@ document.getElementById('keys').addEventListener('click',e=>{const b=e.target.cl
 cin.addEventListener('input',live);cin.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();equals()}});
 cin.addEventListener('focus',()=>{if(matchMedia('(pointer:fine)').matches)cin.setAttribute('inputmode','text')});
 
-/* ---------- sketch pad ---------- */
-const cv=document.getElementById('cv'),pad=document.getElementById('pad'),ctx=cv.getContext('2d');
-let strokes=[],redo=[],cur=null,mode='pen',color='ink',size=2.2;
-try{strokes=JSON.parse(ls.get('drill-pad')||'[]')}catch(e){strokes=[]}
-const colorOf=c=>getComputedStyle(document.documentElement).getPropertyValue(c==='ink'?'--ink':c==='blue'?'--blue2':'--bad').trim()||'#222';
-function fit(){const r=pad.getBoundingClientRect();if(!r.width)return;const dpr=window.devicePixelRatio||1;cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);redraw()}
-function drawS(s){const W=cv.width/(window.devicePixelRatio||1);if(!s.pts.length)return;ctx.save();
-  ctx.globalCompositeOperation=s.er?'destination-out':'source-over';ctx.strokeStyle=s.er?'#000':colorOf(s.c);ctx.lineWidth=s.er?s.w*7:s.w;ctx.lineCap='round';ctx.lineJoin='round';
-  ctx.beginPath();const P=s.pts.map(([x,y])=>[x*W,y*W]);ctx.moveTo(P[0][0],P[0][1]);
-  if(P.length===1)ctx.lineTo(P[0][0]+0.01,P[0][1]);
-  for(let i=1;i<P.length-1;i++){const mx=(P[i][0]+P[i+1][0])/2,my=(P[i][1]+P[i+1][1])/2;ctx.quadraticCurveTo(P[i][0],P[i][1],mx,my)}
-  if(P.length>1)ctx.lineTo(P[P.length-1][0],P[P.length-1][1]);ctx.stroke();ctx.restore()}
-function redraw(){ctx.clearRect(0,0,cv.width,cv.height);strokes.forEach(drawS)}
-const save=()=>ls.set('drill-pad',JSON.stringify(strokes));
-function pos(e){const r=cv.getBoundingClientRect();return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.width]}
-cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);cur={c:color,w:size,er:mode==='eraser',pts:[pos(e)]};redo=[];strokes.push(cur);redraw()});
-cv.addEventListener('pointermove',e=>{if(!cur)return;const ev=e.getCoalescedEvents?e.getCoalescedEvents():[e];ev.forEach(x=>cur.pts.push(pos(x)));redraw()});
-const end=()=>{if(cur){cur=null;save()}};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
-const pressed=(ids,on)=>ids.forEach(id=>document.getElementById(id).setAttribute('aria-pressed',id===on?'true':'false'));
-document.getElementById('pen').onclick=()=>{mode='pen';pressed(['pen','eraser'],'pen')};
-document.getElementById('eraser').onclick=()=>{mode='eraser';pressed(['pen','eraser'],'eraser')};
-document.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{color=b.dataset.c;mode='pen';pressed(['pen','eraser'],'pen');document.querySelectorAll('.sw').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'))});
-document.getElementById('thin').onclick=()=>{size=2.2;pressed(['thin','thick'],'thin')};
-document.getElementById('thick').onclick=()=>{size=4.5;pressed(['thin','thick'],'thick')};
-document.getElementById('undo').onclick=()=>{if(strokes.length){redo.push(strokes.pop());redraw();save()}};
-document.getElementById('redo').onclick=()=>{if(redo.length){strokes.push(redo.pop());redraw();save()}};
-let wipeArm=0;const wipe=document.getElementById('wipe');
-wipe.onclick=()=>{if(Date.now()-wipeArm>2500){wipeArm=Date.now();wipe.textContent='متأكد؟ اضغط مرة ثانية';setTimeout(()=>wipe.textContent='مسح الكل',2500);return}
-  redo=strokes.slice().reverse();strokes=[];redraw();save();wipe.textContent='مسح الكل';wipeArm=0};
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'&&!document.getElementById('p-pad').hidden&&document.activeElement.tagName!=='TEXTAREA'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();document.getElementById(e.shiftKey?'redo':'undo').click()}});
-if(window.ResizeObserver)new ResizeObserver(fit).observe(pad);
-matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',redraw);
-
-/* ---------- notes ---------- */
-const notes=document.getElementById('notes');notes.value=ls.get('drill-notes')||'';
-notes.addEventListener('input',()=>ls.set('drill-notes',notes.value));
-document.getElementById('openNb').addEventListener('click',e=>{try{if(window.top!==window){e.preventDefault();window.top.location.hash='notes'}}catch(err){}});
+/* ---------- notebook ---------- */
+const nbf=document.getElementById('nbf');
+function nbMode(on){
+  if(on&&!nbf.getAttribute('src'))nbf.setAttribute('src','notes.html?embed=1&v=8');
+  body.style.setProperty('--tw',on?'min(600px, 52vw)':'380px');
+}
+function showTab(id){document.getElementById(id).click()}
+// text with _sub parts → canvas
+function richW(cx,t,fs){let w=0;t.split(/(_[^\s(=,}]+)/).forEach(seg=>{if(!seg)return;const sub=seg[0]==='_';cx.font=(sub?fs*0.7:fs)+'px "Times New Roman",Times,serif';w+=cx.measureText(sub?seg.slice(1):seg).width});return w}
+function richDraw(cx,t,x,y,fs){t.split(/(_[^\s(=,}]+)/).forEach(seg=>{if(!seg)return;const sub=seg[0]==='_',tx=sub?seg.slice(1):seg,f=sub?fs*0.7:fs;cx.font=f+'px "Times New Roman",Times,serif';cx.fillText(tx,x,y+(sub?fs*0.25:0));x+=cx.measureText(tx).width})}
+const plain=h=>{const d=document.createElement('div');d.innerHTML=h.replace(/<sub>(\d+)<\/sub>/g,(m,n)=>n.replace(/\d/g,x=>'₀₁₂₃₄₅₆₇₈₉'[x])).replace(/<sub>(.*?)<\/sub>/g,'_$1');return d.textContent};
+function figure(id){
+  return new Promise(res=>{
+    const c=document.getElementById('ex'+id.replace('.','_')),img=c&&c.querySelector('.fig img');if(!img)return res(null);
+    const go=()=>{
+      const W=img.naturalWidth,H=img.naturalHeight,cv=document.createElement('canvas');cv.width=W;cv.height=H;const cx=cv.getContext('2d');
+      cx.drawImage(img,0,0);cx.textBaseline='middle';
+      const st=window.__state[id],labs=(window.__LAB[id]||[]),els=c.querySelectorAll('.lab');
+      labs.forEach(([x,y,w,h,f,t],i)=>{const el=els[i];if(!el||el.hidden)return;
+        const fs=0.66*h/100*H,txt=f(st.p),tw=txt?richW(cx,txt,fs)+fs*0.5:0,X=x/100*W,Y=y/100*H,bw=Math.max(w/100*W,tw),bh=h/100*H;
+        cx.fillStyle=el.style.background||'#fbf6e3';cx.fillRect(X,Y,bw,bh);
+        if(txt){cx.fillStyle='#2b2b2b';richDraw(cx,txt,X+(bw-tw)/2+fs*0.25,Y+bh/2,fs)}});
+      res({src:cv.toDataURL('image/jpeg',0.9),ratio:H/W});
+    };
+    if(img.complete&&img.naturalWidth)go();else img.addEventListener('load',go,{once:true});
+  });
+}
+window.__qsrc={
+  list:()=>window.__P.map(pr=>({id:pr.id,ch:pr.ch,ar:pr.ar,en:pr.en})),
+  get:async id=>{const pr=window.__P.find(x=>x.id===id),st=window.__state[id];const fig=await figure(id);
+    return{id,ar:pr.ar,en:pr.en,q:plain(pr.q(st.p)),given:pr.g(st.p).map(plain),fig:fig&&fig.src,ratio:fig&&fig.ratio,orig:st.orig}}
+};
+window.__toNotebook=async id=>{
+  openT(true);showTab('tab-nb');
+  const t0=Date.now();while(!(nbf.contentWindow&&nbf.contentWindow.cee)&&Date.now()-t0<8000)await new Promise(r=>setTimeout(r,100));
+  if(nbf.contentWindow&&nbf.contentWindow.cee)nbf.contentWindow.cee.addQuestion(await window.__qsrc.get(id));
+};
 if(matchMedia('(min-width:1180px)').matches)openT(true);
 })();
 </script>
