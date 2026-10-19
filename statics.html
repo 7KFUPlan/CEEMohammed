@@ -427,11 +427,11 @@ build();
 .fab:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
 body.tools-open .fab{display:none}
 .tools{position:fixed;z-index:40;background:var(--sheet);border:1px solid var(--line);display:flex;flex-direction:column;direction:rtl;
-  left:0;top:0;bottom:0;width:var(--tw,380px);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);
+  left:0;top:0;bottom:0;width:var(--tw,400px);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);
   box-shadow:4px 0 24px rgba(10,30,60,.12);transform:translateX(-105%);transition:transform .22s ease,width .22s ease}
 body.tools-open .tools{transform:none}
-@media (min-width:1180px){body.tools-open{padding-left:var(--tw,380px)}}
-@media (max-width:700px){.tools{width:auto;right:0;top:auto;height:74vh;border-radius:16px 16px 0 0;transform:translateY(105%);padding-right:env(safe-area-inset-right,0px)}
+@media (min-width:1180px){body.tools-open{padding-left:var(--tw,400px)}}
+@media (max-width:700px){.tools{width:auto;right:0;top:auto;height:88vh;border-radius:16px 16px 0 0;transform:translateY(105%);padding-right:env(safe-area-inset-right,0px)}
   body.tools-open .tools{transform:none}}
 @media (prefers-reduced-motion:reduce){.tools{transition:none}}
 .th{display:flex;align-items:center;gap:6px;padding:10px 12px;border-bottom:1px solid var(--line)}
@@ -441,23 +441,8 @@ body.tools-open .tools{transform:none}
 .th .x{font:inherit;font-size:18px;line-height:1;border:0;background:transparent;color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:6px}
 .pane{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;padding:12px}
 /* calculator */
-.cdisp{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:8px 10px;direction:ltr}
-.cdisp input{width:100%;border:0;background:transparent;color:var(--ink);font-family:var(--mono);font-size:17px;text-align:left;outline:none}
-.cres{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--blue);text-align:right;min-height:30px;overflow-x:auto;white-space:nowrap}
-.cres.err{color:var(--bad);font-size:14px}
-.keys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;direction:ltr}
-.keys button{direction:ltr;unicode-bidi:isolate;font-family:var(--mono);font-size:14.5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:9px 0;cursor:pointer}
-.keys button.fn{font-size:13px;color:var(--blue)}
-.keys button.op{background:var(--tint);font-weight:600}
-.keys button.eq{background:var(--blue);color:var(--sheet);border-color:var(--blue);font-weight:700}
-.keys button.cl{color:var(--bad)}
-.keys button:active{transform:translateY(1px)}
-.keys button:focus-visible,.cdisp input:focus-visible{outline:2px solid var(--blue2);outline-offset:1px}
-.hist{flex:1;min-height:60px;overflow:auto;border-top:1px dashed var(--line);padding-top:6px;direction:ltr;display:flex;flex-direction:column;gap:2px}
-.hist button{font-family:var(--mono);font-size:13px;text-align:left;background:transparent;border:0;color:var(--muted);cursor:pointer;padding:3px 4px;border-radius:6px}
-.hist button b{color:var(--ink)}
-.hist button:hover{background:var(--tint)}
-.chint{font-size:12px;color:var(--muted)}
+.cpane{padding:0}
+.cpane iframe{flex:1;width:100%;border:0;display:block;background:var(--paper)}
 /* notebook */
 .nbpane{padding:0}
 .nbpane iframe{flex:1;width:100%;border:0;display:block;background:#56769A}
@@ -468,19 +453,8 @@ body.tools-open .tools{transform:none}
     <button class="tb" role="tab" id="tab-calc" aria-selected="true" data-pane="p-calc">الحاسبة</button>
     <button class="tb" role="tab" id="tab-nb" aria-selected="false" data-pane="p-nb">النوت</button></div>
     <button class="x" id="tools-close" aria-label="إغلاق">✕</button></div>
-  <section class="pane" id="p-calc">
-    <div class="cdisp"><input id="cin" inputmode="none" autocomplete="off" spellcheck="false" aria-label="المعادلة" placeholder="200cos(30)"><div class="cres" id="cres">0</div></div>
-    <div class="keys" id="keys">
-      <button class="fn" data-k="sin(">sin</button><button class="fn" data-k="cos(">cos</button><button class="fn" data-k="tan(">tan</button><button class="fn" data-k="√(">√</button><button class="fn" data-k="^2">x²</button>
-      <button class="fn" data-k="asin(">sin⁻¹</button><button class="fn" data-k="acos(">cos⁻¹</button><button class="fn" data-k="atan(">tan⁻¹</button><button class="fn" data-k="^">xʸ</button><button class="fn" data-k="π">π</button>
-      <button class="fn" data-k="Ans">Ans</button><button class="fn" data-k="E">×10ˣ</button><button class="fn" data-k="ln(">ln</button><button class="fn" data-k="log(">log</button><button class="fn" id="degbtn" data-act="deg">DEG</button>
-      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button class="op" data-k="÷">÷</button><button class="cl" data-act="bs">⌫</button>
-      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button class="op" data-k="×">×</button><button class="cl" data-act="clr">AC</button>
-      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button class="op" data-k="−">−</button><button class="op" data-k="(">(</button>
-      <button data-k="0">0</button><button data-k=".">.</button><button class="eq" data-act="eq">=</button><button class="op" data-k="+">+</button><button class="op" data-k=")">)</button>
-    </div>
-    <div class="chint">الزوايا بالدرجات (DEG). اضغط على أي نتيجة تحت عشان تستخدمها.</div>
-    <div class="hist" id="hist" aria-label="النتائج السابقة"></div>
+  <section class="pane cpane" id="p-calc">
+    <iframe id="cf" title="الحاسبة"></iframe>
   </section>
   <section class="pane nbpane" id="p-nb" hidden>
     <iframe id="nbf" title="النوت"></iframe>
@@ -490,61 +464,18 @@ body.tools-open .tools{transform:none}
 (function(){
 const body=document.body,tools=document.getElementById('tools'),fab=document.getElementById('fab');
 const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-function openT(o){body.classList.toggle('tools-open',o);fab.setAttribute('aria-expanded',o?'true':'false')}
+function openT(o){body.classList.toggle('tools-open',o);fab.setAttribute('aria-expanded',o?'true':'false');if(o&&!document.getElementById('p-calc').hidden)loadCalc()}
 fab.onclick=()=>openT(true);document.getElementById('tools-close').onclick=()=>openT(false);
-document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tb').forEach(x=>{const on=x===b;x.setAttribute('aria-selected',on?'true':'false');document.getElementById(x.dataset.pane).hidden=!on});nbMode(b.id==='tab-nb')});
+document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tb').forEach(x=>{const on=x===b;x.setAttribute('aria-selected',on?'true':'false');document.getElementById(x.dataset.pane).hidden=!on});nbMode(b.id==='tab-nb');if(b.id==='tab-calc')loadCalc()});
 
 /* ---------- calculator ---------- */
-let deg=true,ans=0;
-const cin=document.getElementById('cin'),cres=document.getElementById('cres'),hist=document.getElementById('hist');
-function tok(s){s=s.replace(/×/g,'*').replace(/÷/g,'/').replace(/[−–]/g,'-').replace(/\s+/g,'');const t=[];let i=0;
-  while(i<s.length){const r=s.slice(i);let m;
-    if(m=r.match(/^(\d+\.?\d*|\.\d+)(E[-+]?\d+)?/)){t.push({n:parseFloat(m[0])});i+=m[0].length;continue}
-    if(m=r.match(/^(asin|acos|atan|sin|cos|tan|sqrt|ln|log|abs|Ans|pi|π|√|e)/)){t.push({id:m[0]});i+=m[0].length;continue}
-    if('+-*/^()'.includes(r[0])){t.push({o:r[0]});i++;continue}
-    throw new Error('رمز غير معروف: '+r[0])}
-  return t}
-function evalExpr(s){const t=tok(s);let p=0;const D=Math.PI/180;
-  const peek=()=>t[p],eat=o=>{if(t[p]&&t[p].o===o){p++;return true}return false};
-  const F={sin:x=>Math.sin(deg?x*D:x),cos:x=>Math.cos(deg?x*D:x),tan:x=>Math.tan(deg?x*D:x),asin:x=>Math.asin(x)/(deg?D:1),acos:x=>Math.acos(x)/(deg?D:1),
-    atan:x=>Math.atan(x)/(deg?D:1),sqrt:Math.sqrt,'√':Math.sqrt,ln:Math.log,log:Math.log10,abs:Math.abs};
-  function expr(){let v=term();for(;;){if(eat('+'))v+=term();else if(eat('-'))v-=term();else return v}}
-  function term(){let v=unary();for(;;){if(eat('*'))v*=unary();else if(eat('/'))v/=unary();
-    else if(peek()&&(peek().n!==undefined||peek().id||peek().o==='('))v*=unary();else return v}}
-  function unary(){if(eat('-'))return -unary();if(eat('+'))return unary();return power()}
-  function power(){const b=primary();if(eat('^'))return Math.pow(b,unary());return b}
-  function primary(){const k=t[p++];if(!k)throw new Error('المعادلة ناقصة');
-    if(k.n!==undefined)return k.n;
-    if(k.o==='('){const v=expr();if(!eat(')'))throw new Error('ناقص قوس )');return v}
-    if(k.id==='π'||k.id==='pi')return Math.PI;if(k.id==='e')return Math.E;if(k.id==='Ans')return ans;
-    if(F[k.id]){let v;if(eat('(')){v=expr();if(!eat(')'))throw new Error('ناقص قوس )')}else v=power();return F[k.id](v)}
-    throw new Error('خطأ في الصياغة')}
-  const v=expr();if(p<t.length)throw new Error('خطأ في الصياغة');return v}
-const fmt=v=>{if(!isFinite(v))return 'خطأ';if(Math.abs(v)<1e-12)return '0';const a=Math.abs(v);
-  return (a>=1e9||a<1e-5)?v.toExponential(6).replace(/\.?0+e/,'e'):String(+v.toPrecision(10))};
-function live(){const s=cin.value.trim();if(!s){cres.textContent=fmt(ans);cres.className='cres';return}
-  try{const v=evalExpr(s);cres.textContent='= '+fmt(v);cres.className='cres'}catch(e){cres.textContent='';cres.className='cres'}}
-function equals(){const s=cin.value.trim();if(!s)return;
-  try{const v=evalExpr(s);ans=v;cres.textContent=fmt(v);cres.className='cres';
-    const b=document.createElement('button');b.innerHTML=`${s.replace(/</g,'&lt;')} = <b>${fmt(v)}</b>`;b.onclick=()=>{ins(fmt(v))};hist.prepend(b);
-    while(hist.children.length>30)hist.lastChild.remove();cin.value=''}
-  catch(e){cres.textContent=e.message;cres.className='cres err'}}
-function ins(k){const a=cin.selectionStart??cin.value.length,b=cin.selectionEnd??cin.value.length;cin.value=cin.value.slice(0,a)+k+cin.value.slice(b);
-  const c=a+k.length;cin.setSelectionRange(c,c);live()}
-document.getElementById('keys').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.k)ins(b.dataset.k);
-  else if(b.dataset.act==='eq')equals();
-  else if(b.dataset.act==='clr'){cin.value='';live()}
-  else if(b.dataset.act==='bs'){const a=cin.selectionStart??cin.value.length;if(a>0){cin.value=cin.value.slice(0,a-1)+cin.value.slice(a);cin.setSelectionRange(a-1,a-1)}live()}
-  else if(b.dataset.act==='deg'){deg=!deg;b.textContent=deg?'DEG':'RAD';live()}});
-cin.addEventListener('input',live);cin.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();equals()}});
-cin.addEventListener('focus',()=>{if(matchMedia('(pointer:fine)').matches)cin.setAttribute('inputmode','text')});
-
+const cf=document.getElementById('cf');
+const loadCalc=()=>{if(!cf.getAttribute('src'))cf.setAttribute('src','calc.html?embed=1&v=9')};
 /* ---------- notebook ---------- */
 const nbf=document.getElementById('nbf');
 function nbMode(on){
   if(on&&!nbf.getAttribute('src'))nbf.setAttribute('src','notes.html?embed=1&v=8');
-  body.style.setProperty('--tw',on?'min(600px, 52vw)':'380px');
+  body.style.setProperty('--tw',on?'min(600px, 52vw)':'400px');
 }
 function showTab(id){document.getElementById(id).click()}
 // text with _sub parts → canvas
