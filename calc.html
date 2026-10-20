@@ -85,6 +85,9 @@ button,input,select{font:inherit;color:inherit}
 
 /* ---------- keypad ---------- */
 .keys{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;direction:ltr}
+.keys.top{grid-template-columns:1fr 1fr 1fr 1.5fr 1fr 1fr 1fr;margin-bottom:-4px}
+.keys.top .k.frac{min-height:50px;font-size:16px}
+.keys.top .k.frac .fico i{width:15px;height:11px}.keys.top .k.frac .fico b{width:22px}
 .k{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--key-fn);min-height:46px;padding:14px 2px 5px;cursor:pointer;display:flex;align-items:center;justify-content:center;
   font:500 15px/1 var(--mono);color:var(--ink);box-shadow:0 1px 0 var(--shadow);touch-action:manipulation;user-select:none;-webkit-user-select:none}
 .k:active{transform:translateY(1px);box-shadow:none}
@@ -174,8 +177,9 @@ body.embed .app{padding:8px 8px 14px}
       <div class="out"><div class="res pre" id="res"></div><div class="approx" id="apx"></div></div>
     </div>
     <div class="prompt" id="prompt" hidden></div>
+    <div class="keys top" id="keysTop"></div>
     <div class="keys" id="keys"></div>
-    <div class="hint">زر الكسر الأخضر: اكتب البسط، ▶ للمقام. SHIFT للأوامر البرتقالية، ALPHA للمتغيرات الحمراء. اضغط على النتيجة عشان تبدّل كسر ↔ عشري.</div>
+    <div class="hint">زر الكسر الأخضر فوق: اكتب البسط، ▶ للمقام. SHIFT للأوامر البرتقالية، ALPHA للمتغيرات الحمراء. اضغط على النتيجة عشان تبدّل كسر ↔ عشري.</div>
   </section>
 
   <!-- ===== equations ===== -->
@@ -580,7 +584,7 @@ function clearAll(){inp.value="";done=false;last=null;closePrompt();renderResult
 
 /* keys: [main, shift, alpha, cls]; each label maps to an action in ACT */
 const KEYS=[
-  ["SHIFT","","","shift"],["ALPHA","","","alpha"],["◀","⇤","","sm"],["▶","⇥","","sm"],["MODE","","","sm"],["S⇔D","ENG","","sm"],
+  ["SHIFT","","","shift"],["ALPHA","","","alpha"],["◀","⇤","","sm"],["□/□","a b/c","","frac"],["▶","⇥","","sm"],["MODE","","","sm"],["S⇔D","ENG","","sm"],
   ["SOLVE","CALC","=","sm"],["d/dx","∫dx","","sm"],["Σ","Π","","sm"],["x⁻¹","x!","",""],["√","∛","",""],["ˣ√","logₐ","",""],
   ["x²","x³","",""],["xʸ","10ˣ","",""],["log","mod","",""],["ln","eˣ","",""],["(−)","Abs","A",""],["°′″","→°′″","B",""],
   ["hyp","","C","sm"],["sin","sin⁻¹","D",""],["cos","cos⁻¹","E",""],["tan","tan⁻¹","F",""],["(","%","",""],[")",",","X",""],
@@ -588,7 +592,7 @@ const KEYS=[
   ["7","","","num"],["8","","","num"],["9","","","num"],["⌫","RanInt","","ac"],["AC","CLR","","ac"],["X","Ran#","Y",""],
   ["4","","","num"],["5","","","num"],["6","","","num"],["×","","","op"],["÷","","","op"],["Ans","PreAns","","sm"],
   ["1","","","num"],["2","","","num"],["3","","","num"],["+","","","op"],["−","","","op"],["π","e","","num"],
-  ["0","","","num"],[".","","","num"],["×10ˣ","","","sm"],["□/□","a b/c","","frac"],["=","","","eq"]
+  ["0","","","num"],[".","","","num"],["×10ˣ","","","sm"],["ENG","","","sm"],["=","","","eq"]
 ];
 const H=t=>hyp?{"sin(":"sinh(","cos(":"cosh(","tan(":"tanh(","sin⁻¹(":"sinh⁻¹(","cos⁻¹(":"cosh⁻¹(","tan⁻¹(":"tanh⁻¹("}[t]:t;
 const ACT={
@@ -628,8 +632,7 @@ function press(i){
   ind();
 }
 (function buildKeys(){
-  const k=$("keys");
-  KEYS.forEach(([m,s,a,c],i)=>{const b=document.createElement("button");b.type="button";b.className="k "+c+(s?" hs":"")+(a?" ha":"");
+  KEYS.forEach(([m,s,a,c],i)=>{const k=$(i<7?"keysTop":"keys");const b=document.createElement("button");b.type="button";b.className="k "+c+(s?" hs":"")+(a?" ha":"");
     b.innerHTML=`${s?`<span class="s">${s}</span>`:""}${a?`<span class="a">${a}</span>`:""}<span class="m">${m==="□/□"?'<span class="fico"><i></i><b></b><i></i></span>':m}</span>`;
     b.setAttribute("aria-label",m+(s?" / "+s:""));
     b.addEventListener("pointerdown",e=>e.preventDefault());
