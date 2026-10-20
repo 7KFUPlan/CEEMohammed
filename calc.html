@@ -10,7 +10,7 @@
 :root{
   --paper:#f4f6f9; --sheet:#ffffff; --ink:#14223a; --muted:#5b6778; --line:#d9e0ea;
   --blue:#16407a; --blue2:#1f6fc5; --tint:#e8f1fb; --amber:#c76a06; --amber-t:#fff4e3; --red:#b42318; --red-t:#fdecea;
-  --ok:#137a43; --scr:#eef3f8; --scr-ink:#14223a; --key:#ffffff; --key-fn:#eef2f7; --key-op:#e3edf9; --shadow:rgba(10,30,60,.10);
+  --ok:#137a43; --scr:#eef3f8; --scr-ink:#14223a; --key:#ffffff; --key-fn:#eef2f7; --key-op:#e3edf9; --shadow:rgba(10,30,60,.10); --frac:#0f7b6c; --frac-t:#e2f4ef;
   --sans:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
   color-scheme:light;
@@ -18,11 +18,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#0d1522; --sheet:#141f31; --ink:#e6ecf5; --muted:#9aa8bd; --line:#26354d;
   --blue:#8db8f0; --blue2:#5b9be6; --tint:#18294a; --amber:#f0a345; --amber-t:#33240f; --red:#ff8a80; --red-t:#3a1714;
-  --ok:#5fd394; --scr:#0f1a2b; --scr-ink:#e6ecf5; --key:#1a273c; --key-fn:#16223a; --key-op:#1b2f52; --shadow:rgba(0,0,0,.3); color-scheme:dark}}
+  --ok:#5fd394; --scr:#0f1a2b; --scr-ink:#e6ecf5; --key:#1a273c; --key-fn:#16223a; --key-op:#1b2f52; --shadow:rgba(0,0,0,.3); --frac:#4fd1b5; --frac-t:#10302b; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0d1522; --sheet:#141f31; --ink:#e6ecf5; --muted:#9aa8bd; --line:#26354d;
   --blue:#8db8f0; --blue2:#5b9be6; --tint:#18294a; --amber:#f0a345; --amber-t:#33240f; --red:#ff8a80; --red-t:#3a1714;
-  --ok:#5fd394; --scr:#0f1a2b; --scr-ink:#e6ecf5; --key:#1a273c; --key-fn:#16223a; --key-op:#1b2f52; --shadow:rgba(0,0,0,.3); color-scheme:dark}
+  --ok:#5fd394; --scr:#0f1a2b; --scr-ink:#e6ecf5; --key:#1a273c; --key-fn:#16223a; --key-op:#1b2f52; --shadow:rgba(0,0,0,.3); --frac:#4fd1b5; --frac-t:#10302b; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0}
@@ -43,6 +43,8 @@ button,input,select{font:inherit;color:inherit}
 .ind .on-a{background:var(--red);color:#fff}
 .ind .chip{border-color:var(--line);cursor:pointer;background:var(--sheet)}
 .ind .grow{flex:1}
+.ind .fpos{background:var(--frac-t);color:var(--frac);border-color:var(--frac);font-family:var(--sans);font-size:11.5px;direction:rtl}
+.ph{display:inline-block;width:.62em;height:.8em;border:1.5px dashed var(--frac);border-radius:2px;vertical-align:-.05em}
 .hist{max-height:92px;overflow-y:auto;direction:ltr;display:flex;flex-direction:column;gap:1px;scrollbar-width:thin}
 .hist:empty{display:none}
 .hrow{display:flex;justify-content:space-between;gap:10px;font:400 13px var(--mono);color:var(--muted);padding:2px 4px;border-radius:6px;cursor:pointer}
@@ -53,6 +55,22 @@ button,input,select{font:inherit;color:inherit}
 #in::placeholder{color:var(--muted);opacity:.6}
 .out{direction:ltr;text-align:right;min-height:40px;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end}
 .res{font:600 27px/1.25 var(--mono);color:var(--scr-ink);word-break:break-all;cursor:pointer}
+.nat{direction:ltr;text-align:left;font:500 22px/1.35 var(--mono);color:var(--scr-ink);min-height:30px;overflow-x:auto;white-space:nowrap;padding:2px 0}
+.nat:empty{display:none}
+.screen.hasnat #in{font-size:14px;color:var(--muted)}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .12em;font-size:.9em;line-height:1.15}
+.fr>span{padding:0 .2em}
+.fr>span:first-child{border-bottom:1.5px solid currentColor}
+.rt{white-space:nowrap}
+.rt .ov{border-top:1.5px solid currentColor;padding:0 .1em;margin-left:.05em}
+.nat sup,.res sup{font-size:.6em}
+.ri{margin-right:-.3em;vertical-align:.8em}
+.lim{display:inline-flex;flex-direction:column;font-size:.55em;vertical-align:middle;line-height:1.1;margin:0 .1em}
+.nat i{font-style:italic}
+.k.frac{background:var(--frac-t);border-color:var(--frac);color:var(--frac)}
+.fico{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.fico i{display:block;width:13px;height:10px;border:1.6px solid currentColor;border-radius:2px}
+.fico b{display:block;width:19px;height:2px;background:currentColor;border-radius:1px}
 .res.pre{color:var(--muted);font-weight:400;font-size:18px}
 .res.err{color:var(--red);font-size:17px}
 .res sup{font-size:.6em}
@@ -149,14 +167,15 @@ body.embed .app{padding:8px 8px 14px}
   <!-- ===== main calculator ===== -->
   <section id="t-calc" class="panel">
     <div class="screen">
-      <div class="ind"><span id="iS">S</span><span id="iA">A</span><span id="iH">hyp</span><span class="grow"></span><span class="chip" id="iAng" title="وحدة الزوايا">DEG</span><span class="chip" id="iFr" title="شكل النتيجة">FRAC</span></div>
+      <div class="ind"><span id="iS">S</span><span id="iA">A</span><span id="iH">hyp</span><span id="iF" class="fpos" hidden></span><span class="grow"></span><span class="chip" id="iAng" title="وحدة الزوايا">DEG</span><span class="chip" id="iFr" title="شكل النتيجة">FRAC</span></div>
       <div class="hist" id="hist"></div>
+      <div class="nat" id="nat" aria-hidden="true"></div>
       <input id="in" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="0" aria-label="المعادلة">
       <div class="out"><div class="res pre" id="res"></div><div class="approx" id="apx"></div></div>
     </div>
     <div class="prompt" id="prompt" hidden></div>
     <div class="keys" id="keys"></div>
-    <div class="hint">SHIFT للأوامر البرتقالية، ALPHA للمتغيرات الحمراء. اضغط على النتيجة عشان تبدّل كسر ↔ عشري.</div>
+    <div class="hint">زر الكسر الأخضر: اكتب البسط، ▶ للمقام. SHIFT للأوامر البرتقالية، ALPHA للمتغيرات الحمراء. اضغط على النتيجة عشان تبدّل كسر ↔ عشري.</div>
   </section>
 
   <!-- ===== equations ===== -->
@@ -275,6 +294,7 @@ function lex(src){
     const nm=NAMES.find(n=>s.startsWith(n,i));
     if(nm){T.push({t:"id",v:nm});i+=nm.length;continue}
     if(VARS.includes(c)){T.push({t:"var",v:c});i++;continue}
+    if(c==="⬚"){T.push({t:"var",v:"⬚"});i++;continue}
     if(c==="x"){T.push({t:"var",v:"X"});i++;continue}
     if(c==="y"){T.push({t:"var",v:"Y"});i++;continue}
     if("+-*/^(),!%°′″²³".includes(c)){T.push({t:"op",v:c});i++;continue}
@@ -426,10 +446,15 @@ function dms(x){
   const deg=x*U()*180/Math.PI,s=deg<0?"−":"",a=Math.abs(deg);let d=Math.floor(a),m=Math.floor((a-d)*60),sec=((a-d)*60-m)*60;
   sec=Math.round(sec*100)/100;if(sec>=60){sec-=60;m++}if(m>=60){m-=60;d++}return`${s}${d}°${m}′${sec}″`;
 }
-function show(x,mode){ // mode: exact | dec | eng | dms
+const stack=(a,b)=>`<span class="fr"><span>${a}</span><span>${b}</span></span>`;
+function fracHTML(h){const m=h.match(/^(−?)(.+)\/(\d+)$/);if(!m)return h.replace(/√(\d+)/,'<span class="rt">√<span class="ov">$1</span></span>');
+  const top=m[2].replace(/√(\d+)/,'<span class="rt">√<span class="ov">$1</span></span>');return m[1]+stack(top,m[3])}
+function mixed(x){const f=frac(x,9999);if(!f||f[1]===1||Math.abs(f[0])<f[1])return null;const s=f[0]<0?"−":"",n=Math.abs(f[0]),w=Math.floor(n/f[1]);return`${s}${w}${stack(n-w*f[1],f[1])}`}
+function show(x,mode){ // mode: exact | mixed | dec | eng | dms
   if(mode==="dms")return dms(x);
   if(mode==="eng")return dec(x,true);
-  if(mode==="exact"){const e=exact(x);if(e)return e.h}
+  if(mode==="mixed"){const m=mixed(x);if(m)return m;mode="exact"}
+  if(mode==="exact"){const e=exact(x);if(e)return fracHTML(e.h)}
   return dec(x);
 }
 
@@ -449,9 +474,56 @@ function renderResult(){
   resEl.className="res"+(last.pre?" pre":"");
   if(last.multi){resEl.innerHTML=last.multi.map(([k,v])=>`<span class="lb">${k}=</span>${show(v,last.mode)}`).join("&nbsp; ");apx.textContent="";return}
   const txt=show(last.v,last.mode);resEl.innerHTML=(last.pre?"= ":"")+txt;
-  const ex=last.mode==="exact"&&exact(last.v);apx.innerHTML=ex?"≈ "+dec(last.v):"";
+  const ex=(last.mode==="exact"||last.mode==="mixed")&&exact(last.v);apx.innerHTML=ex?"≈ "+dec(last.v):"";
+}
+const PREC={"+":1,"-":1,"*":2,"/":2,mod:2,nPr:3,nCr:3,"^":5,root:5};
+const prec=n=>n.t==="b"?PREC[n.o]:n.t==="u"?4:n.t==="p"?6:9;
+const escH=t=>String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const rootH=t=>`<span class="rt">√<span class="ov">${t}</span></span>`;
+function numH(v){const t=String(v);if(/e/.test(t)){const[m,e]=t.split("e");return`${m}×10<sup>${+e}</sup>`}return t}
+function wrapP(n,p){const t=pp(n);return prec(n)<p?`(${t})`:t}
+function pp(n){
+  switch(n.t){
+    case "n":return numH(n.v);
+    case "v":return n.n==="⬚"?'<span class="ph"></span>':`<i>${n.n}</i>`;
+    case "c":return n.n;
+    case "u":return"−"+wrapP(n.a,4);
+    case "p":return wrapP(n.a,6)+({"⁻¹":"<sup>−1</sup>","²":"<sup>2</sup>","³":"<sup>3</sup>"}[n.o]||n.o);
+    case "b":{const o=n.o;
+      if(o==="/")return stack(pp(n.l),pp(n.r));
+      if(o==="^")return wrapP(n.l,6)+`<sup>${pp(n.r)}</sup>`;
+      if(o==="root")return`<sup class="ri">${pp(n.l)}</sup>`+rootH(pp(n.r));
+      const pl=PREC[o],L=wrapP(n.l,pl),R=wrapP(n.r,o==="-"?pl+1:pl);
+      if(o==="*"){const jux=["v","c","f"].includes(n.r.t)&&["n","v","c"].includes(n.l.t);return L+(jux?"":"×")+R}
+      if(n.dms)return L+R;
+      return L+({"+":"+","-":"−",mod:" mod ",nPr:"P",nCr:"C"}[o])+R}
+    case "f":{const A=n.args.map(pp),f=n.n;
+      if(f==="√")return rootH(A[0]);if(f==="∛")return`<sup class="ri">3</sup>`+rootH(A[0]);
+      if(f==="Abs"||f==="abs")return`|${A[0]}|`;
+      if(f==="∫")return`∫<span class="lim"><sup>${A[2]??""}</sup><sub>${A[1]??""}</sub></span>(${A[0]??""})d<i>x</i>`;
+      if(f==="Σ"||f==="Π")return`${f}<span class="lim"><sup>${A[2]??""}</sup><sub><i>x</i>=${A[1]??""}</sub></span>(${A[0]??""})`;
+      if(f==="d/dx")return stack("d","d<i>x</i>")+`(${A[0]??""})<sub>|<i>x</i>=${A[1]??""}</sub>`;
+      if(f==="log"&&A.length===2)return`log<sub>${A[0]}</sub>(${A[1]})`;
+      return`${escH(f)}(${A.join(", ")})`}
+  }
+  return"";
+}
+function natural(){
+  const t=inp.value.trim(),el=$("nat");let h="";
+  if(t&&!t.includes("=")){let u=t.replace(/\(\)/g,"(⬚)");if(/[(+\-−×÷*/^,]$/.test(u))u+="⬚";try{h=pp(parse(u))}catch(e){h=""}}
+  el.innerHTML=h;el.closest(".screen").classList.toggle("hasnat",!!h);fracPos();
+}
+function fracPos(){ // which box of a fraction the caret is in
+  const v=inp.value,a=inp.selectionStart??v.length,st=[],el=$("iF");let role=null;
+  for(let i=0;i<a;i++){if(v[i]==="(")st.push(i);else if(v[i]===")")st.pop()}
+  for(let q=st.length-1;q>=0&&!role;q--){const j=st[q];
+    if(v.slice(j-2,j)===")/"){role="den";break}
+    let d=0,k=j;for(;k<v.length;k++){if(v[k]==="(")d++;else if(v[k]===")"){d--;if(!d)break}}
+    if(v.slice(k,k+3)===")/(")role="num"}
+  el.hidden=done||!role;el.textContent=role==="num"?"تكتب في البسط ← ▶ للمقام":"تكتب في المقام ← ▶ للخروج";
 }
 function preview(){
+  natural();
   if(done)return;const s=inp.value.trim();
   if(!s||/Ran/.test(s)||/=/.test(s)){last=null;renderResult();return}
   try{const r=evalStr(s);last={v:r.v,multi:r.ctx.multi,mode:S.frac?"exact":"dec",pre:true}}catch(e){last=null}
@@ -461,7 +533,7 @@ function pushHist(e,txt){S.hist.push({e,r:txt});if(S.hist.length>40)S.hist.shift
 function renderHist(){
   const h=$("hist");h.textContent="";
   S.hist.slice(-20).forEach(it=>{const d=document.createElement("div");d.className="hrow";
-    const a=document.createElement("span");a.className="he";a.textContent=it.e;const b=document.createElement("span");b.className="hr";b.textContent="= "+it.r;
+    const a=document.createElement("span");a.className="he";a.textContent=it.e.replace(/\((−?-?[\d.]+)\)(?=\/)|(?<=\/)\((−?-?[\d.]+)\)/g,(m,x,y)=>x||y);const b=document.createElement("span");b.className="hr";b.textContent="= "+it.r;
     d.append(a,b);d.title="اضغط عشان ترجع المعادلة";d.onclick=()=>{inp.value=it.e;done=false;inp.focus();setCaret(inp.value.length);preview()};h.append(d)});
   h.scrollTop=h.scrollHeight;
 }
@@ -479,23 +551,32 @@ function equals(){
 }
 function setCaret(p){try{inp.setSelectionRange(p,p)}catch(e){}}
 const CONT=/^(\+|-|−|×|÷|\^|²|³|⁻¹|!|%| nPr | nCr | mod |°|′|″)/;
-function insert(t){
+function insert(t,back){
   if(done){done=false;if(last&&!last.err&&CONT.test(t)){inp.value="Ans";setCaret(3)}else{inp.value="";setCaret(0)}}
   const a=inp.selectionStart??inp.value.length,b=inp.selectionEnd??a;
-  inp.value=inp.value.slice(0,a)+t+inp.value.slice(b);setCaret(a+t.length);
+  inp.value=inp.value.slice(0,a)+t+inp.value.slice(b);setCaret(a+t.length-(back||0));
   if(!coarse)inp.focus();preview();
+}
+function insertFrac(){
+  const a=inp.selectionStart??inp.value.length,b=inp.selectionEnd??a;
+  if(!done&&b>a){const sel=inp.value.slice(a,b);inp.value=inp.value.slice(0,a)+"("+sel+")/()"+inp.value.slice(b);setCaret(a+sel.length+4);if(!coarse)inp.focus();preview();return}
+  insert("()/()",4);
 }
 const CHUNKS=[...NAMES.map(n=>n+"("),...NAMES,"×10^("," nPr "," nCr "," mod "].sort((a,b)=>b.length-a.length);
 function del(){
   if(done){done=false}
   const a=inp.selectionStart??inp.value.length,b=inp.selectionEnd??a;
   if(a!==b){inp.value=inp.value.slice(0,a)+inp.value.slice(b);setCaret(a);preview();return}
-  if(a===0)return;const before=inp.value.slice(0,a);
+  if(a===0)return;const before=inp.value.slice(0,a),after=inp.value.slice(a);
+  if(before.endsWith("(")&&after.startsWith(")/()")){inp.value=inp.value.slice(0,a-1)+inp.value.slice(a+4);setCaret(a-1);preview();return}
+  if(before.endsWith("()/(")&&after.startsWith(")")){inp.value=inp.value.slice(0,a-4)+inp.value.slice(a+1);setCaret(a-4);preview();return}
   const c=CHUNKS.find(x=>before.endsWith(x));const n=c?c.length:(before.endsWith("⁻¹")?2:1);
   inp.value=inp.value.slice(0,a-n)+inp.value.slice(a);setCaret(a-n);preview();
 }
-function moveCaret(d){done=false;const a=inp.selectionStart??inp.value.length;setCaret(Math.max(0,Math.min(inp.value.length,a+d)));if(!coarse)inp.focus()}
-function clearAll(){inp.value="";done=false;last=null;closePrompt();renderResult()}
+function moveCaret(d){done=false;const a=inp.selectionStart??inp.value.length,v=inp.value;
+  if(d>0&&v.slice(a,a+3)===")/(")d=3;else if(d<0&&v.slice(a-3,a)===")/(")d=-3;
+  setCaret(Math.max(0,Math.min(v.length,a+d)));if(!coarse)inp.focus();fracPos()}
+function clearAll(){inp.value="";done=false;last=null;closePrompt();renderResult();natural()}
 
 /* keys: [main, shift, alpha, cls]; each label maps to an action in ACT */
 const KEYS=[
@@ -507,7 +588,7 @@ const KEYS=[
   ["7","","","num"],["8","","","num"],["9","","","num"],["⌫","RanInt","","ac"],["AC","CLR","","ac"],["X","Ran#","Y",""],
   ["4","","","num"],["5","","","num"],["6","","","num"],["×","","","op"],["÷","","","op"],["Ans","PreAns","","sm"],
   ["1","","","num"],["2","","","num"],["3","","","num"],["+","","","op"],["−","","","op"],["π","e","","num"],
-  ["0","","","num"],[".","","","num"],["×10ˣ","","","sm"],["ENG","","","sm"],["=","","","eq"]
+  ["0","","","num"],[".","","","num"],["×10ˣ","","","sm"],["□/□","a b/c","","frac"],["=","","","eq"]
 ];
 const H=t=>hyp?{"sin(":"sinh(","cos(":"cosh(","tan(":"tanh(","sin⁻¹(":"sinh⁻¹(","cos⁻¹(":"cosh⁻¹(","tan⁻¹(":"tanh⁻¹("}[t]:t;
 const ACT={
@@ -530,7 +611,8 @@ const ACT={
   "CONST":constPop,"CONV":convPop,"M+":()=>memAdd(1),"M−":()=>memAdd(-1),
   "⌫":del,"RanInt":()=>insert("RanInt("),"AC":clearAll,"CLR":clrAll,"X":()=>insert("X"),"Ran#":()=>insert("Ran#"),
   "×":()=>insert("×"),"÷":()=>insert("÷"),"+":()=>insert("+"),"−":()=>insert("−"),"Ans":()=>insert("Ans"),"PreAns":()=>insert("PreAns"),
-  "π":()=>insert("π"),"e":()=>insert("e"),".":()=>insert("."),"×10ˣ":()=>insert("ᴇ"),"=":equals
+  "π":()=>insert("π"),"□/□":insertFrac,
+  "a b/c":()=>{if(last&&!last.err&&!last.multi){last.mode=last.mode==="mixed"?"exact":"mixed";renderResult()}},"e":()=>insert("e"),".":()=>insert("."),"×10ˣ":()=>insert("ᴇ"),"=":equals
 };
 function degMark(){ // °, then ′, then ″ after a number that already has the previous mark
   const a=inp.selectionStart??inp.value.length,b=inp.value.slice(0,a);
@@ -548,7 +630,7 @@ function press(i){
 (function buildKeys(){
   const k=$("keys");
   KEYS.forEach(([m,s,a,c],i)=>{const b=document.createElement("button");b.type="button";b.className="k "+c+(s?" hs":"")+(a?" ha":"");
-    b.innerHTML=`${s?`<span class="s">${s}</span>`:""}${a?`<span class="a">${a}</span>`:""}<span class="m">${m}</span>`;
+    b.innerHTML=`${s?`<span class="s">${s}</span>`:""}${a?`<span class="a">${a}</span>`:""}<span class="m">${m==="□/□"?'<span class="fico"><i></i><b></b><i></i></span>':m}</span>`;
     b.setAttribute("aria-label",m+(s?" / "+s:""));
     b.addEventListener("pointerdown",e=>e.preventDefault());
     b.addEventListener("click",()=>press(i));k.append(b)});
@@ -557,6 +639,7 @@ resEl.onclick=()=>{if(last&&!last.err){last.mode=last.mode==="exact"?"dec":last.
 $("iAng").onclick=()=>{ACT.MODE();ind()};
 $("iFr").onclick=()=>{S.frac=!S.frac;save();if(last&&!last.err&&!last.multi)last.mode=S.frac?"exact":"dec";ind();renderResult()};
 inp.addEventListener("input",()=>{done=false;preview()});
+["click","keyup"].forEach(ev=>inp.addEventListener(ev,fracPos));
 inp.addEventListener("keydown",e=>{
   if(e.key==="Enter"){e.preventDefault();equals()}
   else if(e.key==="Escape"){e.preventDefault();clearAll()}
