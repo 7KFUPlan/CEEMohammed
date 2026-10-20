@@ -601,7 +601,7 @@ function qSource(){
   if(srcP)return srcP;
   srcP=new Promise((res,rej)=>{
     try{if(EMB&&window.parent.__qsrc)return res({src:window.parent.__qsrc,live:true})}catch(e){}
-    const f=document.createElement("iframe");f.src="statics.html?v=8";f.setAttribute("aria-hidden","true");f.tabIndex=-1;
+    const f=document.createElement("iframe");f.src="statics.html?v=12";f.setAttribute("aria-hidden","true");f.tabIndex=-1;
     f.style.cssText="position:fixed;left:-3000px;top:0;width:1000px;height:800px;border:0;visibility:hidden";
     document.body.append(f);const t0=Date.now();
     (function wait(){let q=null;try{q=f.contentWindow.__qsrc}catch(e){}if(q)return res({src:q,live:false});if(Date.now()-t0>15000){srcP=null;return rej()}setTimeout(wait,150)})();
