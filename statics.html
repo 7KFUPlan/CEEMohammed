@@ -332,6 +332,33 @@ const LAB={
 '4.9':[[50.5,39,23.5,6.5,p=>`F = ${p.F} N`],[22.5,20,13.5,6.5,p=>`${p.dx} m`],[2.5,53.5,13.5,6.5,p=>`${p.dz} m`],[74.5,56.5,13.5,6.5,p=>`${p.cz} m`]],
 };
 
+/* 10 checked number sets per example (angles stay as in the book) */
+const PRE={
+'2.3':[{P:210,a:30,b:45},{P:300,a:30,b:45},{P:150,a:30,b:45},{P:260,a:30,b:45},{P:180,a:30,b:45},{P:230,a:30,b:45},{P:280,a:30,b:45},{P:170,a:30,b:45},{P:290,a:30,b:45},{P:220,a:30,b:45}],
+'2.5':[{F1:280,t:30,F2:299},{F1:150,t:30,F2:195},{F1:160,t:30,F2:325},{F1:300,t:30,F2:195},{F1:210,t:30,F2:247},{F1:220,t:30,F2:312},{F1:150,t:30,F2:260},{F1:270,t:30,F2:234},{F1:230,t:30,F2:195},{F1:240,t:30,F2:273}],
+'2.6':[{F1:750,a:30,F2:450,b:45},{F1:400,a:30,F2:250,b:45},{F1:450,a:30,F2:500,b:45},{F1:800,a:30,F2:250,b:45},{F1:575,a:30,F2:350,b:45},{F1:400,a:30,F2:400,b:45},{F1:600,a:30,F2:475,b:45},{F1:650,a:30,F2:275,b:45},{F1:775,a:30,F2:350,b:45},{F1:450,a:30,F2:325,b:45}],
+'2.7':[{F1:325,F2:150,b:45,F3:235},{F1:500,F2:350,b:45,F3:150},{F1:475,F2:275,b:45,F3:250},{F1:300,F2:350,b:45,F3:200},{F1:475,F2:150,b:45,F3:175},{F1:350,F2:225,b:45,F3:150},{F1:425,F2:300,b:45,F3:190},{F1:300,F2:275,b:45,F3:250},{F1:400,F2:350,b:45,F3:240},{F1:425,F2:200,b:45,F3:225}],
+'2.8':[{F:230,b:60,g:45},{F:400,b:60,g:45},{F:310,b:60,g:45},{F:150,b:60,g:45},{F:270,b:60,g:45},{F:190,b:60,g:45},{F:350,b:60,g:45},{F:380,b:60,g:45},{F:330,b:60,g:45},{F:250,b:60,g:45}],
+'2.9':[{a:80,b:60,c:60,d:100,e:90},{a:40,b:100,c:30,d:140,e:70},{a:40,b:40,c:40,d:60,e:50},{a:40,b:80,c:80,d:60,e:120},{a:100,b:100,c:80,d:130,e:120},{a:60,b:40,c:80,d:140,e:50},{a:100,b:50,c:30,d:140,e:60},{a:60,b:100,c:40,d:70,e:100},{a:60,b:50,c:30,d:120,e:120},{a:40,b:90,c:70,d:90,e:50}],
+'2.11':[{F1:200,R:700},{F1:400,R:1000},{F1:375,R:600},{F1:225,R:1000},{F1:300,R:850},{F1:350,R:750},{F1:275,R:650},{F1:250,R:900},{F1:350,R:950},{F1:300,R:1000}],
+'2.12':[{a1:1,a3:2,b1:1,b2:1,b3:4},{a1:3,a3:4,b1:3,b2:4,b3:2},{a1:3,a3:2,b1:2,b2:4,b3:4},{a1:1,a3:3,b1:3,b2:1,b3:2},{a1:3,a3:4,b1:1,b2:1,b3:3},{a1:2,a3:3,b1:1,b2:3,b3:2},{a1:1,a3:4,b1:2,b2:3,b3:4},{a1:3,a3:3,b1:3,b2:1,b3:4},{a1:3,a3:2,b1:2,b2:1,b3:2},{a1:1,a3:2,b1:3,b2:4,b3:3}],
+'2.13':[{F:55,H:30,bx:11,by:8,bz:7},{F:115,H:24,bx:8,by:6,bz:4},{F:115,H:34,bx:14,by:10,bz:4},{F:115,H:26,bx:9,by:10,bz:8},{F:100,H:24,bx:14,by:6,bz:8},{F:120,H:36,bx:8,by:8,bz:6},{F:50,H:36,bx:14,by:6,bz:5},{F:60,H:24,bx:10,by:10,bz:4},{F:90,H:36,bx:13,by:9,bz:8},{F:50,H:36,bx:8,by:6,bz:8}],
+'2.14':[{F:875,L:8,ax:3,az:3},{F:500,L:4,ax:1,az:1},{F:900,L:4,ax:2,az:2},{F:900,L:8,ax:1,az:1},{F:575,L:7,ax:3,az:1},{F:675,L:6,ax:1,az:3},{F:500,L:4,ax:3,az:3},{F:675,L:8,ax:2,az:2},{F:800,L:6,ax:2,az:1},{F:700,L:5,ax:3,az:2}],
+'2.17':[{P:200,bx:1,by:3,bz:4},{P:500,bx:4,by:8,bz:2},{P:350,bx:2,by:8,bz:5},{P:475,bx:4,by:3,bz:5},{P:475,bx:1,by:6,bz:3},{P:225,bx:3,by:5,bz:2},{P:200,bx:4,by:6,bz:5},{P:425,bx:2,by:3,bz:2},{P:200,bx:1,by:8,bz:2},{P:350,bx:4,by:4,bz:3}],
+'2.18':[{F:110,yA:2,dy:3,bx:1,h:1},{F:50,yA:1,dy:1,bx:3,h:2},{F:120,yA:1,dy:2,bx:1,h:2},{F:80,yA:1,dy:3,bx:3,h:1},{F:50,yA:2,dy:1,bx:2,h:1},{F:95,yA:2,dy:3,bx:3,h:2},{F:50,yA:2,dy:2,bx:1,h:2},{F:120,yA:1,dy:1,bx:2,h:1},{F:50,yA:1,dy:2,bx:1,h:1},{F:120,yA:2,dy:1,bx:2,h:2}],
+'3.2':[{m:90,f:45},{m:30,f:45},{m:55,f:45},{m:75,f:45},{m:45,f:45},{m:65,f:45},{m:50,f:45},{m:35,f:45},{m:80,f:45},{m:40,f:45}],
+'3.3':[{m:225,Fm:15},{m:400,Fm:5},{m:100,Fm:7},{m:400,Fm:13},{m:275,Fm:9},{m:100,Fm:13},{m:225,Fm:5},{m:150,Fm:10},{m:400,Fm:9},{m:250,Fm:12}],
+'3.4':[{m:8,k:200,l0:0.5,Dd:3,f:30},{m:12,k:500,l0:0.3,Dd:2,f:30},{m:5,k:300,l0:0.4,Dd:2,f:30},{m:6,k:450,l0:0.3,Dd:3,f:30},{m:10,k:200,l0:0.3,Dd:2.5,f:30},{m:10,k:500,l0:0.5,Dd:2.5,f:30},{m:12,k:250,l0:0.5,Dd:2,f:30},{m:12,k:350,l0:0.4,Dd:3,f:30},{m:5,k:500,l0:0.5,Dd:3,f:30},{m:6,k:450,l0:0.5,Dd:2,f:30}],
+'3.5':[{W:100,k:550,f:30},{W:150,k:800,f:30},{W:150,k:300,f:30},{W:60,k:800,f:30},{W:60,k:300,f:30},{W:120,k:700,f:30},{W:130,k:450,f:30},{W:100,k:300,f:30},{W:60,k:550,f:30},{W:90,k:750,f:30}],
+'3.7':[{W:50,a:2,b:3,h:11},{W:100,a:4,b:6,h:6},{W:30,a:4,b:5,h:12},{W:30,a:2,b:6,h:6},{W:100,a:2,b:6,h:12},{W:40,a:4,b:3,h:6},{W:80,a:3,b:4,h:8},{W:100,a:4,b:3,h:12},{W:100,a:2,b:3,h:6},{W:50,a:3,b:6,h:10}],
+'3.8':[{m:50,a:1,b:3,c:1},{m:150,a:2,b:1,c:3},{m:50,a:2,b:2,c:2},{m:150,a:1,b:2,c:2},{m:50,a:1,b:1,c:3},{m:150,a:2,b:3,c:1},{m:100,a:1,b:1,c:1},{m:100,a:2,b:3,c:3},{m:70,a:1,b:3,c:3},{m:130,a:2,b:1,c:1}],
+'4.2':[{F1:80,F2:70,F3:40,F4:50,a:1,b:3,L:2,f:30},{F1:30,F2:40,F3:15,F4:25,a:3,b:1,L:4,f:30},{F1:70,F2:80,F3:10,F4:55,a:3,b:2,L:3,f:30},{F1:30,F2:80,F3:40,F4:20,a:2,b:1,L:2,f:30},{F1:45,F2:40,F3:35,F4:60,a:2,b:3,L:4,f:30},{F1:50,F2:50,F3:10,F4:45,a:1,b:1,L:2,f:30},{F1:30,F2:80,F3:20,F4:20,a:1,b:3,L:4,f:30},{F1:60,F2:50,F3:25,F4:20,a:3,b:3,L:2,f:30},{F1:80,F2:50,F3:40,F4:30,a:1,b:1,L:4,f:30},{F1:75,F2:40,F3:30,F4:55,a:3,b:1,L:2,f:30}],
+'4.3':[{F:3,h:15,bx:4,by:14},{F:1,h:8,bx:2,by:8},{F:5,h:8,bx:6,by:11},{F:5,h:15,bx:2,by:8},{F:1,h:15,bx:6,by:8},{F:1,h:8,bx:5,by:14},{F:4,h:9,bx:2,by:13},{F:3.5,h:11,bx:4,by:9},{F:1,h:15,bx:2,by:11},{F:2,h:11,bx:6,by:12}],
+'4.4':[{a1:30,b1:60,c1:20,a2:70,b2:60,c2:50,L:4,pp:4,qq:1},{a1:70,b1:20,c1:40,a2:40,b2:40,c2:10,L:6,pp:2,qq:3},{a1:40,b1:30,c1:10,a2:90,b2:20,c2:20,L:5,pp:5,qq:3},{a1:70,b1:60,c1:30,a2:90,b2:20,c2:40,L:6,pp:2,qq:1},{a1:70,b1:20,c1:40,a2:100,b2:30,c2:50,L:4,pp:4,qq:2},{a1:80,b1:20,c1:10,a2:50,b2:50,c2:30,L:4,pp:2,qq:1},{a1:80,b1:60,c1:40,a2:40,b2:60,c2:20,L:4,pp:5,qq:3},{a1:40,b1:60,c1:40,a2:100,b2:60,c2:10,L:6,pp:4,qq:2},{a1:30,b1:20,c1:30,a2:100,b2:60,c2:20,L:4,pp:2,qq:3},{a1:80,b1:40,c1:10,a2:100,b2:60,c2:50,L:6,pp:2,qq:3}],
+'4.5':[{F:7,L:5,f:30,y:45},{F:2,L:2,f:30,y:45},{F:10,L:3,f:30,y:45},{F:3,L:4,f:30,y:45},{F:7.5,L:2,f:30,y:45},{F:5.5,L:3,f:30,y:45},{F:8.5,L:4,f:30,y:45},{F:2,L:5,f:30,y:45},{F:2.5,L:3,f:30,y:45},{F:10,L:5,f:30,y:45}],
+'4.6':[{F:400,dx:0.6,dy:0.2,f:30},{F:600,dx:0.3,dy:0.1,f:30},{F:200,dx:0.3,dy:0.3,f:30},{F:200,dx:0.5,dy:0.1,f:30},{F:600,dx:0.4,dy:0.3,f:30},{F:600,dx:0.6,dy:0.1,f:30},{F:200,dx:0.6,dy:0.3,f:30},{F:400,dx:0.3,dy:0.2,f:30},{F:200,dx:0.4,dy:0.2,f:30},{F:400,dx:0.4,dy:0.1,f:30}],
+'4.8':[{P:500,bx:0.4,by:0.3,cx:0.5,cz:0.3},{P:200,bx:0.5,by:0.2,cx:0.7,cz:0.2},{P:275,bx:0.3,by:0.3,cx:0.6,cz:0.2},{P:425,bx:0.3,by:0.2,cx:0.7,cz:0.3},{P:425,bx:0.4,by:0.2,cx:0.5,cz:0.2},{P:275,bx:0.5,by:0.3,cx:0.7,cz:0.3},{P:225,bx:0.5,by:0.2,cx:0.5,cz:0.3},{P:500,bx:0.5,by:0.3,cx:0.7,cz:0.2},{P:200,bx:0.5,by:0.3,cx:0.5,cz:0.2},{P:200,bx:0.3,by:0.3,cx:0.5,cz:0.3}],
+'4.9':[{F:225,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.3,dx:0.5,dz:0.5},{F:500,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.2,dx:0.7,dz:0.3},{F:425,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.4,dx:0.4,dz:0.3},{F:450,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.4,dx:0.7,dz:0.6},{F:500,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.2,dx:0.4,dz:0.6},{F:200,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.4,dx:0.7,dz:0.3},{F:275,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.2,dx:0.7,dz:0.6},{F:250,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.2,dx:0.4,dz:0.3},{F:300,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.4,dx:0.4,dz:0.6},{F:350,ax:0.3,ay:0.4,cx:0.1,cy:0.4,cz:0.3,dx:0.7,dz:0.4}]};
 const CH={2:['Force Vectors','متجهات القوى'],3:['Equilibrium of a Particle','اتزان الجسيم'],4:['Force System Resultants','محصلات أنظمة القوى']};
 const state={}; let filter=0;
 const list=document.getElementById('list');
@@ -374,12 +401,14 @@ function paintLabels(pr,c){
   if(img.complete&&img.naturalWidth)go();else img.addEventListener('load',go,{once:true});
 }
 function fresh(pr,c,orig){
-  const p=orig?Object.assign({},BOOK[pr.id]):pr.gen(), sol=pr.s(p); state[pr.id]={p,sol,ok:false,orig:!!orig};
+  const L=PRE[pr.id],prev=state[pr.id]?state[pr.id].pi:-1;let pi=-1;
+  if(!orig){do{pi=Math.floor(Math.random()*L.length)}while(L.length>1&&pi===prev)}
+  const p=orig?Object.assign({},BOOK[pr.id]):Object.assign({},L[pi]), sol=pr.s(p); state[pr.id]={p,sol,ok:false,orig:!!orig,pi};
   const fid=pr.id.replace('.','_');
   c.classList.remove('solved');
   const labs=(LAB[pr.id]||[]).map(([x,y,w,h,f,t])=>{const kind=t||0;const hide=orig&&kind===0;
     return `<span class="lab${kind===2?' blank':''}" data-h="${h}" style="left:${x}%;top:${y}%;min-width:${w}%;height:${h}%"${hide?' hidden':''}>${lbl(f(p))}</span>`}).join('');
-  c.innerHTML=`<div class="ch"><span class="ex">Ex ${pr.id}</span><h3>${pr.ar}</h3><span class="en">${pr.en.replace(/_(\w+)/g,'<sub>$1</sub>')}</span>${orig?'<span class="mode">أرقام الكتاب</span>':''}<span class="state" hidden></span></div>
+  c.innerHTML=`<div class="ch"><span class="ex">Ex ${pr.id}</span><h3>${pr.ar}</h3><span class="en">${pr.en.replace(/_(\w+)/g,'<sub>$1</sub>')}</span>${orig?'<span class="mode">أرقام الكتاب</span>':`<span class="mode set">أرقام ${pi+1} / ${L.length}</span>`}<span class="state" hidden></span></div>
   <div class="cb"><figure class="fig" style="margin:0"><div class="figbox"><img src="${FIGS['ex'+fid+'.jpg']}" alt="Figure for example ${pr.id}">${labs}</div></figure>
   <div class="work"><div class="q">${pr.q(p)}</div>
    <div class="given">${pr.g(p).map(x=>`<span>${x.replace(/(\d+(?:\.\d+)?)/g,'<b>$1</b>')}</span>`).join('')}</div>
@@ -416,7 +445,7 @@ function applyFilter(){list.querySelectorAll('.card,.chap').forEach(el=>{el.hidd
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{filter=+t.dataset.ch;document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-pressed',b===t?'true':'false'));applyFilter()});
 document.getElementById('origall').onclick=()=>{P.forEach(pr=>fresh(pr,document.getElementById('ex'+pr.id.replace('.','_')),true));score()};
 document.getElementById('newall').onclick=()=>{P.forEach(pr=>fresh(pr,document.getElementById('ex'+pr.id.replace('.','_'))));score()};
-window.__P=P; window.__state=state; window.__BOOK=BOOK; window.__LAB=LAB;
+window.__P=P; window.__PRE=PRE; window.__state=state; window.__BOOK=BOOK; window.__LAB=LAB;
 build();
 })();
 </script>
