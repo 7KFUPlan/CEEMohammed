@@ -80,6 +80,14 @@ main .wrap{padding-block:18px 40px;display:flex;flex-direction:column;gap:18px}
 .lab sub{font-size:.7em;vertical-align:-.25em}
 .mode{font-size:12px;font-weight:700;color:var(--blue);background:var(--tint);border-radius:999px;padding:2px 10px}
 .btn.ghost{background:transparent}
+.btn.stb{background:var(--amber-t);border-color:var(--amber);color:var(--amber)}
+.steps{margin:0;padding:12px 14px;list-style:none;counter-reset:st;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:12px;background:var(--sheet)}
+.steps li{counter-increment:st;position:relative;padding-inline-start:34px}
+.steps li::before{content:counter(st);position:absolute;inset-inline-start:0;top:1px;width:24px;height:24px;border-radius:50%;background:var(--blue);color:var(--sheet);font:700 12px var(--mono);display:grid;place-items:center}
+.steps li>b{display:block;font-size:14.5px;margin-bottom:2px}
+.steps li p{margin:0 0 6px;font-size:14px;color:var(--muted);line-height:1.7}
+.steps .sm{direction:ltr;text-align:left;font:500 13.5px/1.8 var(--mono);background:var(--paper);border:1px solid var(--line);border-inline-start:3px solid var(--amber);border-radius:8px;padding:6px 10px;overflow-x:auto}
+.steps .sm b{color:var(--ok);background:var(--ok-t);padding:0 4px;border-radius:4px}
 .btn.nbb{background:var(--tint);border-color:var(--blue2);color:var(--blue)}
 .btn:disabled{opacity:.45;cursor:default}
 .work{padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -332,6 +340,124 @@ const LAB={
 '4.9':[[50.5,39,23.5,6.5,p=>`F = ${p.F} N`],[22.5,20,13.5,6.5,p=>`${p.dx} m`],[2.5,53.5,13.5,6.5,p=>`${p.dz} m`],[74.5,56.5,13.5,6.5,p=>`${p.cz} m`]],
 };
 
+/* step-by-step explanation in Arabic, built from the numbers on screen: [title, why, math] */
+const f=x=>{const r=Math.round(x);if(Math.abs(x-r)<1e-9)return String(r).replace('-','−');return String(+x.toPrecision(Math.abs(x)>=1000?6:5)).replace('-','−')}, sq=x=>`(${f(x)})²`, V=v=>`{${f(v[0])}i ${v[1]<0?'−':'+'} ${f(Math.abs(v[1]))}j ${v[2]<0?'−':'+'} ${f(Math.abs(v[2]))}k}`;
+const dirSteps=(v,m,nm)=>{const a=dirs(v),L=['α','β','γ'];return ['زوايا الاتجاه',`كل زاوية = cos⁻¹ (المركبة ÷ ${nm||'المقدار'}).`,a.map((x,i)=>`${L[i]} = cos⁻¹(${f(v[i])} / ${f(m)}) = <b>${f(x)}°</b>`).join('<br>')]};
+const W981=m=>['الوزن','الكتلة مو قوة، فنضربها في g = 9.81 عشان يطلع الوزن بالنيوتن.',`W = ${f(m)} × 9.81 = <b>${f(m*9.81)} N</b>`];
+const STEPS={
+'2.3':p=>{const F=p.P*cs(p.a)/sn(p.b),R=p.P*sn(p.a)+F*cs(p.b);return[
+ ['الفكرة','المحصلة على محور y، يعني مجموع مركبات x لازم يطلع صفر. القوة P يمين، و F يسار.',`ΣFx = 0 ,  F_R = ΣFy`],
+ ['مركبات x ← نطلع F',`P مقاسة من x فتاخذ cos، و F مقاسة من y فمركبتها الأفقية تاخذ sin.`,`${f(p.P)} cos${p.a}° − F sin${p.b}° = 0<br>F = ${f(p.P)} cos${p.a}° / sin${p.b}° = <b>${f(F)} lb</b>`],
+ ['مركبات y ← نطلع F_R','الاثنين طالعين لفوق فنجمعهم.',`F_R = ${f(p.P)} sin${p.a}° + ${f(F)} cos${p.b}° = <b>${f(R)} lb</b>`]]},
+'2.5':p=>[
+ ['مركبات F₁',`الزاوية ${p.t}° من محور y، فالأفقية تاخذ sin والرأسية cos. وهي رايحة يسار، فـ x سالبة.`,`F₁x = −${f(p.F1)} sin${p.t}° = <b>${f(-p.F1*sn(p.t))} N</b><br>F₁y = ${f(p.F1)} cos${p.t}° = <b>${f(p.F1*cs(p.t))} N</b>`],
+ ['مركبات F₂ بالمثلث','المثلث 5-12-13: الأفقي 12/13 من القوة، والرأسي 5/13. رايحة يمين وتحت، فـ y سالبة.',`F₂x = ${f(p.F2)} (12/13) = <b>${f(p.F2*12/13)} N</b><br>F₂y = −${f(p.F2)} (5/13) = <b>${f(-p.F2*5/13)} N</b>`]],
+'2.6':p=>{const x=p.F1*cs(p.a)-p.F2*sn(p.b),y=p.F1*sn(p.a)+p.F2*cs(p.b);return[
+ ['نجمع مركبات x',`F₁ يمين وزاويتها من x (cos). و F₂ يسار وزاويتها من y (sin).`,`F_Rx = ${f(p.F1)} cos${p.a}° − ${f(p.F2)} sin${p.b}° = <b>${f(x)} N</b>`],
+ ['نجمع مركبات y','الاثنين طالعين لفوق.',`F_Ry = ${f(p.F1)} sin${p.a}° + ${f(p.F2)} cos${p.b}° = <b>${f(y)} N</b>`],
+ ['المقدار (فيثاغورس)','',`F_R = √(${sq(x)} + ${sq(y)}) = <b>${f(Math.hypot(x,y))} N</b>`],
+ ['الاتجاه','المركبتين موجبة، يعني المحصلة في الربع الأول والزاوية من +x على طول.',`θ = tan⁻¹(${f(y)} / ${f(x)}) = <b>${f(Math.atan2(y,x)/D)}°</b>`]]},
+'2.7':p=>{const x=-p.F1+p.F2*sn(p.b)-p.F3*0.8,y=p.F2*cs(p.b)+p.F3*0.6;return[
+ ['نجمع مركبات x',`F₁ يسار (−). و F₂ يمين وزاويتها من y فتاخذ sin. و F₃ يسار بنسبة 4/5 من المثلث.`,`F_Rx = −${f(p.F1)} + ${f(p.F2)} sin${p.b}° − ${f(p.F3)}(4/5) = <b>${f(x)} N</b>`],
+ ['نجمع مركبات y','F₂ و F₃ طالعين لفوق. F₂ تاخذ cos، و F₃ تاخذ 3/5.',`F_Ry = ${f(p.F2)} cos${p.b}° + ${f(p.F3)}(3/5) = <b>${f(y)} N</b>`],
+ ['المقدار','الإشارة السالبة ما تأثر لأننا نربّع.',`F_R = √(${sq(x)} + ${sq(y)}) = <b>${f(Math.hypot(x,y))} N</b>`],
+ ['الاتجاه','x سالبة و y موجبة، يعني المحصلة في الربع الثاني (يسار فوق). نقيس الزاوية من −x مثل الكتاب.',`θ = tan⁻¹(${f(y)} / ${f(Math.abs(x))}) = <b>${f(Math.atan2(y,-x)/D)}°</b>  (from −x, up)`]]},
+'2.8':p=>{const ca=Math.sqrt(1-cs(p.b)**2-cs(p.g)**2);return[
+ ['نطلع الزاوية الثالثة α','مجموع مربعات جيوب التمام = 1.',`cos²α + cos²${p.b}° + cos²${p.g}° = 1<br>cos α = √(1 − ${f(cs(p.b)**2)} − ${f(cs(p.g)**2)}) = ±${f(ca)}`],
+ ['نختار القيمة','من الرسمة Fx باتجاه +x، فنختار الموجبة (α حادة).',`α = cos⁻¹(${f(ca)}) = <b>${f(acd(ca))}°</b>`],
+ ['نكتب المتجه','كل مركبة = F × cos زاويتها.',`Fx = ${f(p.F)} cos${f(acd(ca))}° = <b>${f(p.F*ca)} N</b><br>Fy = ${f(p.F)} cos${p.b}° = <b>${f(p.F*cs(p.b))} N</b><br>Fz = ${f(p.F)} cos${p.g}° = <b>${f(p.F*cs(p.g))} N</b>`]]},
+'2.9':p=>{const R=[p.c,p.a-p.d,p.b+p.e],m=mag(R);return[
+ ['نجمع المتجهات','i مع i، و j مع j، و k مع k.',`F_R = {0 + ${f(p.c)}}i + {${f(p.a)} − ${f(p.d)}}j + {${f(p.b)} + ${f(p.e)}}k = ${V(R)} lb`],
+ ['المقدار','جذر مجموع مربعات المركبات.',`F_R = √(${R.map(sq).join(' + ')}) = <b>${f(m)} lb</b>`],
+ dirSteps(R,m)]},
+'2.11':p=>{const F1=[p.F1*cs(45),p.F1*cs(60),p.F1*cs(120)],F2=sub([0,p.R,0],F1),m=mag(F2);return[
+ ['نكتب F₁ كمتجه','كل مركبة = F₁ × cos زاويتها.',`F₁ = ${f(p.F1)}cos45° i + ${f(p.F1)}cos60° j + ${f(p.F1)}cos120° k = ${V(F1)} N`],
+ ['نساوي المركبات: F_R = F₁ + F₂',`المحصلة على +y بس، يعني F_R = {${f(p.R)} j}.`,`F₂x = 0 − ${f(F1[0])} = ${f(F2[0])}<br>F₂y = ${f(p.R)} − ${f(F1[1])} = ${f(F2[1])}<br>F₂z = 0 − (${f(F1[2])}) = ${f(F2[2])}`],
+ ['مقدار F₂','',`F₂ = √(${F2.map(sq).join(' + ')}) = <b>${f(m)} N</b>`],
+ dirSteps(F2,m,'F₂')]},
+'2.12':p=>{const A=[p.a1,0,-p.a3],B=[-p.b1,p.b2,p.b3],r=sub(B,A),m=mag(r);return[
+ ['الإحداثيات من الرسمة',`A قدّام وتحت: x = ${f(p.a1)}، z = −${f(p.a3)}. و B ورا وفوق: x سالب.`,`A(${A.map(f).join(', ')})   B(${B.map(f).join(', ')})`],
+ ['متجه الموقع من A إلى B','النهاية ناقص البداية (B − A).',`r = [${f(B[0])} − ${f(A[0])}]i + [${f(B[1])} − 0]j + [${f(B[2])} − (${f(A[2])})]k = ${V(r)} m`],
+ ['الطول','',`r = √(${r.map(sq).join(' + ')}) = <b>${f(m)} m</b>`],
+ dirSteps(r,m,'الطول')]},
+'2.13':p=>{const r=[p.bx,-p.by,p.bz-p.H],m=mag(r),F=sc(unit(r),p.F);return[
+ ['متجه الموقع من A إلى B',`نمشي من A لتحت ${f(p.H-p.bz)} ft (−k)، و ${f(p.by)} ft باتجاه −j، و ${f(p.bx)} ft باتجاه +i.`,`r = ${V(r)} ft`],
+ ['طول الحبل','',`r = √(${r.map(sq).join(' + ')}) = ${f(m)} ft`],
+ ['القوة = المقدار × متجه الوحدة','نقسم كل مركبة على الطول ونضرب في F.',`F = ${f(p.F)} (${r.map(x=>f(x)).join(', ')}) / ${f(m)}<br>= <b>${V(F)} lb</b>`],
+ dirSteps(r,m,'الطول')]},
+'2.14':p=>{const h=0.8*p.L,B=[-h*sn(30),h*cs(30),0.6*p.L],r=sub(B,[p.ax,0,p.az]),m=mag(r),F=sc(unit(r),p.F);return[
+ ['نطلع إحداثيات B',`المسقط الأفقي = (4/5)(${f(p.L)}) = ${f(h)} m، ونحلله بزاوية 30°. والارتفاع = (3/5)(${f(p.L)}).`,`B = (−${f(h)} sin30°, ${f(h)} cos30°, (3/5)${f(p.L)}) = (${B.map(f).join(', ')}) m`],
+ ['متجه الموقع من A إلى B','B − A',`r = ${V(r)} m ،  |r| = √(${r.map(sq).join(' + ')}) = ${f(m)} m`],
+ ['القوة','F = F × (r ÷ |r|)',`F = ${f(p.F)} (${r.map(x=>f(x)).join(', ')}) / ${f(m)} = <b>${V(F)} N</b>`]]},
+'2.17':p=>{const v=[p.bx,p.by,p.bz],m=mag(v),u=unit(v),par=p.P*u[1];return[
+ ['متجه الوحدة على AB','نقسم r_B على مقداره.',`|r_B| = √(${v.map(sq).join(' + ')}) = ${f(m)} m<br>u = (${u.map(f).join(', ')})`],
+ ['المركبة الموازية = F · u','الضرب النقطي: كل مركبة في مقابلتها ونجمع. F عندها j بس.',`F_AB = (0)(${f(u[0])}) + (${f(p.P)})(${f(u[1])}) + (0)(${f(u[2])}) = <b>${f(par)} N</b>`],
+ ['المركبة العمودية','فيثاغورس: F² = F_AB² + F_⊥².',`F_⊥ = √(${sq(p.P)} − ${sq(par)}) = <b>${f(Math.sqrt(p.P**2-par**2))} N</b>`]]},
+'2.18':p=>{const ba=[-p.bx,-p.dy,p.h],bc=[0,-(p.yA+p.dy),p.h],c=dot(ba,bc)/mag(ba)/mag(bc),t=acd(c);return[
+ ['متجهات من B',`B(${f(p.bx)}, ${f(p.yA+p.dy)}, −${f(p.h)}). و r_BA = A − B ، و r_BC = C − B.`,`r_BA = ${V(ba)} ft ،  |r_BA| = ${f(mag(ba))}<br>r_BC = ${V(bc)} ft ،  |r_BC| = ${f(mag(bc))}`],
+ ['الزاوية بالضرب النقطي','cos θ = (A·B) ÷ (|A| |B|)',`cos θ = ${f(dot(ba,bc))} / (${f(mag(ba))} × ${f(mag(bc))}) = ${f(c)}<br>θ = <b>${f(t)}°</b>`],
+ ['المسقط على BA','المسقط = F cos θ',`F_BA = ${f(p.F)} cos${f(t)}° = <b>${f(p.F*c)} lb</b>`]]},
+'3.2':p=>{const W=p.m*9.81,k=sn(p.f)+0.75*cs(p.f),TC=W/k;return[W981(p.m),
+ ['معادلات الاتزان عند B',`T_BA يسار فوق بميل 3-4-5. و T_BC يمين فوق بزاوية ${p.f}°. والوزن لتحت.`,`ΣFx: T_BC cos${p.f}° − (4/5)T_BA = 0<br>ΣFy: T_BC sin${p.f}° + (3/5)T_BA − ${f(W)} = 0`],
+ ['نحل','من x: T_BA = 1.25 cos'+p.f+'° T_BC، ونعوّض في y.',`T_BC (sin${p.f}° + 0.75 cos${p.f}°) = ${f(W)}<br>T_BC = <b>${f(TC)} N</b><br>T_BA = 1.25 cos${p.f}° × ${f(TC)} = <b>${f(TC*cs(p.f)*1.25)} N</b>`]]},
+'3.3':p=>{const W=p.m*9.81,Wk=W/1000,t=Math.asin(Wk/p.Fm)/D;return[W981(p.m),
+ ['نوحّد الوحدات','أقصى قوة بالـ kN والوزن بالنيوتن، فنحوّل الوزن لـ kN (÷ 1000).',`W = ${f(W)} N = ${f(Wk)} kN`],
+ ['معادلات الاتزان عند A','',`ΣFx: F_AB = F_AC cos θ<br>ΣFy: F_AC sin θ = ${f(Wk)}`],
+ ['مين ينقطع أول؟','cos θ ≤ 1، فـ F_AC دايمًا أكبر من F_AB، يعني حبل AC يوصل الحد الأقصى أول.',`F_AC = ${f(p.Fm)} kN`],
+ ['نطلع θ','',`sin θ = ${f(Wk)} / ${f(p.Fm)} = ${f(Wk/p.Fm)}<br>θ = <b>${f(t)}°</b>`],
+ ['قوة الحبل AB','نعوّض في معادلة x.',`F_AB = ${f(p.Fm)} cos${f(t)}° = <b>${f(p.Fm*cs(t))} kN</b>`]]},
+'3.4':p=>{const W=p.m*9.81,Tc=W/sn(p.f),Tb=Tc*cs(p.f),s=Tb/p.k,l=p.l0+s;return[W981(p.m),
+ ['معادلات الاتزان عند A',`T_AC يسار فوق بزاوية ${p.f}°، و T_AB يمين.`,`ΣFy: T_AC sin${p.f}° = ${f(W)} ← T_AC = ${f(Tc)} N<br>ΣFx: T_AB = T_AC cos${p.f}° = <b>${f(Tb)} N</b>`],
+ ['استطالة النابض','F = k s',`s = ${f(Tb)} / ${f(p.k)} = ${f(s)} m`],
+ ['طول النابض بعد الشد','الطول الأصلي + الاستطالة',`l_AB = ${f(p.l0)} + ${f(s)} = <b>${f(l)} m</b>`],
+ ['طول الحبل AC من الهندسة',`المسافة الأفقية الكلية ${f(p.Dd)} m = المسقط الأفقي لـ AC + طول النابض.`,`${f(p.Dd)} = l_AC cos${p.f}° + ${f(l)}<br>l_AC = <b>${f((p.Dd-l)/cs(p.f))} m</b>`]]},
+'3.5':p=>{const FC=p.W/0.6,FD=0.8*FC/sn(p.f),FB=FD*cs(p.f);return[
+ ['معادلات الاتزان الثلاث',`F_C في المستوى x–z بميل 3-4-5. و F_D في المستوى x–y بزاوية ${p.f}°. و F_B على y.`,`ΣFz: (3/5)F_C − ${f(p.W)} = 0<br>ΣFx: F_D sin${p.f}° − (4/5)F_C = 0<br>ΣFy: −F_D cos${p.f}° + F_B = 0`],
+ ['نحل بالترتيب: z ثم x ثم y','كل معادلة فيها مجهول واحد جديد.',`F_C = ${f(p.W)} / 0.6 = <b>${f(FC)} lb</b><br>F_D = 0.8 × ${f(FC)} / sin${p.f}° = <b>${f(FD)} lb</b><br>F_B = ${f(FD)} cos${p.f}° = <b>${f(FB)} lb</b>`],
+ ['استطالة النابض','F = k s',`s = ${f(FB)} / ${f(p.k)} = <b>${f(FB/p.k)} ft</b>`]]},
+'3.7':p=>{const L=Math.hypot(p.a,p.b,p.h),FB=p.W*L/(2*p.h);return[
+ ['متجهات الوحدة','كل حبل: F × (r ÷ |r|).',`|r_AB| = |r_AC| = √(${sq(p.a)} + ${sq(p.b)} + ${sq(p.h)}) = ${f(L)} ft<br>u_B = (${[-p.a,-p.b,p.h].map(x=>f(x/L)).join(', ')})   u_C = (${[-p.a,p.b,p.h].map(x=>f(x/L)).join(', ')})`],
+ ['معادلة y','الحبلين متماثلين حول المستوى x–z.',`ΣFy: −(${f(p.b/L)})F_B + (${f(p.b/L)})F_C = 0 ← F_B = F_C`],
+ ['معادلة z','',`ΣFz: 2 (${f(p.h/L)}) F_B − ${f(p.W)} = 0<br>F_B = F_C = <b>${f(FB)} lb</b>`],
+ ['معادلة x','',`ΣFx: F_D − 2 (${f(p.a/L)}) F_B = 0<br>F_D = <b>${f(2*FB*p.a/L)} lb</b>`]]},
+'3.8':p=>{const W=p.m*9.81,L=Math.hypot(p.a,p.b,p.c),k=-cs(135),FC=W/(0.5+k*p.c/p.b),FD=k*FC*L/p.b,FB=0.5*FC+FD*p.a/L;return[W981(p.m),
+ ['نكتب القوى كمتجهات','F_C من زوايا الاتجاه، و F_D من إحداثيات D.',`F_C = F_C(cos120° i + cos135° j + cos60° k) = F_C(−0.5, −0.7071, 0.5)<br>|r_AD| = ${f(L)} m ← u_D = (${[-p.a,p.b,p.c].map(x=>f(x/L)).join(', ')})`],
+ ['معادلة y ثم z','نبدأ بالمعادلة اللي فيها أقل مجاهيل.',`ΣFy: −0.7071 F_C + (${f(p.b/L)})F_D = 0<br>ΣFz: 0.5 F_C + (${f(p.c/L)})F_D − ${f(W)} = 0<br>F_C = <b>${f(FC)} N</b> ،  F_D = <b>${f(FD)} N</b>`],
+ ['معادلة x','',`F_B = 0.5 F_C + (${f(p.a/L)})F_D = <b>${f(FB)} N</b>`]]},
+'4.2':p=>{const m1=-p.F1*p.a,m3=p.F3*p.L*sn(p.f),m4=-p.F4*(p.a+p.b+p.L*cs(p.f));return[
+ ['نحدد الإشارة','عكس عقارب الساعة ↺ موجب.','M_O = ΣF d'],
+ [`القوة ${f(p.F1)} N والقوة ${f(p.F2)} N`,`${f(p.F1)} N لتحت على بعد ${f(p.a)} m، فتدوّر مع العقارب (−). و ${f(p.F2)} N خط عملها يمر بـ O، فعزمها صفر.`,`−${f(p.F1)}(${f(p.a)}) + ${f(p.F2)}(0) = ${f(m1)}`],
+ [`القوة ${f(p.F3)} N`,`أفقية، وذراعها المسافة الرأسية ${f(p.L)} sin${p.f}° تحت O، وتدوّر عكس العقارب (+).`,`+${f(p.F3)}(${f(p.L)} sin${p.f}°) = ${f(m3)}`],
+ [`القوة ${f(p.F4)} N`,`رأسية لتحت، وذراعها الأفقي ${f(p.a+p.b)} + ${f(p.L)} cos${p.f}°، وتدوّر مع العقارب (−).`,`−${f(p.F4)}(${f(p.a+p.b)} + ${f(p.L)} cos${p.f}°) = ${f(m4)}`],
+ ['نجمع','الإشارة السالبة معناها إن المحصلة مع عقارب الساعة ↻.',`M_O = <b>${f(m1+m3+m4)} N·m</b>`]]},
+'4.3':p=>{const r=[0,0,p.h],u=[p.bx,p.by,-p.h],m=mag(u),F=sc(unit(u),p.F),M=cross(r,F);return[
+ ['متجه الموقع','نختار أي نقطة على خط القوة، مثلًا A.',`r_A = {${f(p.h)} k} m`],
+ ['القوة كمتجه','F × متجه الوحدة من A إلى B.',`|r_AB| = √(${u.map(sq).join(' + ')}) = ${f(m)}<br>F = ${f(p.F)} (${u.map(x=>f(x)).join(', ')}) / ${f(m)} = ${V(F)} kN`],
+ ['الضرب الاتجاهي M = r × F','نفك المحدد: i(ry Fz − rz Fy) − j(rx Fz − rz Fx) + k(rx Fy − ry Fx).',`Mx = 0(${f(F[2])}) − ${f(p.h)}(${f(F[1])}) = ${f(M[0])}<br>My = ${f(p.h)}(${f(F[0])}) − 0 = ${f(M[1])}<br>Mz = 0<br>M_O = <b>${V(M)} kN·m</b>`]]},
+'4.4':p=>{const rA=[0,p.L,0],F1=[-p.a1,p.b1,p.c1],rB=[p.pp,p.L,-p.qq],F2=[p.a2,p.b2,-p.c2],M1=cross(rA,F1),M2=cross(rB,F2),M=M1.map((x,i)=>x+M2[i]);return[
+ ['متجهات الموقع','من O إلى نقطة كل قوة.',`r_A = ${V(rA)} ft<br>r_B = ${V(rB)} ft`],
+ ['عزم F₁ = r_A × F₁','',`M₁ = ${V(M1)} lb·ft`],
+ ['عزم F₂ = r_B × F₂','',`M₂ = ${V(M2)} lb·ft`],
+ ['نجمع','i مع i، و j مع j، و k مع k.',`M_O = <b>${V(M)} lb·ft</b>`]]},
+'4.5':p=>{const x=p.L*cs(p.f),y=p.L*sn(p.f),Fx=p.F*cs(p.y),Fy=-p.F*sn(p.y),M=x*Fy-y*Fx;return[
+ ['نحلل القوة',`F يمين ولتحت بزاوية ${p.y}°.`,`Fx = ${f(p.F)} cos${p.y}° = ${f(Fx)} kN<br>Fy = −${f(p.F)} sin${p.y}° = ${f(Fy)} kN`],
+ ['نقطة التأثير (طرف القضيب)','',`x = ${f(p.L)} cos${p.f}° = ${f(x)} m ،  y = ${f(p.L)} sin${p.f}° = ${f(y)} m`],
+ ['مبدأ العزوم','M = x Fy − y Fx (↺ موجب). الاثنين يدوّرون مع العقارب.',`M_O = (${f(x)})(${f(Fy)}) − (${f(y)})(${f(Fx)}) = <b>${f(M)} kN·m</b>`]]},
+'4.6':p=>{const Fx=p.F*sn(p.f),Fy=-p.F*cs(p.f),M=p.dx*Fy+p.dy*Fx;return[
+ ['نحلل القوة',`F بزاوية ${p.f}° عن الرأسي: الأفقية تاخذ sin (يمين)، والرأسية cos (تحت).`,`Fx = ${f(p.F)} sin${p.f}° = ${f(Fx)} N<br>Fy = −${f(p.F)} cos${p.f}° = ${f(Fy)} N`],
+ ['العزم',`نقطة التأثير ${f(p.dx)} m يمين و ${f(p.dy)} m تحت O. القوة الأفقية تدوّر عكس العقارب (+)، والرأسية مع العقارب (−).`,`M_O = ${f(Fx)}(${f(p.dy)}) − ${f(Math.abs(Fy))}(${f(p.dx)}) = <b>${f(M)} N·m</b>`]]},
+'4.8':p=>{const u=unit([p.bx,p.by,0]),M=u[1]*p.cx*p.P;return[
+ ['القانون','العزم حول محور = متجه وحدة المحور · (r × F)، وهذا اسمه الضرب الثلاثي.','M_AB = u_AB · (r × F)'],
+ ['متجه وحدة المحور','من A (الأصل) إلى B.',`u_AB = (${f(p.bx)}, ${f(p.by)}, 0) / ${f(Math.hypot(p.bx,p.by))} = (${u.map(f).join(', ')})`],
+ ['نختار r','من A إلى C (نقطة على خط القوة).',`r = {${f(p.cx)} i + ${f(p.cz)} k} m ،  F = {−${f(p.P)} k} N`],
+ ['الضرب الثلاثي','r × F = (0, ${cx}·${P}, 0)، وبعدها نضربه نقطيًا في u.'.replace('${cx}',f(p.cx)).replace('${P}',f(p.P)),`M_AB = (${f(u[1])})(${f(p.cx)} × ${f(p.P)}) = <b>${f(M)} N·m</b>`],
+ ['كمتجه','نضرب المقدار في متجه الوحدة.',`M_AB = ${f(M)}(${f(u[0])} i + ${f(u[1])} j) = <b>{${f(M*u[0])} i + ${f(M*u[1])} j} N·m</b>`]]},
+'4.9':p=>{const u=unit([p.ax,p.ay,0]),C=[p.cx,p.cy,p.cz],Dp=[p.dx,0,p.dz],rc=sub(Dp,C),m=mag(rc),F=sc(unit(rc),p.F),M=dot(u,cross(Dp,F));return[
+ ['متجه وحدة OA','',`u_OA = (${f(p.ax)}, ${f(p.ay)}, 0) / ${f(Math.hypot(p.ax,p.ay))} = (${u.map(f).join(', ')})`],
+ ['نختار r_OD','من O (على المحور) إلى D (على خط القوة). أسهل اختيار.',`r_OD = ${V(Dp)} m`],
+ ['القوة كمتجه','من C إلى D.',`r_CD = ${V(rc)} ،  |r_CD| = ${f(m)} m<br>F = ${f(p.F)} × r_CD / ${f(m)} = ${V(F)} N`],
+ ['الضرب الثلاثي','M_OA = u · (r × F)',`r × F = ${V(cross(Dp,F))}<br>M_OA = ${f(M)} ← |M_OA| = <b>${f(Math.abs(M))} N·m</b>`]]}
+};
 /* 10 checked number sets per example (angles stay as in the book) */
 const PRE={
 '2.3':[{P:210,a:30,b:45},{P:300,a:30,b:45},{P:150,a:30,b:45},{P:260,a:30,b:45},{P:180,a:30,b:45},{P:230,a:30,b:45},{P:280,a:30,b:45},{P:170,a:30,b:45},{P:290,a:30,b:45},{P:220,a:30,b:45}],
@@ -413,13 +539,16 @@ function fresh(pr,c,orig){
   <div class="work"><div class="q">${pr.q(p)}</div>
    <div class="given">${pr.g(p).map(x=>`<span>${x.replace(/(\d+(?:\.\d+)?)/g,'<b>$1</b>')}</span>`).join('')}</div>
    <div class="ans">${sol.map((a,i)=>`<div class="f" id="f-${fid}-${i}"><label for="in-${fid}-${i}">${lbl(a.k)}</label><div class="in"><input id="in-${fid}-${i}" inputmode="decimal" autocomplete="off" spellcheck="false"><span class="u">${a.u}</span></div><div class="sol"></div></div>`).join('')}</div>
-   <div class="acts"><button class="btn pri" data-act="check">تحقق</button><button class="btn" data-act="show">الجواب</button><button class="btn amb" data-act="new">أرقام جديدة</button><button class="btn ghost" data-act="orig"${orig?' disabled':''}>↩ السؤال الأصلي</button><button class="btn nbb" data-act="nb">✍️ حل في النوت</button></div>
+   <div class="acts"><button class="btn pri" data-act="check">تحقق</button><button class="btn" data-act="show">الجواب</button><button class="btn amb" data-act="new">أرقام جديدة</button><button class="btn ghost" data-act="orig"${orig?' disabled':''}>↩ السؤال الأصلي</button><button class="btn nbb" data-act="nb">✍️ حل في النوت</button><button class="btn stb" data-act="steps">📖 الشرح خطوة بخطوة</button></div>
    <div class="key" hidden></div>
+   <ol class="steps" hidden></ol>
   </div></div>`;
   c.querySelector('[data-act="check"]').onclick=()=>check(pr,c);
   c.querySelector('[data-act="show"]').onclick=()=>show(pr,c);
   c.querySelector('[data-act="new"]').onclick=()=>{fresh(pr,c);score()};
   c.querySelector('[data-act="orig"]').onclick=()=>{fresh(pr,c,true);score()};
+  c.querySelector('[data-act="steps"]').onclick=()=>{const o=c.querySelector('.steps');if(!o.hidden){o.hidden=true;return}
+    o.innerHTML=STEPS[pr.id](state[pr.id].p).map(([t,w,m])=>`<li><b>${t}</b>${w?`<p>${w}</p>`:''}<div class="sm">${m}</div></li>`).join('');o.hidden=false};
   c.querySelector('[data-act="nb"]').onclick=()=>window.__toNotebook&&window.__toNotebook(pr.id);
   c.querySelectorAll('input').forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter')check(pr,c)}));
   paintLabels(pr,c);
@@ -445,7 +574,7 @@ function applyFilter(){list.querySelectorAll('.card,.chap').forEach(el=>{el.hidd
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{filter=+t.dataset.ch;document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-pressed',b===t?'true':'false'));applyFilter()});
 document.getElementById('origall').onclick=()=>{P.forEach(pr=>fresh(pr,document.getElementById('ex'+pr.id.replace('.','_')),true));score()};
 document.getElementById('newall').onclick=()=>{P.forEach(pr=>fresh(pr,document.getElementById('ex'+pr.id.replace('.','_'))));score()};
-window.__P=P; window.__PRE=PRE; window.__state=state; window.__BOOK=BOOK; window.__LAB=LAB;
+window.__P=P; window.__PRE=PRE; window.__STEPS=STEPS; window.__state=state; window.__BOOK=BOOK; window.__LAB=LAB;
 build();
 })();
 </script>
