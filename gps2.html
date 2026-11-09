@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GPS كويز 2 — CEEMohammed</title>
+<meta name="description" content="Surveying & GPS · Practice Problem 2 · Four-sided traverse. صُنع بواسطة محمد الشواف.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{--paper:#f2f6f5;--sheet:#fff;--ink:#10302c;--muted:#5a6e6a;--line:#d6e3e0;--teal:#0f6b60;--teal2:#15a08f;--tint:#e4f3f0;--gold:#c99a2e;
+ --ok:#137a43;--ok-t:#e4f6ec;--bad:#b42318;--bad-t:#fdecea;--warn-t:#fff6dc;--sans:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0b1514;--sheet:#11201e;--ink:#e3efec;--muted:#93aaa5;--line:#22403b;--teal:#5eead4;--teal2:#2dd4bf;--tint:#123631;--ok:#5fd394;--ok-t:#12301f;--bad:#ff8a80;--bad-t:#3a1714;--warn-t:#33280f;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0b1514;--sheet:#11201e;--ink:#e3efec;--muted:#93aaa5;--line:#22403b;--teal:#5eead4;--teal2:#2dd4bf;--tint:#123631;--ok:#5fd394;--ok-t:#12301f;--bad:#ff8a80;--bad-t:#3a1714;--warn-t:#33280f;color-scheme:dark}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+header.top{background:linear-gradient(135deg,#0A3A34,#15695A);color:#fff}
+header.top .wrap{padding-block:26px 24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.eyebrow{font:500 11.5px var(--mono);letter-spacing:2px;text-transform:uppercase;opacity:.8;direction:ltr;text-align:right}
+h1{margin:4px 0 2px;font-size:clamp(24px,4.5vw,34px);line-height:1.35}.top p{margin:4px 0 0;opacity:.9}
+.top .by{display:inline-block;margin-top:8px;font-size:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px 12px}
+.tg{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;direction:ltr}.tg svg{width:42px;height:42px;flex:none}
+.card{background:var(--sheet);border:1px solid var(--line);border-radius:16px;margin:16px 0;padding:14px 16px}
+.card h2{margin:0 0 8px;font-size:18px}
+.prob{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:center}
+.given{direction:ltr;text-align:left;font-family:var(--mono);font-size:14.5px;display:grid;grid-template-columns:auto auto;gap:4px 22px;justify-content:start}
+.given b{color:var(--teal)}
+.q{direction:ltr;text-align:left;margin:10px 0 0;line-height:1.9}
+.prob svg{width:100%;max-width:320px;justify-self:center;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+.note{background:var(--warn-t);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;font-size:14px;margin-top:10px}
+.note code{font-family:var(--mono);direction:ltr;unicode-bidi:isolate}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;direction:ltr;min-width:720px}
+th,td{border:1px solid var(--line);padding:5px 6px;text-align:center}
+th{background:var(--tint);font-size:13.5px}
+td.s{font-weight:700;font-family:var(--mono)}td.l{font-family:var(--mono)}
+input{width:100%;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:7px 6px;font:500 14.5px var(--mono);text-align:center;direction:ltr}
+input:focus{outline:2px solid var(--teal2);outline-offset:0;background:var(--sheet)}
+input.good{border-color:var(--ok);background:var(--ok-t)}input.wrong{border-color:var(--bad);background:var(--bad-t)}
+.bot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;direction:ltr}
+.bot label{display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--muted);text-align:left}
+.pre{display:flex;align-items:center;gap:6px}.pre span{font:600 15px var(--mono)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{font:600 14px var(--sans);border-radius:9px;padding:8px 15px;cursor:pointer;border:1px solid var(--line);background:var(--sheet);color:var(--ink)}
+.btn.pri{background:var(--teal);border-color:var(--teal);color:var(--sheet)}.btn.stp{background:var(--warn-t);border-color:var(--gold);color:#8a6400}
+.res{margin-top:10px;border-radius:10px;padding:8px 12px;font-weight:600}.res.good{background:var(--ok-t);color:var(--ok)}.res.part{background:var(--warn-t)}
+.steps{margin:12px 0 0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+.steps>li{counter-increment:s;position:relative;padding-inline-start:34px}
+.steps>li::before{content:counter(s);position:absolute;inset-inline-start:0;top:2px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:var(--sheet);font:700 12px var(--mono);display:grid;place-items:center}
+.steps b.h{display:block}
+.steps p{margin:0 0 4px;color:var(--muted);font-size:14px}
+.m{direction:ltr;text-align:left;font:500 14px/1.9 var(--mono);background:var(--paper);border:1px solid var(--line);border-inline-start:3px solid var(--teal);border-radius:8px;padding:6px 10px;overflow-x:auto;white-space:pre}
+.m b{color:var(--ok)}
+.foot{margin:30px 0 90px;text-align:center;color:var(--muted);font-size:14px}.foot a{color:var(--teal);font-family:var(--mono)}
+/* tools drawer */
+.fab{position:fixed;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:8px;font:700 14px var(--sans);background:var(--teal);color:var(--sheet);border:0;border-radius:999px;padding:11px 16px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+body.tools-open .fab{display:none}
+.tools{position:fixed;z-index:40;background:var(--sheet);border:1px solid var(--line);display:flex;flex-direction:column;left:0;top:0;bottom:0;width:min(600px,52vw);box-shadow:4px 0 24px rgba(0,0,0,.15);transform:translateX(-105%);transition:transform .22s ease}
+body.tools-open .tools{transform:none}
+@media (min-width:1180px){body.tools-open{padding-left:min(600px,52vw)}}
+@media (max-width:760px){.tools{width:auto;right:0;top:auto;height:88vh;border-radius:16px 16px 0 0;transform:translateY(105%)}.prob{grid-template-columns:1fr}.bot{grid-template-columns:1fr}}
+.th{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line)}
+.th .tb{font:600 13.5px var(--sans);border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:5px 12px;cursor:pointer}
+.th .tb[aria-selected="true"]{background:var(--teal);border-color:var(--teal);color:var(--sheet)}
+.th .x{margin-inline-start:auto;border:0;background:transparent;color:var(--muted);font-size:18px;cursor:pointer}
+.tools iframe{flex:1;width:100%;border:0}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div>
+    <div class="eyebrow">Surveying &amp; GPS · Quiz 2 · Practice Problem 2</div>
+    <h1>مضلع رباعي (شكل مربع)</h1>
+    <p>حل بنفسك في الجدول، واضغط «تحقق». ولو وقفت افتح الخطوات.</p>
+    <span class="by">صُنع بواسطة <b>محمد الشواف</b></span>
+  </div>
+  <a class="tg" href="https://t.me/EngMohamedC" target="_blank" rel="noopener" aria-label="Telegram">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="#29A9EB"/><path d="M14.5 31.2l30.6-11.8c1.4-.5 2.7.3 2.2 2.5l-5.2 24.5c-.4 1.7-1.4 2.2-2.9 1.4l-8-5.9-3.9 3.7c-.4.4-.8.8-1.6.8l.6-8.1 14.8-13.4c.6-.6-.1-.9-1-.3L21.8 38.7l-7.9-2.5c-1.7-.5-1.7-1.7.6-2.6z" fill="#fff"/></svg>
+    <span>Mohammed | CEE Logbook 🏗️</span>
+  </a>
+</div></header>
+
+<main class="wrap">
+<section class="card">
+  <h2>السؤال</h2>
+  <div class="prob">
+    <div>
+      <div class="given">
+        <span><b>A</b> = 90°53′</span><span>AB = 278.945 m</span>
+        <span><b>B</b> = 92°00′</span><span>BC = 276.560 m</span>
+        <span><b>C</b> = 92°45′</span><span>CD = 294.301 m</span>
+        <span><b>D</b> = 84°22′</span><span>DA = 300.843 m</span>
+      </div>
+      <div class="q">The four-sided, closed traverse has the angles and distances above. Side <b>AB</b> has an azimuth of <b>345°28′</b>.<br>
+      (a) Perform a check for angular closure.<br>(b) Compute both bearings and azimuths for all sides.<br>(c) Compute the latitudes and departures.<br>(d) Compute the linear error of closure and the precision ratio.</div>
+    </div>
+    <svg viewBox="0 0 300 300" role="img" aria-label="Traverse ABCD">
+      <g stroke="currentColor" fill="none" stroke-width="2.2" style="color:var(--ink)"><path d="M232 228 L190 62 L62 92 L104 262 Z"/></g>
+      <g fill="var(--teal)"><circle cx="232" cy="228" r="5"/><circle cx="190" cy="62" r="5"/><circle cx="62" cy="92" r="5"/><circle cx="104" cy="262" r="5"/></g>
+      <g font-family="IBM Plex Mono,monospace" font-weight="700" font-size="18" fill="currentColor" style="color:var(--ink)">
+        <text x="242" y="240">A</text><text x="196" y="52">B</text><text x="40" y="90">C</text><text x="92" y="286">D</text></g>
+      <g stroke="currentColor" style="color:var(--muted)" stroke-width="1.5" fill="none"><path d="M232 228 L232 140" stroke-dasharray="4 4"/><path d="M232 160 A68 68 0 0 0 215 162"/></g>
+      <text x="238" y="150" font-family="IBM Plex Mono,monospace" font-size="12" fill="var(--teal)">Az = 345°28′</text>
+      <g font-family="IBM Plex Mono,monospace" font-size="13" fill="currentColor" style="color:var(--ink)"><path d="M30 290 L30 255" stroke="currentColor" stroke-width="2" marker-end="url(#n)"/><text x="25" y="250" font-weight="700">N</text></g>
+      <defs><marker id="n" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 10 L5 0 L10 10 z" fill="currentColor"/></marker></defs>
+    </svg>
+  </div>
+  <div class="note">✍️ اكتب الزوايا كذا: <code>257°28'</code> أو <code>257 28</code> أو <code>257.4667</code> — كلها تنقبل. والـBearing مثل <code>N14°32'W</code> أو <code>S77 28 W</code>. والفرق الوحيد عن الخماسي: المجموع النظري <code>(4 − 2) × 180 = 360°</code>.</div>
+</section>
+
+<section class="card">
+  <h2>الجدول</h2>
+  <div class="tbl"><table>
+    <tr><th>Side</th><th>L (m)</th><th>Azimuth</th><th>Bearing</th><th>Latitude</th><th>Departure</th></tr>
+    <tbody id="rows"></tbody>
+    <tr><td class="s">Σ</td><td class="l">1150.649</td><td></td><td></td><td><input data-k="sl" placeholder="ΣLat"></td><td><input data-k="sd" placeholder="ΣDep"></td></tr>
+  </table></div>
+  <div class="bot">
+    <label>ΣAngles<input data-k="sa" placeholder="360°00'"></label>
+    <label>E (m)<input data-k="e" placeholder="E"></label>
+    <label>Precision<div class="pre"><span>1 /</span><input data-k="p" placeholder="…"></div></label>
+  </div>
+  <div class="acts"><button class="btn pri" id="check">تحقق</button><button class="btn stp" id="steps">📖 الخطوات</button><button class="btn" id="clear">مسح الجدول</button></div>
+  <div class="res" id="res" hidden></div>
+  <ol class="steps" id="sol" hidden>
+    <li><b class="h">(a) التحقق من مجموع الزوايا</b><p>نجمع الزوايا، والدقائق: 53+00+45+22 = 120′ = 2°. والمجموع النظري للمضلع الرباعي (n − 2) × 180.</p>
+      <div class="m">90°53′ + 92°00′ + 92°45′ + 84°22′ = 358°120′ = <b>360°00′</b>
+(n − 2) × 180 = (4 − 2) × 180 = 360°  ✓</div></li>
+    <li><b class="h">(b) القاعدة للـAzimuth</b><p>① اعكس اللي قبله (أكبر من 180 ← اطرح 180، أصغر ← زيد 180) ② زيد الزاوية ③ لو فوق 360 ← اطرح 360 ④ شوف الربع وطلّع الـBearing.</p></li>
+    <li><b class="h">AB (معطى)</b><p>بين 270 و 360 ← NW ← 360 − Az.</p><div class="m">Az AB = <b>345°28′</b>
+Bearing: 360° − 345°28′ = 14°32′ → <b>N14°32′W</b></div></li>
+    <li><b class="h">BC</b><p>اعكس AB (أكبر من 180 ← اطرح)، وزيد B. بين 180 و 270 ← SW ← Az − 180.</p><div class="m">Back AB: 345°28′ − 180° = 165°28′
++ ∠B: 165°28′ + 92°00′ = <b>257°28′</b>
+Bearing: 257°28′ − 180° = 77°28′ → <b>S77°28′W</b></div></li>
+    <li><b class="h">CD</b><p>اعكس BC، وزيد C. بين 90 و 180 ← SE ← 180 − Az.</p><div class="m">Back BC: 257°28′ − 180° = 77°28′
++ ∠C: 77°28′ + 92°45′ = 169°73′ = <b>170°13′</b>
+Bearing: 180° − 170°13′ = 9°47′ → <b>S9°47′E</b></div></li>
+    <li><b class="h">DA (فوق 360)</b><p>CD أصغر من 180 ← نزيد 180، ونزيد D، وطلع فوق 360 ← نطرح 360. بين 0 و 90 ← NE ← نفس الرقم.</p><div class="m">Back CD: 170°13′ + 180° = 350°13′
++ ∠D: 350°13′ + 84°22′ = 434°35′ − 360° = <b>74°35′</b>
+Bearing: <b>N74°35′E</b></div></li>
+    <li><b class="h">التحقق: نرجع لـAB</b><p>اعكس DA وزيد A ← لازم يطلع Az AB.</p><div class="m">Back DA: 74°35′ + 180° = 254°35′
++ ∠A: 254°35′ + 90°53′ = 344°88′ = 345°28′ = Az AB  ✓</div></li>
+    <li><b class="h">(c) Latitude و Departure</b><p>Lat = L × cos(Az) و Dep = L × sin(Az). حط الـAzimuth بالحاسبة بزر °′″ والإشارة تطلع لحالها.</p><div class="m">AB: Lat = 278.945 × cos(345°28′) = <b>+270.019</b>   Dep = 278.945 × sin(345°28′) = <b>−69.999</b>   (NW)
+BC: Lat = 276.560 × cos(257°28′) = <b>−60.016</b>    Dep = 276.560 × sin(257°28′) = <b>−269.970</b>  (SW)
+CD: Lat = 294.301 × cos(170°13′) = <b>−290.021</b>   Dep = 294.301 × sin(170°13′) = <b>+50.008</b>   (SE)
+DA: Lat = 300.843 × cos(74°35′)  = <b>+79.975</b>    Dep = 300.843 × sin(74°35′)  = <b>+290.018</b>  (NE)
+Σ :                 ΣLat = <b>−0.043</b>                      ΣDep = <b>+0.057</b></div></li>
+    <li><b class="h">(d) خطأ الإغلاق والدقة</b><p>فيثاغورس على المجموعين، وبعدين المحيط ÷ الخطأ وتكتبها 1/… مقرّبة.</p><div class="m">E = √(0.043² + 0.057²) = <b>0.071 m</b>
+1150.649 ÷ 0.0714 = 16115 → <b>1/16000</b></div></li>
+  </ol>
+</section>
+<div class="foot">صُنع بواسطة <b>محمد الشواف</b> · <a href="https://t.me/EngMohamedC" target="_blank" rel="noopener" dir="ltr">@EngMohamedC</a></div>
+</main>
+
+<button class="fab" id="fab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8M8 12h1.5M12 12h1.5M8 16h1.5M12 16h1.5"/></svg>النوت والحاسبة</button>
+<aside class="tools" id="tools">
+  <div class="th"><button class="tb" data-p="nb" aria-selected="true">النوت</button><button class="tb" data-p="calc" aria-selected="false">الحاسبة</button><button class="x" id="tclose" aria-label="إغلاق">✕</button></div>
+  <iframe id="f-nb" title="النوت"></iframe><iframe id="f-calc" title="الحاسبة" hidden></iframe>
+</aside>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const SIDES=[["AB",278.945,"345°28′","N14°32′W",270.019,-69.999],["BC",276.560,"257°28′","S77°28′W",-60.016,-269.970],["CD",294.301,"170°13′","S9°47′E",-290.021,50.008],["DA",300.843,"74°35′","N74°35′E",79.975,290.018]];
+const KEY={sl:-0.043,sd:0.057,e:0.0714};
+$("#rows").innerHTML=SIDES.map((s,i)=>`<tr><td class="s">${s[0]}</td><td class="l">${s[1].toFixed(3)}</td><td><input data-k="az${i}" placeholder="°  ′"></td><td><input data-k="br${i}" placeholder="N…E"></td><td><input data-k="lat${i}"></td><td><input data-k="dep${i}"></td></tr>`).join("");
+const ins=[...document.querySelectorAll("input[data-k]")];
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let saved={};try{saved=JSON.parse(ls.get("cee-gps2")||"{}")}catch(e){}
+ins.forEach(i=>{if(saved[i.dataset.k])i.value=saved[i.dataset.k];i.addEventListener("input",()=>{i.classList.remove("good","wrong");saved[i.dataset.k]=i.value;ls.set("cee-gps2",JSON.stringify(saved))})});
+const toDeg=s=>{s=String(s).replace(/[−–]/g,"-").replace(/[°′″'"’ʹ:]/g," ").trim();if(!s)return NaN;const p=s.split(/\s+/).map(Number);if(p.some(isNaN))return NaN;return p[0]+(p[1]||0)/60+(p[2]||0)/3600};
+const num=s=>{s=String(s).replace(/[−–]/g,"-").replace(/,/g,"").replace(/\s/g,"");return s===""?NaN:Number(s)};
+const angEq=(s,ref)=>{const v=toDeg(s),r=toDeg(ref);return Math.abs(v-r)<=1.5/60};
+function brEq(s,ref){const n=x=>String(x).toUpperCase().replace(/[−–]/g,"-");const a=n(s).match(/^\s*([NS])\s*(.*?)\s*([EW])\s*$/),b=n(ref).match(/^([NS])(.*)([EW])$/);if(!a)return false;return a[1]===b[1]&&a[3]===b[3]&&angEq(a[2],b[2])}
+function check(){
+  let ok=0,tot=0;const mark=(i,g)=>{tot++;i.classList.remove("good","wrong");if(!i.value.trim())return;i.classList.add(g?"good":"wrong");if(g)ok++};
+  ins.forEach(i=>{const k=i.dataset.k,v=i.value;let m;
+    if((m=k.match(/^az(\d)$/)))mark(i,angEq(v,SIDES[m[1]][2]));
+    else if((m=k.match(/^br(\d)$/)))mark(i,brEq(v,SIDES[m[1]][3]));
+    else if((m=k.match(/^lat(\d)$/)))mark(i,Math.abs(num(v)-SIDES[m[1]][4])<=0.01);
+    else if((m=k.match(/^dep(\d)$/)))mark(i,Math.abs(num(v)-SIDES[m[1]][5])<=0.01);
+    else if(k==="sl"||k==="sd")mark(i,Math.abs(num(v)-KEY[k])<=0.004);
+    else if(k==="e")mark(i,Math.abs(num(v)-KEY.e)<=0.002);
+    else if(k==="sa")mark(i,angEq(v,"360"));
+    else if(k==="p"){const x=num(v);mark(i,x>=15500&&x<=16600)}});
+  const r=$("#res");r.hidden=false;r.className="res "+(ok===tot?"good":"part");r.textContent=ok===tot?"✔ كل الجدول صح! ممتاز":`صح ${ok} من ${tot} — الأحمر غلط، والفاضي ما انحسب`;
+}
+$("#check").onclick=check;
+$("#steps").onclick=()=>{const s=$("#sol");s.hidden=!s.hidden};
+$("#clear").onclick=()=>{if(!confirm("تمسح الجدول؟"))return;ins.forEach(i=>{i.value="";i.classList.remove("good","wrong")});saved={};ls.set("cee-gps2","{}");$("#res").hidden=true};
+/* tools */
+const body=document.body,fnb=$("#f-nb"),fc=$("#f-calc");
+function open(o){body.classList.toggle("tools-open",o);if(o&&!fnb.getAttribute("src"))fnb.src="notes.html?embed=1&v=8"}
+$("#fab").onclick=()=>open(true);$("#tclose").onclick=()=>open(false);
+document.querySelectorAll(".th .tb").forEach(b=>b.onclick=()=>{document.querySelectorAll(".th .tb").forEach(x=>x.setAttribute("aria-selected",x===b));
+  const nb=b.dataset.p==="nb";fnb.hidden=!nb;fc.hidden=nb;if(!nb&&!fc.getAttribute("src"))fc.src="calc.html?embed=1&v=11"});
+})();
+</script>
+</body>
+</html>
