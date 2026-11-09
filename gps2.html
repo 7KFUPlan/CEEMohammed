@@ -31,13 +31,15 @@ h1{margin:4px 0 2px;font-size:clamp(24px,4.5vw,34px);line-height:1.35}.top p{mar
 .note{background:var(--warn-t);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;font-size:14px;margin-top:10px}
 .note code{font-family:var(--mono);direction:ltr;unicode-bidi:isolate}
 .tbl{overflow-x:auto}
-table{width:100%;border-collapse:collapse;direction:ltr;min-width:720px}
+table{width:100%;border-collapse:collapse;direction:ltr;min-width:860px}
 th,td{border:1px solid var(--line);padding:5px 6px;text-align:center}
 th{background:var(--tint);font-size:13.5px}
 td.s{font-weight:700;font-family:var(--mono)}td.l{font-family:var(--mono)}
 input{width:100%;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:7px 6px;font:500 14.5px var(--mono);text-align:center;direction:ltr}
 input:focus{outline:2px solid var(--teal2);outline-offset:0;background:var(--sheet)}
-input.good{border-color:var(--ok);background:var(--ok-t)}input.wrong{border-color:var(--bad);background:var(--bad-t)}
+select{border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:7px 2px;font:600 14px var(--mono)}
+input.good,select.good{border-color:var(--ok);background:var(--ok-t)}input.wrong,select.wrong{border-color:var(--bad);background:var(--bad-t)}
+.dm{display:flex;align-items:center;gap:3px}.dm input{min-width:0;padding:7px 3px}.dm i{font-style:normal;font-weight:700;color:var(--muted)}
 .bot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;direction:ltr}
 .bot label{display:flex;flex-direction:column;gap:3px;font-size:13.5px;color:var(--muted);text-align:left}
 .pre{display:flex;align-items:center;gap:6px}.pre span{font:600 15px var(--mono)}
@@ -106,7 +108,7 @@ body.tools-open .tools{transform:none}
       <defs><marker id="n" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 10 L5 0 L10 10 z" fill="currentColor"/></marker></defs>
     </svg>
   </div>
-  <div class="note">✍️ اكتب الزوايا كذا: <code>257°28'</code> أو <code>257 28</code> أو <code>257.4667</code> — كلها تنقبل. والـBearing مثل <code>N14°32'W</code> أو <code>S77 28 W</code>. والفرق الوحيد عن الخماسي: المجموع النظري <code>(4 − 2) × 180 = 360°</code>.</div>
+  <div class="note">✍️ كل زاوية لها خانتين: <b>الدرجات</b> و<b>الدقائق</b> لحالها. والـBearing اختر الاتجاه (N/S) قبل و(E/W) بعد، مثل <code>S 77° 28′ W</code>. والفرق الوحيد عن الخماسي: المجموع النظري <code>(4 − 2) × 180 = 360°</code>.</div>
 </section>
 
 <section class="card">
@@ -117,7 +119,7 @@ body.tools-open .tools{transform:none}
     <tr><td class="s">Σ</td><td class="l">1150.649</td><td></td><td></td><td><input data-k="sl" placeholder="ΣLat"></td><td><input data-k="sd" placeholder="ΣDep"></td></tr>
   </table></div>
   <div class="bot">
-    <label>ΣAngles<input data-k="sa" placeholder="360°00'"></label>
+    <label>ΣAngles<div class="dm"><input data-k="sad" inputmode="numeric" placeholder="°"><i>°</i><input data-k="sam" inputmode="numeric" placeholder="′"><i>′</i></div></label>
     <label>E (m)<input data-k="e" placeholder="E"></label>
     <label>Precision<div class="pre"><span>1 /</span><input data-k="p" placeholder="…"></div></label>
   </div>
@@ -165,31 +167,38 @@ DA: Lat = 300.843 × cos(74°35′)  = <b>+79.975</b>    Dep = 300.843 × sin(74
 const $=s=>document.querySelector(s);
 const SIDES=[["AB",278.945,"345°28′","N14°32′W",270.019,-69.999],["BC",276.560,"257°28′","S77°28′W",-60.016,-269.970],["CD",294.301,"170°13′","S9°47′E",-290.021,50.008],["DA",300.843,"74°35′","N74°35′E",79.975,290.018]];
 const KEY={sl:-0.043,sd:0.057,e:0.0714};
-$("#rows").innerHTML=SIDES.map((s,i)=>`<tr><td class="s">${s[0]}</td><td class="l">${s[1].toFixed(3)}</td><td><input data-k="az${i}" placeholder="°  ′"></td><td><input data-k="br${i}" placeholder="N…E"></td><td><input data-k="lat${i}"></td><td><input data-k="dep${i}"></td></tr>`).join("");
-const ins=[...document.querySelectorAll("input[data-k]")];
+$("#rows").innerHTML=SIDES.map((s,i)=>`<tr><td class="s">${s[0]}</td><td class="l">${s[1].toFixed(3)}</td><td><div class="dm"><input data-k="az${i}d" inputmode="numeric" placeholder="°"><i>°</i><input data-k="az${i}m" inputmode="numeric" placeholder="′"><i>′</i></div></td>
+<td><div class="dm"><select data-k="br${i}a"><option value="">–</option><option>N</option><option>S</option></select><input data-k="br${i}d" inputmode="numeric" placeholder="°"><i>°</i><input data-k="br${i}m" inputmode="numeric" placeholder="′"><i>′</i><select data-k="br${i}b"><option value="">–</option><option>E</option><option>W</option></select></div></td><td><input data-k="lat${i}"></td><td><input data-k="dep${i}"></td></tr>`).join("");
+const ins=[...document.querySelectorAll("input[data-k],select[data-k]")];
 const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-let saved={};try{saved=JSON.parse(ls.get("cee-gps2")||"{}")}catch(e){}
-ins.forEach(i=>{if(saved[i.dataset.k])i.value=saved[i.dataset.k];i.addEventListener("input",()=>{i.classList.remove("good","wrong");saved[i.dataset.k]=i.value;ls.set("cee-gps2",JSON.stringify(saved))})});
+let saved={};try{saved=JSON.parse(ls.get("cee-gps2b")||"{}")}catch(e){}
+ins.forEach(i=>{if(saved[i.dataset.k])i.value=saved[i.dataset.k];i.addEventListener(i.tagName==="SELECT"?"change":"input",()=>{i.classList.remove("good","wrong");saved[i.dataset.k]=i.value;ls.set("cee-gps2b",JSON.stringify(saved))})});
 const toDeg=s=>{s=String(s).replace(/[−–]/g,"-").replace(/[°′″'"’ʹ:]/g," ").trim();if(!s)return NaN;const p=s.split(/\s+/).map(Number);if(p.some(isNaN))return NaN;return p[0]+(p[1]||0)/60+(p[2]||0)/3600};
 const num=s=>{s=String(s).replace(/[−–]/g,"-").replace(/,/g,"").replace(/\s/g,"");return s===""?NaN:Number(s)};
 const angEq=(s,ref)=>{const v=toDeg(s),r=toDeg(ref);return Math.abs(v-r)<=1.5/60};
 function brEq(s,ref){const n=x=>String(x).toUpperCase().replace(/[−–]/g,"-");const a=n(s).match(/^\s*([NS])\s*(.*?)\s*([EW])\s*$/),b=n(ref).match(/^([NS])(.*)([EW])$/);if(!a)return false;return a[1]===b[1]&&a[3]===b[3]&&angEq(a[2],b[2])}
+const DM=r=>{const v=toDeg(r);let d=Math.floor(v+1e-9),m=Math.round((v-d)*60);if(m===60){d++;m=0}return[d,m]};
+const get=k=>document.querySelector(`[data-k="${k}"]`);
 function check(){
-  let ok=0,tot=0;const mark=(i,g)=>{tot++;i.classList.remove("good","wrong");if(!i.value.trim())return;i.classList.add(g?"good":"wrong");if(g)ok++};
-  ins.forEach(i=>{const k=i.dataset.k,v=i.value;let m;
-    if((m=k.match(/^az(\d)$/)))mark(i,angEq(v,SIDES[m[1]][2]));
-    else if((m=k.match(/^br(\d)$/)))mark(i,brEq(v,SIDES[m[1]][3]));
-    else if((m=k.match(/^lat(\d)$/)))mark(i,Math.abs(num(v)-SIDES[m[1]][4])<=0.01);
-    else if((m=k.match(/^dep(\d)$/)))mark(i,Math.abs(num(v)-SIDES[m[1]][5])<=0.01);
-    else if(k==="sl"||k==="sd")mark(i,Math.abs(num(v)-KEY[k])<=0.004);
-    else if(k==="e")mark(i,Math.abs(num(v)-KEY.e)<=0.002);
-    else if(k==="sa")mark(i,angEq(v,"360"));
-    else if(k==="p"){const x=num(v);mark(i,x>=15500&&x<=16600)}});
+  let ok=0,tot=0;
+  const mark=(els,g)=>{tot++;els.forEach(e=>e.classList.remove("good","wrong"));if(els.every(e=>!String(e.value).trim()))return;els.forEach(e=>e.classList.add(g?"good":"wrong"));if(g)ok++};
+  const angle=(pre,ref)=>{const d=get(pre+"d"),m=get(pre+"m"),[rd,rm]=DM(ref),vd=num(d.value),vm=m.value.trim()===""?0:num(m.value);
+    tot++;[d,m].forEach(e=>e.classList.remove("good","wrong"));if(!d.value.trim()&&!m.value.trim())return;
+    const gd=vd===rd,gm=gd&&Math.abs(vm-rm)<=1;d.classList.add(gd?"good":"wrong");m.classList.add(gm?"good":"wrong");if(gd&&gm)ok++};
+  SIDES.forEach((S,i)=>{angle("az"+i,S[2]);
+    const b=S[3].match(/^([NS])(.*)([EW])$/);const a=get("br"+i+"a"),z=get("br"+i+"b");
+    tot++;[a,z].forEach(e=>e.classList.remove("good","wrong"));if(a.value||z.value){const g=a.value===b[1]&&z.value===b[3];[a,z].forEach(e=>e.classList.add(g?"good":"wrong"));if(g)ok++}
+    angle("br"+i,b[2]);
+    mark([get("lat"+i)],Math.abs(num(get("lat"+i).value)-S[4])<=0.01);
+    mark([get("dep"+i)],Math.abs(num(get("dep"+i).value)-S[5])<=0.01)});
+  mark([get("sl")],Math.abs(num(get("sl").value)-KEY.sl)<=0.004);mark([get("sd")],Math.abs(num(get("sd").value)-KEY.sd)<=0.004);
+  angle("sa","360");mark([get("e")],Math.abs(num(get("e").value)-KEY.e)<=0.002);
+  const x=num(get("p").value);mark([get("p")],x>=15500&&x<=16600);
   const r=$("#res");r.hidden=false;r.className="res "+(ok===tot?"good":"part");r.textContent=ok===tot?"✔ كل الجدول صح! ممتاز":`صح ${ok} من ${tot} — الأحمر غلط، والفاضي ما انحسب`;
 }
 $("#check").onclick=check;
 $("#steps").onclick=()=>{const s=$("#sol");s.hidden=!s.hidden};
-$("#clear").onclick=()=>{if(!confirm("تمسح الجدول؟"))return;ins.forEach(i=>{i.value="";i.classList.remove("good","wrong")});saved={};ls.set("cee-gps2","{}");$("#res").hidden=true};
+$("#clear").onclick=()=>{if(!confirm("تمسح الجدول؟"))return;ins.forEach(i=>{i.value="";i.classList.remove("good","wrong")});saved={};ls.set("cee-gps2b","{}");$("#res").hidden=true};
 /* tools */
 const body=document.body,fnb=$("#f-nb"),fc=$("#f-calc");
 function open(o){body.classList.toggle("tools-open",o);if(o&&!fnb.getAttribute("src"))fnb.src="notes.html?embed=1&v=8"}
